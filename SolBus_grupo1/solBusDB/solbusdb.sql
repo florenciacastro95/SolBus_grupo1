@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-05-2024 a las 01:27:36
+-- Tiempo de generación: 29-05-2024 a las 23:44:23
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.1.25
 
@@ -30,6 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `colectivo` (
   `id_Colectivo` int(11) NOT NULL,
   `matricula` varchar(10) NOT NULL,
+  `estado` tinyint(1) NOT NULL,
   `marca` varchar(30) NOT NULL,
   `modelo` varchar(30) NOT NULL,
   `capacidad` int(11) NOT NULL
@@ -76,6 +77,7 @@ CREATE TABLE `pasajero` (
   `nombre` varchar(30) NOT NULL,
   `apellido` varchar(30) NOT NULL,
   `dni` int(11) NOT NULL,
+  `estado` tinyint(1) NOT NULL,
   `correo` varchar(50) NOT NULL,
   `telefono` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
