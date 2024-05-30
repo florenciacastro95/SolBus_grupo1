@@ -114,6 +114,7 @@ public class ColectivoData {
             ps.setString(3, colectivo.getMarca());
             ps.setString(4, colectivo.getModelo());
             ps.setInt(5, colectivo.getCapacidad());
+            ps.setInt(6, colectivo.getIdColectivo());
             
             int validation = ps.executeUpdate();
             if(validation == 1){
