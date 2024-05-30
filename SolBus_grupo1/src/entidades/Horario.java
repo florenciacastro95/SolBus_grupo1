@@ -30,7 +30,10 @@ public class Horario {
         return idHorario;
     }
 
-    
+    public void setIdHorario(int idHorario) {
+        this.idHorario = idHorario;
+    }
+       
     
     public Ruta getRuta() {
         return ruta;

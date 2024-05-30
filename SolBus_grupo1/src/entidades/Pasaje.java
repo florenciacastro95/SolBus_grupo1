@@ -1,16 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package entidades;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-/**
- *
- * @author tadeowoto
- */
+
 public class Pasaje {
     
     private int idPasaje;
@@ -49,8 +42,10 @@ public class Pasaje {
     public int getIdPasaje() {
         return idPasaje;
     }
-    
-    
+
+    public void setIdPasaje(int idPasaje) {
+        this.idPasaje = idPasaje;
+    } 
 
     public Pasajero getPasajero() {
         return pasajero;

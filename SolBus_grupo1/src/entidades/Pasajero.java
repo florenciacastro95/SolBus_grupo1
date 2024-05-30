@@ -32,6 +32,10 @@ public class Pasajero {
         return idPasajero;
     }
 
+    public void setIdPasajero(int idPasajero) {
+        this.idPasajero = idPasajero;
+    }
+
     public String getNombre() {
         return nombre;
     }

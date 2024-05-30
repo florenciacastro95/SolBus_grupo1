@@ -29,6 +29,10 @@ public class Ruta {
         return idRuta;
     }
 
+    public void setIdRuta(int idRuta) {
+        this.idRuta = idRuta;
+    }
+
     public String getOrigen() {
         return origen;
     }

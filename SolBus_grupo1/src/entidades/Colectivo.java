@@ -32,6 +32,10 @@ public class Colectivo {
         return idColectivo;
     }
 
+    public void setIdColectivo(int idColectivo) {
+        this.idColectivo = idColectivo;
+    }
+    
     public String getMatricula() {
         return matricula;
     }
