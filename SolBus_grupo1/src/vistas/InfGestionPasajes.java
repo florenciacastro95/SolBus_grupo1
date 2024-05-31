@@ -9,12 +9,12 @@ package vistas;
  *
  * @author Usuario
  */
-public class infGestionPasajes extends javax.swing.JInternalFrame {
+public class InfGestionPasajes extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form infGestionPasajes
      */
-    public infGestionPasajes() {
+    public InfGestionPasajes() {
         initComponents();
     }
 
