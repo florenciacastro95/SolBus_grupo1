@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-05-2024 a las 23:44:23
+-- Tiempo de generación: 31-05-2024 a las 21:08:20
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.1.25
 
@@ -46,7 +46,8 @@ CREATE TABLE `horario` (
   `id_Horario` int(11) NOT NULL,
   `id_Ruta` int(11) NOT NULL,
   `horaSalida` time NOT NULL,
-  `horaLlegada` time NOT NULL
+  `horaLlegada` time NOT NULL,
+  `estado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -92,7 +93,8 @@ CREATE TABLE `ruta` (
   `id_Ruta` int(11) NOT NULL,
   `origen` varchar(30) NOT NULL,
   `destino` varchar(30) NOT NULL,
-  `duracionEstimada` time NOT NULL
+  `duracionEstimada` time NOT NULL,
+  `estado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -117,7 +119,6 @@ ALTER TABLE `horario`
 --
 ALTER TABLE `pasaje`
   ADD PRIMARY KEY (`id_Pasaje`),
-  ADD UNIQUE KEY `asiento` (`asiento`),
   ADD KEY `id_Colectivo` (`id_Colectivo`),
   ADD KEY `id_Pasajero` (`id_Pasajero`),
   ADD KEY `id_Ruta` (`id_Ruta`);
