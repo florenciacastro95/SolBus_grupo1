@@ -1,3 +1,7 @@
+//METODOS QUE FALTAN
+//LISTAR PASAJERO POR NOMBRE Y/O APELLIDO
+//LISTAR PASAJERO POR DNI
+
 package accesoDatos;
 import java.sql.Connection;
 import entidades.*;

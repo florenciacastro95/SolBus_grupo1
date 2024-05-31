@@ -8,21 +8,24 @@ public class Ruta {
     private int idRuta=-1;
     private String origen, destino;
     private LocalTime duracion;
-
+    private boolean estado;
+    
     public Ruta() {
     }
 
-    public Ruta(String origen, String destino, LocalTime duracion) {
+    public Ruta(String origen, String destino, LocalTime duracion, boolean estado) {
         this.origen = origen;
         this.destino = destino;
         this.duracion = duracion;
+        this.estado=estado;
     }
 
-    public Ruta(int idRuta, String origen, String destino, LocalTime duracion) {
+    public Ruta(int idRuta, String origen, String destino, LocalTime duracion, boolean estado) {
         this.idRuta = idRuta;
         this.origen = origen;
         this.destino = destino;
         this.duracion = duracion;
+        this.estado=estado;
     }
 
     public int getIdRuta() {
@@ -56,6 +59,16 @@ public class Ruta {
     public void setDuracion(LocalTime duracion) {
         this.duracion = duracion;
     }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+    
+    
 
     @Override
     public String toString() {

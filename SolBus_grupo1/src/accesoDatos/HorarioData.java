@@ -1,3 +1,9 @@
+
+//METODOS QUE FALTAN
+//AGREGAR BAJA LOGICA
+
+//LISTAR HORARIO POR RUTA
+//LISTAR HORARIO POR FECHA
 package accesoDatos;
 
 import java.sql.Connection;
@@ -19,8 +25,8 @@ public class HorarioData {
     
     public void guardarHorario(Horario horario){
         
-        String sql =("INSERT INTO `horario`(`id_Ruta`, `horaSalida`, `horaLlegada`) "
-                + "VALUES ('?','?','?');");
+        String sql =("INSERT INTO `horario`(`id_Ruta`, `horaSalida`, `horaLlegada`, `estado`)"
+                + "VALUES ('?','?','?','?');");
         
         try{
             PreparedStatement ps = c.prepareStatement(sql);
@@ -28,6 +34,8 @@ public class HorarioData {
             ps.setInt(1, ruta.getIdRuta());
             ps.setTime(2, Time.valueOf(horario.getHoraSalida()));
             ps.setTime(3, Time.valueOf(horario.getHoraSalida()));
+            ps.setBoolean(4, ruta.isEstado());
+            
             ps.executeUpdate();
             
             ResultSet rs = ps.getGeneratedKeys();
@@ -47,7 +55,7 @@ public class HorarioData {
         }    
     }
     
-    public void borrarHorario(int id){
+    public void borrarHorarioFisico(int id){
         
         String sql = "DELETE FROM `horario` WHERE id_Horario = ?;";
 
@@ -103,7 +111,7 @@ public class HorarioData {
 
         
         String sql = "UPDATE `horario` SET `id_Ruta`= '?',"
-                + "`horaSalida`='?',`horaLlegada`='?' WHERE `id_Horario`= '?';";
+                + "`horaSalida`='?',`horaLlegada`='?', `estado`= '?' WHERE `id_Horario`= '?';";
         
         try {
             PreparedStatement ps = c.prepareStatement(sql);
@@ -112,7 +120,7 @@ public class HorarioData {
             ps.setTime(2, Time.valueOf(horario.getHoraSalida()));
             ps.setTime(3, Time.valueOf(horario.getHoraLlegada()));
             ps.setInt(4, horario.getIdHorario());
-            
+            ps.setBoolean(5, ruta.isEstado());
             int validation = ps.executeUpdate();
             if(validation == 1){
                 JOptionPane.showMessageDialog(null, "La información del horario ha sido actualizada");
@@ -127,7 +135,7 @@ public class HorarioData {
     
     public List<Horario> listarHorarios() {
 
-        String sql = "SELECT * FROM `horario` WHERE 1";
+        String sql = "SELECT * FROM `horario` WHERE estado=true";
         ArrayList<Horario> horarios = new ArrayList<>();
 
         try {

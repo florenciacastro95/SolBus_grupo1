@@ -1,3 +1,10 @@
+
+//METODOS FALTANTES:
+
+//AGREGAR BAJA LOGICA metodo bajaRuta()
+//AGREGAR LISTAR RUTA POR ORIGEN
+//AGREGAR LISTAR RUTA POR DESTINO
+
 package accesoDatos;
 
 import entidades.*;
@@ -23,15 +30,16 @@ public class RutaData {
 
     public void guardarRuta(Ruta ruta) {
 
-        String sql = ("INSERT INTO `ruta`(`origen`, `destino`, `duracionEstimada`)"
-                + " VALUES ('?','?','?')");
+        String sql = ("INSERT INTO `ruta`(`origen`, `destino`, `duracionEstimada`, `estado`)"
+                + " VALUES ('?','?','?','?')");
 
         try {
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setString(1, ruta.getOrigen());
             ps.setString(2, ruta.getDestino());
             ps.setTime(3, Time.valueOf(ruta.getDuracion()));
-
+            ps.setBoolean(4, ruta.isEstado());
+            
             ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();
@@ -67,7 +75,7 @@ public class RutaData {
                 ruta.setOrigen(rs.getString("origen"));
                 ruta.setDestino(rs.getString("destino"));
                 ruta.setDuracion((rs.getTime("duracionEstimada").toLocalTime()));
-                
+                ruta.setEstado((rs.getBoolean("estado")));
             } else {
                 JOptionPane.showMessageDialog(null, "No existe esa ruta :(");
             }
@@ -83,14 +91,17 @@ public class RutaData {
     
         public void actualizarRuta(Ruta ruta) {
 
-        String sql = "UPDATE ruta SET origen = ?, destino = ?, duracionEstimada = ? WHERE id_Ruta= ?";
+        String sql = "UPDATE ruta SET origen = ?, destino = ?, duracionEstimada = ?, estado = ? WHERE id_Ruta= ?";
 
         try {
             PreparedStatement ps = c.prepareStatement(sql);
             
             ps.setString(1, ruta.getOrigen());
-            ps.setString(3, ruta.getDestino());
+            ps.setString(2, ruta.getDestino());
             ps.setTime(3, Time.valueOf(ruta.getDuracion()));
+            ps.setBoolean(4, ruta.isEstado());
+            ps.setInt(5, ruta.getIdRuta());
+            
             int validation = ps.executeUpdate();
             if(validation == 1){
                 JOptionPane.showMessageDialog(null, "La información del ruta ha sido actualizada");
@@ -104,9 +115,9 @@ public class RutaData {
     }
         
         
-         public List<Ruta> listarRutas() {
+         public List<Ruta> listarRutasDisponibles() {
 
-        String sql = "SELECT idRuta, origen, destino, duracionEstimada  FROM ruta";
+        String sql = "SELECT id_Ruta, origen, destino, duracionEstimada FROM ruta WHERE estado=true;";
         ArrayList<Ruta> rutas = new ArrayList<>();
 
         try {

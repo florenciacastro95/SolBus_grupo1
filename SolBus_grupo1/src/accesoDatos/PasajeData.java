@@ -1,3 +1,11 @@
+//METODOS QUE FALTAN
+//AGREGAR LISTAR PASAJE POR HORARIO
+//AGREGAR LISTAR PASAJE POR RUTA
+
+//SACAR CONSULTAS POR ID EN VISTAS
+
+//DAR OPCION DE VER PASAJES DISPONIBLES ANTES DE VENDER
+
 package accesoDatos;
 
 import java.sql.Connection;
@@ -19,7 +27,10 @@ public class PasajeData {
         c = Conexion.getConexion();
     }
 
-    public void guardarPasaje(Pasaje pasaje) {
+    //EMITIR RECIBO A PASAJERO:
+    //IReport - Armar formato de pasaje para vincular a la db - 
+    
+    public void venderPasaje(Pasaje pasaje) {
         //id_Pasaje, id_Pasajero, id_Colectivo, id_Ruta, fechaViaje, horaViaje, asiento, precio
         String sql = ("INSERT INTO pasaje(id_Pasajero, id_Colectivo, id_Ruta,fechaViaje, horaViaje, asiento, precio)"
                 + " VALUES ('?','?','?','?','?','?','?')");
