@@ -9,6 +9,8 @@ public class Pasajero {
     public Pasajero() {
     }
 
+    
+    
     public Pasajero(String nombre, String apellido, String dni, String correo, String telefono) {
         this.nombre = nombre;
         this.apellido = apellido;

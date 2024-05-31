@@ -27,17 +27,68 @@ public class GeneralSolBus extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dpEscritorio = new javax.swing.JDesktopPane();
+        mbEscritorio = new javax.swing.JMenuBar();
+        mPasajes = new javax.swing.JMenu();
+        miGestionPasajes = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        mPasajeros = new javax.swing.JMenu();
+        mColectivos = new javax.swing.JMenu();
+        mHorarios = new javax.swing.JMenu();
+        mRutas = new javax.swing.JMenu();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        javax.swing.GroupLayout dpEscritorioLayout = new javax.swing.GroupLayout(dpEscritorio);
+        dpEscritorio.setLayout(dpEscritorioLayout);
+        dpEscritorioLayout.setHorizontalGroup(
+            dpEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 652, Short.MAX_VALUE)
+        );
+        dpEscritorioLayout.setVerticalGroup(
+            dpEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 417, Short.MAX_VALUE)
+        );
+
+        mPasajes.setText("Pasajes");
+
+        miGestionPasajes.setText("Gestion de pasajes");
+        mPasajes.add(miGestionPasajes);
+
+        jMenuItem1.setText("Historial de pasajes y anular ventas");
+        mPasajes.add(jMenuItem1);
+
+        mbEscritorio.add(mPasajes);
+
+        mPasajeros.setText("Pasajeros");
+        mbEscritorio.add(mPasajeros);
+
+        mColectivos.setText("Colectivos");
+        mbEscritorio.add(mColectivos);
+
+        mHorarios.setText("Horarios");
+        mbEscritorio.add(mHorarios);
+
+        mRutas.setText("Rutas");
+        mbEscritorio.add(mRutas);
+
+        setJMenuBar(mbEscritorio);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 607, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(dpEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 412, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(dpEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -79,5 +130,14 @@ public class GeneralSolBus extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDesktopPane dpEscritorio;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenu mColectivos;
+    private javax.swing.JMenu mHorarios;
+    private javax.swing.JMenu mPasajeros;
+    private javax.swing.JMenu mPasajes;
+    private javax.swing.JMenu mRutas;
+    private javax.swing.JMenuBar mbEscritorio;
+    private javax.swing.JMenuItem miGestionPasajes;
     // End of variables declaration//GEN-END:variables
 }
