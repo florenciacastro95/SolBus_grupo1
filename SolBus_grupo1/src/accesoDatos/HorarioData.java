@@ -77,7 +77,7 @@ public class HorarioData {
         }
     }
     
-    public void elminarHorarioLog(int id){
+    public void bajaHorario(int id){
         
         String sql = "UPDATE `horario` SET `estado`= False WHERE id_Horario = ?;";
 
