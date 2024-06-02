@@ -1,9 +1,9 @@
 
 //METODOS QUE FALTAN
-//AGREGAR BAJA LOGICA
+//AGREGAR BAJA LOGICA ---> HECHO :)
 
-//LISTAR HORARIO POR RUTA
-//LISTAR HORARIO POR FECHA
+//LISTAR HORARIO POR RUTA ---> Hecho :)
+//LISTAR HORARIO POR FECHA ---> es por horario de salida ---> HECHO
 package accesoDatos;
 
 import java.sql.Connection;
@@ -77,11 +77,33 @@ public class HorarioData {
         }
     }
     
-    public Horario buscarHorarioPorId(int id) {
+    public void elminarHorarioLog(int id){
+        
+        String sql = "UPDATE `horario` SET `estado`= False WHERE id_Horario = ?;";
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, id);
+            int validation = ps.executeUpdate();
+
+            if (validation == 1) {
+                JOptionPane.showMessageDialog(null, "Se elimino ese horario!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Ese horario no existe, pa");
+            }
+
+            ps.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error SQL en HORARIO DATA (metodo borrar horario)." + e);
+        }
+    }
+    
+    public Horario buscarHorarioPorId(int id) {//Agregado setEstado --> El horario a buscar debería estar activo??
 
         Horario horario = null;
 
-        String sql = "SELECT * FROM `horario` WHERE id_Horario = ? ;";
+        String sql = "SELECT * FROM `horario` WHERE id_Horario = ? AND `estado` = True;";
 
         try {
             PreparedStatement ps = c.prepareStatement(sql);
@@ -93,6 +115,7 @@ public class HorarioData {
                 horario.setRuta(rD.buscarRutaPorID(rs.getInt("id_Ruta")));
                 horario.setHoraSalida(rs.getTime("horaSalida").toLocalTime());
                 horario.setHoraLlegada(rs.getTime("horaLlegada").toLocalTime());
+                horario.setEstado(rs.getBoolean("estado"));
                 
             } else {
                 JOptionPane.showMessageDialog(null, "No existe ese horario :(");
@@ -135,7 +158,7 @@ public class HorarioData {
     
     public List<Horario> listarHorarios() {
 
-        String sql = "SELECT * FROM `horario` WHERE estado=true";
+        String sql = "SELECT * FROM `horario` WHERE  `estado` = true;";
         ArrayList<Horario> horarios = new ArrayList<>();
 
         try {
@@ -155,6 +178,62 @@ public class HorarioData {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error SQL en HORARIO DATA metodo listar horarios" + e);
+        }
+
+        return horarios;
+    }
+    public List<Horario> listarHorariosPorHoraSalida(LocalTime horaSalida) {
+
+        String sql = "SELECT * FROM `horario` WHERE `estado` = true AND `horaSalida` = ?;";
+        ArrayList<Horario> horarios = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setTime(1, Time.valueOf(horaSalida));
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Horario horario = new Horario();
+                horario.setIdHorario(rs.getInt("id_Horario"));
+                horario.setRuta(rD.buscarRutaPorID(rs.getInt("id_Ruta")));
+                horario.setHoraSalida(rs.getTime("horaSalida").toLocalTime());
+                horario.setHoraLlegada(rs.getTime("horaLlegada").toLocalTime());
+                
+                horarios.add(horario); 
+            }
+            ps.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error SQL en HORARIO DATA metodo listar horarios por hora de salida" + e);
+        }
+
+        return horarios;
+    }
+    
+    public List<Horario> listarHorariosPorRuta(Ruta ruta) { 
+
+        String sql = "SELECT * FROM `horario` WHERE `estado` = true AND id_Ruta = ?;";
+        ArrayList<Horario> horarios = new ArrayList<>();
+        int idRuta = ruta.getIdRuta();
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, idRuta);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Horario horario = new Horario();
+                horario.setIdHorario(rs.getInt("id_Horario"));
+                horario.setRuta(rD.buscarRutaPorID(rs.getInt("id_Ruta")));
+                horario.setHoraSalida(rs.getTime("horaSalida").toLocalTime());
+                horario.setHoraLlegada(rs.getTime("horaLlegada").toLocalTime());
+                
+                horarios.add(horario); 
+            }
+            ps.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error SQL en HORARIO DATA metodo listar horarios por ruta" + e);
         }
 
         return horarios;
