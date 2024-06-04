@@ -133,8 +133,8 @@ public class HorarioData {
     public void actualizarHorario(Horario horario) {
 
         
-        String sql = "UPDATE `horario` SET `id_Ruta`= '?',"
-                + "`horaSalida`='?',`horaLlegada`='?', `estado`= '?' WHERE `id_Horario`= '?';";
+        String sql = "UPDATE `horario` SET `id_Ruta`= ?, "
+                + "`horaSalida`=? ,`horaLlegada`=?, `estado`= ? WHERE `id_Horario`= ?;";
         
         try {
             PreparedStatement ps = c.prepareStatement(sql);
@@ -142,8 +142,9 @@ public class HorarioData {
             ps.setInt(1, ruta.getIdRuta());
             ps.setTime(2, Time.valueOf(horario.getHoraSalida()));
             ps.setTime(3, Time.valueOf(horario.getHoraLlegada()));
-            ps.setInt(4, horario.getIdHorario());
-            ps.setBoolean(5, ruta.isEstado());
+            ps.setBoolean(4, ruta.isEstado());
+            ps.setInt(5, horario.getIdHorario());
+            
             int validation = ps.executeUpdate();
             if(validation == 1){
                 JOptionPane.showMessageDialog(null, "La información del horario ha sido actualizada");

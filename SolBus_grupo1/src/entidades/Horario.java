@@ -6,7 +6,7 @@ import java.time.LocalTime;
 
 public class Horario {
     
-    private int idHorario=-1;
+    private int idHorario;
     private Ruta ruta;
     private LocalTime horaSalida,horaLlegada;
     private boolean estado;
@@ -73,7 +73,8 @@ public class Horario {
   
     @Override
     public String toString() {
-        return "Horario nº " + idHorario;
+        return "Horario nº " + idHorario + "Origen: " + ruta.getOrigen() + "Destino: " + ruta.getDestino()+
+                "Hora salida:" + horaSalida + "Hora llegada: " + horaLlegada;
     }
             
 }
