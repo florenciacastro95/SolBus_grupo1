@@ -1,9 +1,8 @@
 //METODOS QUE FALTAN
-//AGREGAR LISTAR PASAJE POR HORARIO
 //AGREGAR LISTAR PASAJE POR RUTA
 
 //SACAR CONSULTAS POR ID EN VISTAS
-
+//ver que onda con el estado
 //DAR OPCION DE VER PASAJES DISPONIBLES ANTES DE VENDER
 
 package accesoDatos;
@@ -12,6 +11,7 @@ import java.sql.Connection;
 import entidades.*;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -220,4 +220,67 @@ public class PasajeData {
 
         return pasajes;
     }
+       
+    public List<Pasaje> listarPasajePorHorario(LocalTime horaBuscada) {
+
+        String sql = "SELECT * FROM pasaje WHERE horaViaje =?";
+        ArrayList<Pasaje> pasajes = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setTime(1, Time.valueOf(horaBuscada));
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Pasaje pasaje = new Pasaje();
+                pasaje.setIdPasaje(rs.getInt("id_Pasaje"));
+                pasaje.setPasajero(pd.buscarPasajeroPorId(rs.getInt("id_Pasajero")));
+                pasaje.setColectivo(cd.buscarColectivoPorId(rs.getInt("id_Colectivo")));
+                pasaje.setRuta(rd.buscarRutaPorID(rs.getInt("id_Ruta")));
+                pasaje.setFechaViaje(rs.getDate("fechaViaje").toLocalDate());
+                pasaje.setHoraViaje(rs.getTime("horaViaje").toLocalTime());
+                pasaje.setAsiento(rs.getInt("asiento"));
+                pasaje.setPrecio(rs.getDouble("precio"));
+                pasajes.add(pasaje);
+                
+            }
+            ps.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en el metodo  pasajesPorHorario, no se pudo acceder a los pasajes ." + e);
+        }
+
+        return pasajes;
+    }
+              
+     public List<Pasaje> pasajesVendidosPorRuta(Ruta rutaBuscada) {
+
+        String sql = "SELECT * FROM pasaje WHERE id_ruta = ?";
+        ArrayList<Pasaje> pasajes = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, rutaBuscada.getIdRuta());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Pasaje pasaje = new Pasaje();
+                pasaje.setIdPasaje(rs.getInt("id_Pasaje"));
+                pasaje.setPasajero(pd.buscarPasajeroPorId(rs.getInt("id_Pasajero")));
+                pasaje.setColectivo(cd.buscarColectivoPorId(rs.getInt("id_Colectivo")));
+                pasaje.setRuta(rd.buscarRutaPorID(rs.getInt("id_Ruta")));
+                pasaje.setFechaViaje(rs.getDate("fechaViaje").toLocalDate());
+                pasaje.setHoraViaje(rs.getTime("horaViaje").toLocalTime());
+                pasaje.setAsiento(rs.getInt("asiento"));
+                pasaje.setPrecio(rs.getDouble("precio"));
+                pasajes.add(pasaje);
+                
+            }
+            ps.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en el metodo pasajesPorRuta, no se pudo acceder a los pasajes ." + e);
+        }
+
+        return pasajes;
+    }           
+              
 }

@@ -1,6 +1,4 @@
-//METODOS QUE FALTAN
-//LISTAR PASAJERO POR NOMBRE Y/O APELLIDO
-//LISTAR PASAJERO POR DNI
+
 
 package accesoDatos;
 import java.sql.Connection;
@@ -72,6 +70,70 @@ public class PasajeroData {
             JOptionPane.showMessageDialog(null, "Error SQL en pasajero data (metodo borrar pasajero)." + e);
         }
     }
+    public Pasajero buscarPasajeroPorApellido(String apellido) {
+
+        Pasajero pasajero = null;
+
+        String sql = "SELECT * FROM pasajero WHERE nombre LIKE ? OR apellido LIKE ?";
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setString(1, apellido);
+            ps.setString(2, apellido);//primero va a probar buscarlo por el nombre y despues por el apellido :)
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                pasajero = new Pasajero();
+                pasajero.setNombre(rs.getString("nombre"));
+                pasajero.setApellido(rs.getString("apellido"));
+                pasajero.setDni(rs.getString("dni"));
+                pasajero.setEstado(rs.getBoolean("estado"));
+                pasajero.setCorreo(rs.getString("correo"));
+                pasajero.setTelefono(rs.getString("telefono"));
+
+            } else {
+                JOptionPane.showMessageDialog(null, "No existe ese pasajero :(");
+            }
+            ps.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en pasajero data, metodo buscarPasajero - error SQL." + e);
+        }
+
+        return pasajero;
+        //un saludo para el profe que mira los comentarios ;)
+    }
+    
+        public Pasajero buscarPasajeroPorDni(int dni) {
+
+        Pasajero pasajero = null;
+
+        String sql = "SELECT * FROM pasajero WHERE nombre LIKE ? OR apellido LIKE ?";
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, dni);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                pasajero = new Pasajero();
+                pasajero.setNombre(rs.getString("nombre"));
+                pasajero.setApellido(rs.getString("apellido"));
+                pasajero.setDni(rs.getString("dni"));
+                pasajero.setEstado(rs.getBoolean("estado"));
+                pasajero.setCorreo(rs.getString("correo"));
+                pasajero.setTelefono(rs.getString("telefono"));
+
+            } else {
+                JOptionPane.showMessageDialog(null, "No existe ese pasajero :(");
+            }
+            ps.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en pasajero data, metodo buscarPasajeroPorDni - error SQL." + e);
+        }
+
+        return pasajero;
+        //un saludo para el profe que mira los comentarios ;)
+    }
     
     public Pasajero buscarPasajeroPorId(int id) {
 
@@ -83,7 +145,6 @@ public class PasajeroData {
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-//INSERT INTO `pasajero`(`id_Pasajero`, `nombre`, `apellido`, `dni`, `estado`, `correo`, `telefono`)
             if (rs.next()) {
                 pasajero = new Pasajero();
                 pasajero.setIdPasajero(id);
