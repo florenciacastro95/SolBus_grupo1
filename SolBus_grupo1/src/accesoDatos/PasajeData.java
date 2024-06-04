@@ -33,10 +33,10 @@ public class PasajeData {
     public void venderPasaje(Pasaje pasaje) {
         //id_Pasaje, id_Pasajero, id_Colectivo, id_Ruta, fechaViaje, horaViaje, asiento, precio
         String sql = ("INSERT INTO pasaje(id_Pasajero, id_Colectivo, id_Ruta,fechaViaje, horaViaje, asiento, precio)"
-                + " VALUES ('?','?','?','?','?','?','?')");
+                + " VALUES (?,?,?,?,?,?,?)");
 
         try {
-            PreparedStatement ps = c.prepareStatement(sql);
+            PreparedStatement ps = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, pasaje.getPasajero().getIdPasajero());
             ps.setInt(2, pasaje.getColectivo().getIdColectivo());
             ps.setInt(3, pasaje.getRuta().getIdRuta());
@@ -50,7 +50,7 @@ public class PasajeData {
 
             if (rs.next()) {
 
-                pasaje.setIdPasaje(1);
+                pasaje.setIdPasaje(rs.getInt(1));
                 JOptionPane.showMessageDialog(null, "Pasaje guardado :)");
 
             }

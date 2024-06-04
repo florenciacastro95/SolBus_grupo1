@@ -28,7 +28,7 @@ public class RutaData {
     public void guardarRuta(Ruta ruta) {
 
         String sql = ("INSERT INTO `ruta`(`origen`, `destino`, `duracionEstimada`, `estado`)"
-                + " VALUES ('?','?','?','?')");
+                + " VALUES (?,?,?,?)");
 
         try {
             PreparedStatement ps = c.prepareStatement(sql);
@@ -43,7 +43,7 @@ public class RutaData {
 
             if (rs.next()) {
 
-                ruta.setIdRuta(1);
+                ruta.setIdRuta(rs.getInt(1));
                 JOptionPane.showMessageDialog(null, "Ruta guardada :)");
 
             }

@@ -17,10 +17,10 @@ public class ColectivoData {
     public void guardarColectivo(Colectivo colectivo){
         
         String sql =("INSERT INTO `colectivo`(`matricula`, `estado`, `marca`, `modelo`, `capacidad`)"
-                + " VALUES ('?','?','?','?','?')");
+                + " VALUES (?,?,?,?,?)");
         
         try{
-            PreparedStatement ps = c.prepareStatement(sql);
+            PreparedStatement ps = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, colectivo.getMatricula());
             ps.setBoolean(2, colectivo.isEstado());
             ps.setString(3, colectivo.getMarca());
@@ -33,7 +33,7 @@ public class ColectivoData {
             
             if(rs.next()){
             
-                colectivo.setIdColectivo(1);
+                colectivo.setIdColectivo(rs.getInt(1));
                 JOptionPane.showMessageDialog(null, "Colectivo guardado :)");
 
             }
@@ -104,7 +104,8 @@ public class ColectivoData {
     
     public void actualizarColectivo(Colectivo colectivo) {
 
-        String sql = "UPDATE colectivo SET matricula = ?, estado = ?, marca = ?, modelo = ? capacidad = ?, WHERE id_Colectivo= ?";
+        String sql = "UPDATE colectivo SET matricula = ?, estado = ?, marca = ?, modelo = ?, capacidad = ?"
+                + " WHERE id_Colectivo= ?";
 
         try {
             PreparedStatement ps = c.prepareStatement(sql);

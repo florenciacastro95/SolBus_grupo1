@@ -18,7 +18,7 @@ public class PasajeroData {
     public void guardarPasajero(Pasajero pasajero){
         
         String sql =("INSERT INTO `pasajero`(`nombre`, `apellido`, `dni`, `estado`, `correo`, `telefono`)"
-                + " VALUES ('?','?','?','?','?')");
+                + " VALUES (?,?,?,?,?)");
         
         try{
             PreparedStatement ps = c.prepareStatement(sql);
@@ -35,7 +35,7 @@ public class PasajeroData {
             
             if(rs.next()){
             
-                pasajero.setIdPasajero(1);
+                pasajero.setIdPasajero(rs.getInt(1));
                 JOptionPane.showMessageDialog(null, "Pasajero guardado :)");
 
             }

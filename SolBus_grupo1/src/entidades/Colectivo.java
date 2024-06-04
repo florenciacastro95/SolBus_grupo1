@@ -2,7 +2,7 @@ package entidades;
 
 public class Colectivo {
     
-    private int idColectivo=-1;
+    private int idColectivo;
     private String matricula, marca, modelo;
     private boolean estado;
     private int capacidad;

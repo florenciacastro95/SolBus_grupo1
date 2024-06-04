@@ -26,10 +26,10 @@ public class HorarioData {
     public void guardarHorario(Horario horario){
         
         String sql =("INSERT INTO `horario`(`id_Ruta`, `horaSalida`, `horaLlegada`, `estado`)"
-                + "VALUES ('?','?','?','?');");
+                + "VALUES (?,?,?,?);");
         
         try{
-            PreparedStatement ps = c.prepareStatement(sql);
+            PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             Ruta ruta = horario.getRuta();
             ps.setInt(1, ruta.getIdRuta());
             ps.setTime(2, Time.valueOf(horario.getHoraSalida()));
@@ -42,7 +42,7 @@ public class HorarioData {
             
             if(rs.next()){
                 
-                horario.setIdHorario(1);
+                horario.setIdHorario(rs.getInt(1));
                 JOptionPane.showMessageDialog(null, "Nuevo horario guardado :)");
 
             }
