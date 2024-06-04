@@ -64,15 +64,15 @@ public class RutaData {
             int validation = ps.executeUpdate();
 
             if (validation == 1) {
-                JOptionPane.showMessageDialog(null, "Se elimino ese horario!");
+                JOptionPane.showMessageDialog(null, "Se elimino esa ruta!");
             } else {
-                JOptionPane.showMessageDialog(null, "Ese horario no existe, pa");
+                JOptionPane.showMessageDialog(null, "Esa ruta no existe, pa");
             }
 
             ps.close();
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error SQL en HORARIO DATA (metodo borrar horario)." + e);
+            JOptionPane.showMessageDialog(null, "Error SQL en RUTA DATA (metodo borrar ruta)." + e);
         }
     }
 

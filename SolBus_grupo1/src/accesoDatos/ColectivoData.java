@@ -131,7 +131,7 @@ public class ColectivoData {
     
     public List<Colectivo> listarColectivos() {
 
-        String sql = "SELECT idColectivo, matricula, estado, marca, modelo,  FROM colectivo WHERE estado = 1";
+        String sql = "SELECT id_Colectivo, matricula, estado, marca, modelo, capacidad FROM colectivo WHERE estado = 1";
         ArrayList<Colectivo> colectivos = new ArrayList<>();
 
         try {
