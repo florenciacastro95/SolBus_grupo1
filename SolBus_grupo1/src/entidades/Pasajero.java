@@ -2,7 +2,7 @@
 package entidades;
 
 public class Pasajero {
-    private int idPasajero=-1;
+    private int idPasajero;
     private String nombre, apellido, dni, correo, telefono;
     private boolean estado;
     

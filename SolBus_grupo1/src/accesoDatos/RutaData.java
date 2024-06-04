@@ -31,7 +31,7 @@ public class RutaData {
                 + " VALUES (?,?,?,?)");
 
         try {
-            PreparedStatement ps = c.prepareStatement(sql);
+            PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, ruta.getOrigen());
             ps.setString(2, ruta.getDestino());
             ps.setTime(3, Time.valueOf(ruta.getDuracion()));

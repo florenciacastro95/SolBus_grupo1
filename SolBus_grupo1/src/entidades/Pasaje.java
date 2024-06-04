@@ -106,7 +106,8 @@ public class Pasaje {
     
     @Override
     public String toString() {
-        return "Pasaje nº " + idPasaje + " Apellido del pasajero"+pasajero.getApellido()  + " butaca: " + asiento + " precio:" + precio;
+        return "Pasaje nº " + idPasaje + pasajero.toString() + " butaca: " + asiento + " precio:" + precio
+                + ruta.toString() + "Fecha: "+ fechaViaje;
     }
         
     

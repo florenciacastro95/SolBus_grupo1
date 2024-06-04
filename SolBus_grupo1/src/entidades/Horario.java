@@ -73,7 +73,7 @@ public class Horario {
   
     @Override
     public String toString() {
-        return "Horario nº " + idHorario + "Origen: " + ruta.getOrigen() + "Destino: " + ruta.getDestino()+
+        return "Horario nº " + idHorario + ruta.toString() +
                 "Hora salida:" + horaSalida + "Hora llegada: " + horaLlegada;
     }
             

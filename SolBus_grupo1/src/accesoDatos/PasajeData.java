@@ -25,6 +25,9 @@ public class PasajeData {
 
     public PasajeData() {
         c = Conexion.getConexion();
+        pd = new PasajeroData();
+        cd = new ColectivoData();
+        rd = new RutaData();
     }
 
     //EMITIR RECIBO A PASAJERO:
