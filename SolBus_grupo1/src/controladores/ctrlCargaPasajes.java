@@ -7,6 +7,8 @@ import vistas.*;
 import accesoDatos.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,33 +17,53 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
     private Pasaje pasaje;
     private PasajeData pasajeData;
+    private ColectivoData colectivoData;
     private InfGestionPasajes pasajeVista;
 
     public ctrlCargaPasajes(Pasaje pasaje, PasajeData pasajeData, InfGestionPasajes pasajeVista) {
         this.pasaje = pasaje;
         this.pasajeData = pasajeData;
         this.pasajeVista = pasajeVista;
-
+        this.colectivoData = colectivoData;
         pasajeVista.btnVenderPasaje.addActionListener(this);
         pasajeVista.btnEmitirRecibo.addActionListener(this);
         pasajeVista.cbRuta.addItemListener(this);
+        pasajeVista.rbRegistrado.addActionListener(this);
+        pasajeVista.rbNoRegistrado.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        //mirar la capacidad de el colectivo
         if (e.getSource() == pasajeVista.btnVenderPasaje) {
+            Pasaje pasaje;
+            Pasajero pasajero;
+            LocalTime horita = ((Horario) pasajeVista.cbHorario.getSelectedItem()).getHoraSalida();
+            Colectivo colectivo = (Colectivo) pasajeVista.cbColectivos.getSelectedItem();
+            String nombre,apellido,dni;
+            apellido = pasajeVista.txtApellido.getText();
+            nombre = pasajeVista.txtNombre.getText();
+            dni = pasajeVista.txtDni.getText();
+            pasajero = new Pasajero(nombre, apellido, dni, null,null);
+            
+            pasaje = new Pasaje(pasajero, colectivo, (Ruta) pasajeVista.cbRuta.getSelectedItem(), LocalDate.now(), horita, 0, 0);
+            
+            pasajeData.venderPasaje(pasaje);
 
-            if (pasajeVista.rbNoRegistrado.isSelected()) {
-                // El radio button rbNoRegistrado está seleccionado
-                // Realiza las acciones necesarias
-            } else if (pasajeVista.rbRegistrado.isSelected()) {
-                // El radio button rbRegistrado está seleccionado
-                // Realiza las acciones necesarias
-            } else {
-                // Ningún radio button está seleccionado
-                // Realiza las acciones necesarias
-            }
+        }
+        
+        if (e.getSource() == pasajeVista.rbNoRegistrado) {
+            
+                pasajeVista.txtDni.setEnabled(true);
+                pasajeVista.txtApellido.setEnabled(true);
+                pasajeVista.txtNombre.setEnabled(true);
+                pasajeVista.txtDniRegistrado.setEnabled(false);
+            
+        }else if (e.getSource() == pasajeVista.rbRegistrado) {
+            pasajeVista.txtDni.setEnabled(false);
+                pasajeVista.txtApellido.setEnabled(false);
+                pasajeVista.txtNombre.setEnabled(false);
+                pasajeVista.txtDniRegistrado.setEnabled(true);
         }
 
     }
@@ -65,6 +87,9 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
     @Override
     public void itemStateChanged(ItemEvent ie) {
+
+        
+        if (ie.getSource() == pasajeVista.cbHorario) {
         pasajeVista.cbHorario.removeAllItems();
         HorarioData hd = new HorarioData();
         Ruta itemSeleccionado = (Ruta) pasajeVista.cbRuta.getSelectedItem();
@@ -74,6 +99,14 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         for (Horario horario : horarios) {
             System.out.println(horario.toString());
             pasajeVista.cbHorario.addItem(horario);
+        }
+        }
+        if (ie.getStateChange()== ItemEvent.SELECTED) {
+            if (ie.getSource() == pasajeVista.rbNoRegistrado) {
+            pasajeVista.txtDni.setEnabled(true);
+            pasajeVista.txtApellido.setEnabled(true);
+            pasajeVista.txtNombre.setEnabled(true);
+            }
         }
     }
 }
