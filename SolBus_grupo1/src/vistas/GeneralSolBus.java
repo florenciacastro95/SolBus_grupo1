@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package vistas;
-
+import entidades.*;
+import accesoDatos.*;
+import controladores.*;
 /**
  *
  * @author Usuario
@@ -31,7 +33,7 @@ public class GeneralSolBus extends javax.swing.JFrame {
         mbEscritorio = new javax.swing.JMenuBar();
         mPasajes = new javax.swing.JMenu();
         miGestionPasajes = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        miHistorialAnular = new javax.swing.JMenuItem();
         mPasajeros = new javax.swing.JMenu();
         mColectivos = new javax.swing.JMenu();
         mHorarios = new javax.swing.JMenu();
@@ -53,10 +55,15 @@ public class GeneralSolBus extends javax.swing.JFrame {
         mPasajes.setText("Pasajes");
 
         miGestionPasajes.setText("Gestion de pasajes");
+        miGestionPasajes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miGestionPasajesActionPerformed(evt);
+            }
+        });
         mPasajes.add(miGestionPasajes);
 
-        jMenuItem1.setText("Historial de pasajes y anular ventas");
-        mPasajes.add(jMenuItem1);
+        miHistorialAnular.setText("Historial de pasajes y anular ventas");
+        mPasajes.add(miHistorialAnular);
 
         mbEscritorio.add(mPasajes);
 
@@ -93,6 +100,19 @@ public class GeneralSolBus extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void miGestionPasajesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGestionPasajesActionPerformed
+         Pasaje p = new Pasaje();
+        PasajeData pd = new PasajeData();
+        vistas.InfGestionPasajes ip =  new vistas.InfGestionPasajes();
+         ctrlCargaPasajes cp = new ctrlCargaPasajes(p, pd, ip);
+        dpEscritorio.removeAll();
+        dpEscritorio.repaint();
+        ip.setVisible(true);
+        ip.setLocation(00, 00);
+        dpEscritorio.add(ip);
+        dpEscritorio.moveToFront(ip);
+    }//GEN-LAST:event_miGestionPasajesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -131,7 +151,6 @@ public class GeneralSolBus extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane dpEscritorio;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu mColectivos;
     private javax.swing.JMenu mHorarios;
     private javax.swing.JMenu mPasajeros;
@@ -139,5 +158,6 @@ public class GeneralSolBus extends javax.swing.JFrame {
     private javax.swing.JMenu mRutas;
     private javax.swing.JMenuBar mbEscritorio;
     private javax.swing.JMenuItem miGestionPasajes;
+    private javax.swing.JMenuItem miHistorialAnular;
     // End of variables declaration//GEN-END:variables
 }
