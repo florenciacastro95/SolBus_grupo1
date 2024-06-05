@@ -19,12 +19,15 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
     private PasajeData pasajeData;
     private ColectivoData colectivoData;
     private InfGestionPasajes pasajeVista;
+    private PasajeroData pasajeroData;
 
     public ctrlCargaPasajes(Pasaje pasaje, PasajeData pasajeData, InfGestionPasajes pasajeVista) {
         this.pasaje = pasaje;
         this.pasajeData = pasajeData;
         this.pasajeVista = pasajeVista;
-        this.colectivoData = colectivoData;
+        colectivoData = new ColectivoData();
+        pasajeData = new PasajeData();
+        pasajeroData = new PasajeroData();
         pasajeVista.btnVenderPasaje.addActionListener(this);
         pasajeVista.btnEmitirRecibo.addActionListener(this);
         pasajeVista.cbRuta.addItemListener(this);
@@ -40,30 +43,30 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             Pasajero pasajero;
             LocalTime horita = ((Horario) pasajeVista.cbHorario.getSelectedItem()).getHoraSalida();
             Colectivo colectivo = (Colectivo) pasajeVista.cbColectivos.getSelectedItem();
-            String nombre,apellido,dni;
+            String nombre, apellido, dni;
             apellido = pasajeVista.txtApellido.getText();
             nombre = pasajeVista.txtNombre.getText();
             dni = pasajeVista.txtDni.getText();
-            pasajero = new Pasajero(nombre, apellido, dni, null,null);
-            
+            pasajero = new Pasajero(nombre, apellido, dni, null, null);
+            pasajeroData.guardarPasajero(pasajero);
             pasaje = new Pasaje(pasajero, colectivo, (Ruta) pasajeVista.cbRuta.getSelectedItem(), LocalDate.now(), horita, 0, 0);
-            
+
             pasajeData.venderPasaje(pasaje);
 
         }
-        
+
         if (e.getSource() == pasajeVista.rbNoRegistrado) {
-            
-                pasajeVista.txtDni.setEnabled(true);
-                pasajeVista.txtApellido.setEnabled(true);
-                pasajeVista.txtNombre.setEnabled(true);
-                pasajeVista.txtDniRegistrado.setEnabled(false);
-            
-        }else if (e.getSource() == pasajeVista.rbRegistrado) {
+
+            pasajeVista.txtDni.setEnabled(true);
+            pasajeVista.txtApellido.setEnabled(true);
+            pasajeVista.txtNombre.setEnabled(true);
+            pasajeVista.txtDniRegistrado.setEnabled(false);
+
+        } else if (e.getSource() == pasajeVista.rbRegistrado) {
             pasajeVista.txtDni.setEnabled(false);
-                pasajeVista.txtApellido.setEnabled(false);
-                pasajeVista.txtNombre.setEnabled(false);
-                pasajeVista.txtDniRegistrado.setEnabled(true);
+            pasajeVista.txtApellido.setEnabled(false);
+            pasajeVista.txtNombre.setEnabled(false);
+            pasajeVista.txtDniRegistrado.setEnabled(true);
         }
 
     }
@@ -88,24 +91,23 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
     @Override
     public void itemStateChanged(ItemEvent ie) {
 
-        
         if (ie.getSource() == pasajeVista.cbHorario) {
-        pasajeVista.cbHorario.removeAllItems();
-        HorarioData hd = new HorarioData();
-        Ruta itemSeleccionado = (Ruta) pasajeVista.cbRuta.getSelectedItem();
-        ArrayList<Horario> horarios = new ArrayList<>();
+            pasajeVista.cbHorario.removeAllItems();
+            HorarioData hd = new HorarioData();
+            Ruta itemSeleccionado = (Ruta) pasajeVista.cbRuta.getSelectedItem();
+            ArrayList<Horario> horarios = new ArrayList<>();
 
-        horarios = (ArrayList<Horario>) hd.listarHorariosPorRuta(itemSeleccionado);
-        for (Horario horario : horarios) {
-            System.out.println(horario.toString());
-            pasajeVista.cbHorario.addItem(horario);
+            horarios = (ArrayList<Horario>) hd.listarHorariosPorRuta(itemSeleccionado);
+            for (Horario horario : horarios) {
+                System.out.println(horario.toString());
+                pasajeVista.cbHorario.addItem(horario);
+            }
         }
-        }
-        if (ie.getStateChange()== ItemEvent.SELECTED) {
+        if (ie.getStateChange() == ItemEvent.SELECTED) {
             if (ie.getSource() == pasajeVista.rbNoRegistrado) {
-            pasajeVista.txtDni.setEnabled(true);
-            pasajeVista.txtApellido.setEnabled(true);
-            pasajeVista.txtNombre.setEnabled(true);
+                pasajeVista.txtDni.setEnabled(true);
+                pasajeVista.txtApellido.setEnabled(true);
+                pasajeVista.txtNombre.setEnabled(true);
             }
         }
     }
