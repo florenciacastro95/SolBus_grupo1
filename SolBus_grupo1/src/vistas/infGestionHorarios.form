@@ -23,13 +23,11 @@
               <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                   <Component id="lblHora" max="32767" attributes="0"/>
-                  <Component id="lblFecha" pref="45" max="32767" attributes="0"/>
-                  <Component id="lblRuta" max="32767" attributes="0"/>
+                  <Component id="lblRuta" pref="45" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="65" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="cbRuta" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="dchFecha" alignment="1" min="-2" max="-2" attributes="0"/>
                   <Component id="cbHora" alignment="1" min="-2" pref="91" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
@@ -59,17 +57,12 @@
                   <Component id="lblRuta" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                   <Component id="cbRuta" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="lblFecha" max="32767" attributes="0"/>
-                  <Component id="dchFecha" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="cbHora" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblHora" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                  <Component id="cbHora" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
               <Component id="btnAgregar" min="-2" pref="42" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="69" max="32767" attributes="0"/>
           </Group>
@@ -87,8 +80,6 @@
         <Property name="text" type="java.lang.String" value="Ruta:"/>
       </Properties>
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="dchFecha">
-    </Component>
     <Component class="javax.swing.JComboBox" name="cbRuta">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
@@ -103,11 +94,6 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblFecha">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Fecha"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblHora">
       <Properties>

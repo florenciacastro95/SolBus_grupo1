@@ -27,12 +27,6 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
-                      <Component id="btnVenderPasaje" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                      <Component id="btnEmitirRecibo" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="cbRuta" pref="155" max="32767" attributes="0"/>
                           <Component id="cbHorario" max="32767" attributes="0"/>
@@ -56,23 +50,33 @@
                           </Group>
                       </Group>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="pnlNoRegistrado" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="rbNoRegistrado" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
+                              <Component id="btnVenderPasaje" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                              <Component id="btnEmitirRecibo" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="pnlNoRegistrado" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rbNoRegistrado" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rbRegistrado" min="-2" max="-2" attributes="0"/>
+                                  <Component id="pnlRegistrado" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
-                          <Component id="rbRegistrado" min="-2" max="-2" attributes="0"/>
-                          <Component id="pnlRegistrado" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="spTabla" min="-2" pref="376" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="spTabla" min="-2" pref="225" max="-2" attributes="0"/>
-              <EmptySpace pref="378" max="32767" attributes="0"/>
+              <EmptySpace pref="183" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -81,8 +85,8 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="spTabla" min="-2" pref="193" max="-2" attributes="0"/>
-                  <Group type="102" attributes="0">
+                  <Component id="spTabla" alignment="1" min="-2" pref="193" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
                       <Component id="lblTitulo" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -122,7 +126,7 @@
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="137" max="32767" attributes="0"/>
+              <EmptySpace pref="311" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

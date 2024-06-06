@@ -31,53 +31,58 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="63" max="32767" attributes="0"/>
+          <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="btnBorrar" min="-2" max="-2" attributes="0"/>
-                  <Component id="spListarPasajeros" min="-2" pref="345" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="141" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="rbVerTodo" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblTituloListarPasajeros" min="-2" max="-2" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <Component id="pnlDniNombre" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="txtDni" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtNombreApe" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="pnlDniNombre" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="txtNombreApe" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtDni" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Component id="spListarPasajeros" min="-2" pref="345" max="-2" attributes="0"/>
                       </Group>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
+                      <Component id="btnBorrar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
+                      <Component id="bntActualizar" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="143" max="-2" attributes="0"/>
+                      <Component id="lblTituloListarPasajeros" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="61" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               <Component id="lblTituloListarPasajeros" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-              <Component id="pnlDniNombre" max="32767" attributes="0"/>
-              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-              <Component id="rbVerTodo" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="txtDni" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="txtNombreApe" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="pnlDniNombre" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="spListarPasajeros" min="-2" pref="141" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="btnBorrar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
-              <Component id="txtDni" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="txtNombreApe" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnBorrar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bntActualizar" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="54" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -124,6 +129,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jRadioButton2" min="-2" max="-2" attributes="0"/>
                       <Component id="jRadioButton1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbVerTodo" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -136,7 +142,9 @@
                   <Component id="jRadioButton1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jRadioButton2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="rbVerTodo" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -152,21 +160,29 @@
             <Property name="text" type="java.lang.String" value="NOMBRE/APELLIDO"/>
           </Properties>
         </Component>
+        <Component class="javax.swing.JRadioButton" name="rbVerTodo">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Ver Todo"/>
+          </Properties>
+        </Component>
       </SubComponents>
     </Container>
     <Component class="javax.swing.JTextField" name="txtDni">
       <Properties>
         <Property name="text" type="java.lang.String" value="jTextField1"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtDniActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtNombreApe">
       <Properties>
         <Property name="text" type="java.lang.String" value="jTextField2"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JRadioButton" name="rbVerTodo">
+    <Component class="javax.swing.JButton" name="bntActualizar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Ver Todo"/>
+        <Property name="text" type="java.lang.String" value="ACTUALIZAR"/>
       </Properties>
     </Component>
   </SubComponents>
