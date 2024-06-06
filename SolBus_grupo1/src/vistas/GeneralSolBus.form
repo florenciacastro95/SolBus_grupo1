@@ -39,10 +39,25 @@
             <Property name="text" type="java.lang.String" value="Horarios"/>
           </Properties>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="mRutas">
+        <Menu class="javax.swing.JMenu" name="miListarRutas">
           <Properties>
             <Property name="text" type="java.lang.String" value="Rutas"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miListarRutasActionPerformed"/>
+          </Events>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Gestion de rutas"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Rutas disponibles"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
         </Menu>
       </SubComponents>
     </Menu>

@@ -37,7 +37,9 @@ public class GeneralSolBus extends javax.swing.JFrame {
         mPasajeros = new javax.swing.JMenu();
         mColectivos = new javax.swing.JMenu();
         mHorarios = new javax.swing.JMenu();
-        mRutas = new javax.swing.JMenu();
+        miListarRutas = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,8 +78,20 @@ public class GeneralSolBus extends javax.swing.JFrame {
         mHorarios.setText("Horarios");
         mbEscritorio.add(mHorarios);
 
-        mRutas.setText("Rutas");
-        mbEscritorio.add(mRutas);
+        miListarRutas.setText("Rutas");
+        miListarRutas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miListarRutasActionPerformed(evt);
+            }
+        });
+
+        jMenuItem1.setText("Gestion de rutas");
+        miListarRutas.add(jMenuItem1);
+
+        jMenuItem2.setText("Rutas disponibles");
+        miListarRutas.add(jMenuItem2);
+
+        mbEscritorio.add(miListarRutas);
 
         setJMenuBar(mbEscritorio);
 
@@ -96,10 +110,10 @@ public class GeneralSolBus extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void miGestionPasajesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGestionPasajesActionPerformed
-         Pasaje p = new Pasaje();
+        Pasaje p = new Pasaje();
         PasajeData pd = new PasajeData();
-        vistas.InfGestionPasajes ip =  new vistas.InfGestionPasajes();
-         ctrlCargaPasajes cp = new ctrlCargaPasajes(p, pd, ip);
+        vistas.InfGestionPasajes ip = new vistas.InfGestionPasajes();
+        ctrlCargaPasajes cp = new ctrlCargaPasajes(p, pd, ip);
         dpEscritorio.removeAll();
         dpEscritorio.repaint();
         ip.setVisible(true);
@@ -107,6 +121,19 @@ public class GeneralSolBus extends javax.swing.JFrame {
         dpEscritorio.add(ip);
         dpEscritorio.moveToFront(ip);
     }//GEN-LAST:event_miGestionPasajesActionPerformed
+
+    private void miListarRutasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miListarRutasActionPerformed
+        // TODO add your handling code here:
+        RutaData rd = new RutaData();
+        vistas.InfListarRutas ilr = new vistas.InfListarRutas();
+        ctrlListarRutas clr = new ctrlListarRutas(rd, ilr);
+        dpEscritorio.removeAll();
+        dpEscritorio.repaint();
+        ilr.setVisible(true);
+        ilr.setLocation(00, 00);
+        dpEscritorio.add(ilr);
+        dpEscritorio.moveToFront(ilr);
+    }//GEN-LAST:event_miListarRutasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -145,13 +172,15 @@ public class GeneralSolBus extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane dpEscritorio;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenu mColectivos;
     private javax.swing.JMenu mHorarios;
     private javax.swing.JMenu mPasajeros;
     private javax.swing.JMenu mPasajes;
-    private javax.swing.JMenu mRutas;
     private javax.swing.JMenuBar mbEscritorio;
     private javax.swing.JMenuItem miGestionPasajes;
     private javax.swing.JMenuItem miHistorialAnular;
+    private javax.swing.JMenu miListarRutas;
     // End of variables declaration//GEN-END:variables
 }

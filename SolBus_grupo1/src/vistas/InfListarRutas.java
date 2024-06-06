@@ -4,17 +4,36 @@
  */
 package vistas;
 
+import entidades.Ruta;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author tDev
  */
-public class infListarRutas extends javax.swing.JInternalFrame {
+public class InfListarRutas extends javax.swing.JInternalFrame {
+    
+    ArrayList<Ruta> rutas = new ArrayList<>();
+    private DefaultTableModel model;
 
-    /**
-     * Creates new form infListarRutas
-     */
-    public infListarRutas() {
+    public InfListarRutas() {
         initComponents();
+        armarCabecera();
+    }
+    
+    private void armarCabecera() {
+        ArrayList<Object> filaCabecera = new ArrayList<>();
+        filaCabecera.add("Origen");
+        filaCabecera.add("Destino");
+        filaCabecera.add("Hora de salida");
+        filaCabecera.add("Hora de llegada");
+        
+
+        for (Object i : filaCabecera) {
+            model.addColumn(i);
+        }
+        tblListarRutas.setModel(model);
     }
 
     /**
@@ -49,18 +68,18 @@ public class infListarRutas extends javax.swing.JInternalFrame {
         ));
         spListarRutas.setViewportView(tblListarRutas);
 
-        lblTituloListarRutas.setText("Listar Rutas");
+        lblTituloListarRutas.setText("LISTAR RUTAS");
 
         rbVerTodasRutas.setText("Ver Todas las Rutas");
-        rbVerTodasRutas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbVerTodasRutasActionPerformed(evt);
-            }
-        });
 
         rbListarOrigenDestino.setText("Listar por Origen o Destino");
 
         txtOrigen.setText("jTextField1");
+        txtOrigen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtOrigenActionPerformed(evt);
+            }
+        });
 
         txtDestino.setText("jTextField2");
 
@@ -80,9 +99,13 @@ public class infListarRutas extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblDestino)
-                            .addComponent(lblOrigen))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblDestino)
+                                .addComponent(lblOrigen))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblTituloListarRutas, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(5, 5, 5)))
                         .addGap(40, 40, 40)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtDestino)
@@ -93,10 +116,6 @@ public class infListarRutas extends javax.swing.JInternalFrame {
                 .addGap(40, 40, 40)
                 .addComponent(spListarRutas, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(66, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblTituloListarRutas, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(237, 237, 237))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,14 +129,15 @@ public class infListarRutas extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(44, 44, 44)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtDestino, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                             .addComponent(lblDestino))
                         .addGap(28, 28, 28))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblOrigen)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblOrigen)
+                            .addComponent(txtOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(spListarRutas, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40))
@@ -126,20 +146,20 @@ public class infListarRutas extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void rbVerTodasRutasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbVerTodasRutasActionPerformed
+    private void txtOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOrigenActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rbVerTodasRutasActionPerformed
+    }//GEN-LAST:event_txtOrigenActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblDestino;
     private javax.swing.JLabel lblOrigen;
     private javax.swing.JLabel lblTituloListarRutas;
-    private javax.swing.JRadioButton rbListarOrigenDestino;
-    private javax.swing.JRadioButton rbVerTodasRutas;
+    public javax.swing.JRadioButton rbListarOrigenDestino;
+    public javax.swing.JRadioButton rbVerTodasRutas;
     private javax.swing.JScrollPane spListarRutas;
-    private javax.swing.JTable tblListarRutas;
-    private javax.swing.JTextField txtDestino;
-    private javax.swing.JTextField txtOrigen;
+    public javax.swing.JTable tblListarRutas;
+    public javax.swing.JTextField txtDestino;
+    public javax.swing.JTextField txtOrigen;
     // End of variables declaration//GEN-END:variables
 }
