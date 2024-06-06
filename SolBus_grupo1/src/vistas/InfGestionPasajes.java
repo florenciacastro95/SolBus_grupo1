@@ -13,6 +13,7 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
     RutaData rd = new RutaData();
     HorarioData hd = new HorarioData();
     ColectivoData cd = new ColectivoData();
+    PasajeData pd = new PasajeData();
     private DefaultTableModel model;
 
     public InfGestionPasajes() {
@@ -297,7 +298,8 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
     
     private void cargarTblAsientos(){
         //tengo que recuperar el colectivo
-        //t
+        //recupero pasaje
+        //pd.li
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
