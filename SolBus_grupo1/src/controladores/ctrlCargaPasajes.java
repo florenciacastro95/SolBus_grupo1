@@ -13,7 +13,10 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
-
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 //HAY QUE AGREGAR VALIDACIÓN DE PASAJES SEGUN CAPCIDAD DE COLECTIVO Y ASIENTOS DISPONIBLES
 public class ctrlCargaPasajes implements ActionListener, ItemListener {
@@ -36,6 +39,8 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         pasajeVista.cbRuta.addItemListener(this);
         pasajeVista.rbRegistrado.addActionListener(this);
         pasajeVista.rbNoRegistrado.addActionListener(this);
+        armarCabeceraTblAsientos();
+        cargarTblAsientos();
     }
 
     @Override
@@ -106,9 +111,9 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
     }
 
-   
     @Override
     public void itemStateChanged(ItemEvent ie) {
+        
         if (ie.getStateChange() == ItemEvent.SELECTED) {
             if (ie.getSource() == pasajeVista.cbRuta) {
                 pasajeVista.cbHorario.removeAllItems();
@@ -120,7 +125,9 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                 for (Horario horario : horarios) {
                     System.out.println(horario.toString());
                     pasajeVista.cbHorario.addItem(horario);
+                    
                 }
+                cargarTblAsientos();
                 if (horarios.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "No hay horarios activos para esta ruta. Agregue horarios");
                 }
@@ -154,6 +161,46 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
     public boolean validarDniTam(int tam) {
         return tam == 8 || tam == 7;
+    }
+
+    private void armarCabeceraTblAsientos() {
+        DefaultTableModel model = new DefaultTableModel(new Object[]{"VENTANA", "PASILLO", "PASILLO", "VENTANA"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Hacer que las celdas no sean editables
+            }
+        };
+        pasajeVista.tblAsientos.setModel(model);
+        pasajeVista.tblAsientos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Selección de una celda a la vez
+        pasajeVista.tblAsientos.setCellSelectionEnabled(true);
+    }
+
+    private void cargarTblAsientos() {
+        DefaultTableModel model = (DefaultTableModel) pasajeVista.tblAsientos.getModel();
+        model.setRowCount(0);
+
+        int numAsiento = 1;
+        for (int fila = 0; fila < 8; fila++) {
+            model.addRow(new Object[]{
+                numAsiento++, numAsiento++, numAsiento++, numAsiento++
+            });
+        }
+        try{
+        ArrayList<Integer> asientosOcupados = (ArrayList<Integer>) pasajeData.listarAsientosOcupadosPorViaje((Ruta) pasajeVista.cbRuta.getSelectedItem(), (Colectivo) pasajeVista.cbColectivos.getSelectedItem(),
+                LocalDate.now(), ((Horario) pasajeVista.cbHorario.getSelectedItem()).getHoraSalida());
+        for (int fila = 0; fila < model.getRowCount(); fila++) {
+            for (int columna = 0; columna < model.getColumnCount(); columna++) {
+                Integer asientoActual = (Integer) model.getValueAt(fila, columna);
+                if (asientosOcupados.contains(asientoActual)) {
+                    model.setValueAt("Ocupado", fila, columna);
+                }
+            }
+        }
+        }catch(NullPointerException e){
+            System.out.println(e);
+        }
+        
+
     }
 
 }

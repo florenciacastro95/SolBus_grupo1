@@ -1,10 +1,8 @@
 //METODOS QUE FALTAN
 //AGREGAR LISTAR PASAJE POR RUTA
-
 //SACAR CONSULTAS POR ID EN VISTAS
 //ver que onda con el estado
 //DAR OPCION DE VER PASAJES DISPONIBLES ANTES DE VENDER
-
 package accesoDatos;
 
 import java.sql.Connection;
@@ -39,7 +37,7 @@ public class PasajeData {
                 + " VALUES (?,?,?,?,?,?,?)");
 
         try {
-            PreparedStatement ps = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, pasaje.getPasajero().getIdPasajero());
             ps.setInt(2, pasaje.getColectivo().getIdColectivo());
             ps.setInt(3, pasaje.getRuta().getIdRuta());
@@ -68,7 +66,6 @@ public class PasajeData {
     }
 
     // ver de implementar borrado logico ahora borramos posta
-    
     //está agregado el actualizarAsientos de cole data
     public void borrarPasaje(int id) {
         String sql = "DELETE FROM pasaje "
@@ -129,7 +126,7 @@ public class PasajeData {
 
     //ACA VER SI SE PUEDE HACER UN "ACTUALIZAR PASAJE" no tendria mucho sentido pero no sé
     //Listar pasajes por pasajero
-    public List<Pasaje> obtenerPasajesPorPasajero(int idPasajero) {
+    public List<Pasaje> listarPasajesPorPasajero(int idPasajero) {
 
         String sql = "SELECT * FROM pasaje WHERE id_Pasajero =?";
         ArrayList<Pasaje> pasajes = new ArrayList<>();
@@ -138,7 +135,7 @@ public class PasajeData {
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setInt(1, idPasajero);
             ResultSet rs = ps.executeQuery();
- //id_Pasaje, id_Pasajero, id_Colectivo, id_Ruta, fechaViaje, horaViaje, asiento, precio
+            //id_Pasaje, id_Pasajero, id_Colectivo, id_Ruta, fechaViaje, horaViaje, asiento, precio
             while (rs.next()) {
                 Pasaje pasaje = new Pasaje();
                 pasaje.setIdPasaje(rs.getInt("id_Pasaje"));
@@ -150,7 +147,7 @@ public class PasajeData {
                 pasaje.setAsiento(rs.getInt("asiento"));
                 pasaje.setPrecio(rs.getDouble("precio"));
                 pasajes.add(pasaje);
-                
+
             }
             ps.close();
 
@@ -162,8 +159,7 @@ public class PasajeData {
     }
 
     //Listar pasajes por colectivo
-    
-      public List<Pasaje> pasajesVendidosPorColectivo(int idColectivo) {
+    public List<Pasaje> listarPasajesVendidosPorColectivo(int idColectivo) {
 
         String sql = "SELECT * FROM pasaje WHERE id_Colectivo =?";
         ArrayList<Pasaje> pasajes = new ArrayList<>();
@@ -172,7 +168,7 @@ public class PasajeData {
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setInt(1, idColectivo);
             ResultSet rs = ps.executeQuery();
- //id_Pasaje, id_Pasajero, id_Colectivo, id_Ruta, fechaViaje, horaViaje, asiento, precio
+            //id_Pasaje, id_Pasajero, id_Colectivo, id_Ruta, fechaViaje, horaViaje, asiento, precio
             while (rs.next()) {
                 Pasaje pasaje = new Pasaje();
                 pasaje.setIdPasaje(rs.getInt("id_Pasaje"));
@@ -184,7 +180,7 @@ public class PasajeData {
                 pasaje.setAsiento(rs.getInt("asiento"));
                 pasaje.setPrecio(rs.getDouble("precio"));
                 pasajes.add(pasaje);
-                
+
             }
             ps.close();
 
@@ -196,8 +192,7 @@ public class PasajeData {
     }
 
     //Listar pasajes por fecha
-      
-       public List<Pasaje> pasajesVendidosPorFecha(LocalDate fechaBuscada) {
+    public List<Pasaje> listarPasajesVendidosPorFecha(LocalDate fechaBuscada) {
 
         String sql = "SELECT * FROM pasaje WHERE fechaViaje =?";
         ArrayList<Pasaje> pasajes = new ArrayList<>();
@@ -206,7 +201,7 @@ public class PasajeData {
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setDate(1, Date.valueOf(fechaBuscada));
             ResultSet rs = ps.executeQuery();
- //id_Pasaje, id_Pasajero, id_Colectivo, id_Ruta, fechaViaje, horaViaje, asiento, precio
+            //id_Pasaje, id_Pasajero, id_Colectivo, id_Ruta, fechaViaje, horaViaje, asiento, precio
             while (rs.next()) {
                 Pasaje pasaje = new Pasaje();
                 pasaje.setIdPasaje(rs.getInt("id_Pasaje"));
@@ -218,7 +213,7 @@ public class PasajeData {
                 pasaje.setAsiento(rs.getInt("asiento"));
                 pasaje.setPrecio(rs.getDouble("precio"));
                 pasajes.add(pasaje);
-                
+
             }
             ps.close();
 
@@ -228,7 +223,7 @@ public class PasajeData {
 
         return pasajes;
     }
-       
+
     public List<Pasaje> listarPasajePorHorario(LocalTime horaBuscada) {
 
         String sql = "SELECT * FROM pasaje WHERE horaViaje =?";
@@ -249,7 +244,7 @@ public class PasajeData {
                 pasaje.setAsiento(rs.getInt("asiento"));
                 pasaje.setPrecio(rs.getDouble("precio"));
                 pasajes.add(pasaje);
-                
+
             }
             ps.close();
 
@@ -259,8 +254,8 @@ public class PasajeData {
 
         return pasajes;
     }
-              
-     public List<Pasaje> pasajesVendidosPorRuta(Ruta rutaBuscada) {
+
+    public List<Pasaje> listarPasajesVendidosPorRuta(Ruta rutaBuscada) {
 
         String sql = "SELECT * FROM pasaje WHERE id_ruta = ?";
         ArrayList<Pasaje> pasajes = new ArrayList<>();
@@ -280,7 +275,7 @@ public class PasajeData {
                 pasaje.setAsiento(rs.getInt("asiento"));
                 pasaje.setPrecio(rs.getDouble("precio"));
                 pasajes.add(pasaje);
-                
+
             }
             ps.close();
 
@@ -289,6 +284,37 @@ public class PasajeData {
         }
 
         return pasajes;
-    }           
-              
+    }
+
+    public List<Integer> listarAsientosOcupadosPorViaje(Ruta rutaBuscada,
+            Colectivo colectivo, LocalDate fecha, LocalTime hora) {
+
+        //flor quiere morir D: esto es demasiado jefe
+        //Ejemplo para listar pasajes vendidos en el mismo viaje
+        //SELECT asiento FROM pasaje WHERE id_Ruta = 1 AND id_Colectivo = 1 
+        //AND fechaViaje = '2024-06-06' AND horaViaje = '11:00:00';
+        String sql = "SELECT asiento FROM pasaje WHERE id_Ruta = ? AND id_Colectivo = ? AND "
+                + "fechaViaje = ? AND horaViaje = ?";
+        ArrayList<Integer> asientosOcupados = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, rutaBuscada.getIdRuta());
+            ps.setInt(2, colectivo.getIdColectivo());
+            ps.setDate(3, Date.valueOf(fecha));
+            ps.setTime(4, Time.valueOf(hora));
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                
+                asientosOcupados.add(rs.getInt("asiento"));
+
+            }
+            ps.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en el metodo pasajesPorRuta, no se pudo acceder a los pasajes ." + e);
+        }
+
+        return asientosOcupados;
+    }
 }
