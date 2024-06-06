@@ -42,18 +42,50 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         if (e.getSource() == pasajeVista.btnVenderPasaje) {
             Pasaje pasaje;
             Pasajero pasajero;
-            LocalTime horita = ((Horario) pasajeVista.cbHorario.getSelectedItem()).getHoraSalida();
+            LocalTime horita = null;
+            boolean bandera = true;
+
             Colectivo colectivo = (Colectivo) pasajeVista.cbColectivos.getSelectedItem();
-            String nombre, apellido, dni;
-            apellido = pasajeVista.txtApellido.getText();
-            nombre = pasajeVista.txtNombre.getText();
-            dni = pasajeVista.txtDni.getText();
-            pasajero = new Pasajero(nombre, apellido, dni, null, null);
-            pasajeroData.guardarPasajero(pasajero);
-            pasaje = new Pasaje(pasajero, colectivo, (Ruta) pasajeVista.cbRuta.getSelectedItem(), LocalDate.now(), horita, 0, 0);
+            String nombre = "", apellido = "", dni = "";
 
-            pasajeData.venderPasaje(pasaje);
-
+            if (validarString(pasajeVista.txtApellido.getText())) {
+                apellido = pasajeVista.txtApellido.getText();
+            } else {
+                bandera = false;
+                JOptionPane.showMessageDialog(null, "Apellido inválido");
+            }
+            if (validarString(pasajeVista.txtNombre.getText())) {
+                nombre = pasajeVista.txtNombre.getText();
+            } else {
+                bandera = false;
+                JOptionPane.showMessageDialog(null, "Nombre inválido");
+            }
+            if (validarEnteros(pasajeVista.txtDni.getText()) && validarDniTam(pasajeVista.txtDni.getText().length())) {
+                dni = pasajeVista.txtDni.getText();
+            } else if (validarEnteros(pasajeVista.txtDni.getText()) && !validarDniTam(pasajeVista.txtDni.getText().length())) {
+                bandera = false;
+                JOptionPane.showMessageDialog(null, "El DNI debe contener 7 u 8 dígitos");
+            } else if (!validarEnteros(pasajeVista.txtDni.getText())) {
+                bandera = false;
+                JOptionPane.showMessageDialog(null, "El DNI solo debe contener números");
+            } else {
+                bandera = false;
+                JOptionPane.showMessageDialog(null, "El DNI solo debe contener 7 u 8 dígitos. No se admiten letras");
+            }
+            if (pasajeVista.cbHorario.getSelectedItem() != null) {
+                horita = ((Horario) pasajeVista.cbHorario.getSelectedItem()).getHoraSalida();
+            } else {
+                bandera = false;
+                JOptionPane.showMessageDialog(null, "No se puede vender un pasaje sin horario");
+            }
+            if (bandera && horita != null) {
+                pasajero = new Pasajero(nombre, apellido, dni, null, null);
+                pasajeroData.guardarPasajero(pasajero);
+                pasaje = new Pasaje(pasajero, colectivo, (Ruta) pasajeVista.cbRuta.getSelectedItem(), LocalDate.now(), horita, 0, 0);
+                pasajeData.venderPasaje(pasaje);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo vender pasaje");
+            }
         }
 
         if (e.getSource() == pasajeVista.rbNoRegistrado) {
@@ -69,6 +101,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             pasajeVista.txtNombre.setEnabled(false);
             pasajeVista.txtDniRegistrado.setEnabled(true);
         }
+
     }
 
     @Override
@@ -112,6 +145,10 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
         return s.matches(regExp);
         //estoy perdiendo salud mental con este paquete de control
+    }
+
+    public boolean validarDniTam(int tam) {
+        return tam == 8 || tam == 7;
     }
 
 }
