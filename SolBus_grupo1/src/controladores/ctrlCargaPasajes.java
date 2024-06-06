@@ -83,7 +83,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             if (bandera && horita != null) {
                 pasajero = new Pasajero(nombre, apellido, dni, null, null);
                 pasajeroData.guardarPasajero(pasajero);
-                pasaje = new Pasaje(pasajero, colectivo, (Ruta) pasajeVista.cbRuta.getSelectedItem(), LocalDate.now(), horita, 0, 0);
+                pasaje = new Pasaje(pasajero, colectivo, (Ruta) pasajeVista.cbRuta.getSelectedItem(), LocalDate.now(), horita, 14, 0);
                 pasajeData.venderPasaje(pasaje);
             } else {
                 JOptionPane.showMessageDialog(null, "No se pudo vender pasaje");

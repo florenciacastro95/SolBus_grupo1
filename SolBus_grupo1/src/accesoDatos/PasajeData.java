@@ -54,7 +54,7 @@ public class PasajeData {
             if (rs.next()) {
 
                 pasaje.setIdPasaje(rs.getInt(1));
-                cd.actualizarAsientos(cd.buscarColectivoPorId(rs.getInt("id_Colectivo")), -1);
+                cd.actualizarAsientos(cd.buscarColectivoPorId(pasaje.getColectivo().getIdColectivo()), -1);
                 JOptionPane.showMessageDialog(null, "Pasaje guardado :)");
 
             }
@@ -62,6 +62,7 @@ public class PasajeData {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "ERROR EN PASAJE DATA, EN METODO GUARDAR PASAJE. ");
+            System.out.println(e);
         }
 
     }
