@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-06-2024 a las 14:22:48
+-- Tiempo de generación: 06-06-2024 a las 14:31:24
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.1.25
 
@@ -28,6 +28,8 @@ USE `solbusdb`;
 --
 -- Estructura de tabla para la tabla `colectivo`
 --
+-- Creación: 06-06-2024 a las 12:15:55
+--
 
 DROP TABLE IF EXISTS `colectivo`;
 CREATE TABLE `colectivo` (
@@ -44,6 +46,8 @@ CREATE TABLE `colectivo` (
 --
 -- Estructura de tabla para la tabla `horario`
 --
+-- Creación: 06-06-2024 a las 12:15:55
+--
 
 DROP TABLE IF EXISTS `horario`;
 CREATE TABLE `horario` (
@@ -58,6 +62,8 @@ CREATE TABLE `horario` (
 
 --
 -- Estructura de tabla para la tabla `pasaje`
+--
+-- Creación: 06-06-2024 a las 12:15:55
 --
 
 DROP TABLE IF EXISTS `pasaje`;
@@ -77,6 +83,8 @@ CREATE TABLE `pasaje` (
 --
 -- Estructura de tabla para la tabla `pasajero`
 --
+-- Creación: 06-06-2024 a las 12:26:11
+--
 
 DROP TABLE IF EXISTS `pasajero`;
 CREATE TABLE `pasajero` (
@@ -85,14 +93,16 @@ CREATE TABLE `pasajero` (
   `apellido` varchar(30) NOT NULL,
   `dni` int(11) NOT NULL,
   `estado` tinyint(1) NOT NULL,
-  `correo` varchar(50) NOT NULL,
-  `telefono` int(11) NOT NULL
+  `correo` varchar(50) DEFAULT NULL,
+  `telefono` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `ruta`
+--
+-- Creación: 06-06-2024 a las 12:15:55
 --
 
 DROP TABLE IF EXISTS `ruta`;
