@@ -12,6 +12,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 
 public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
@@ -68,7 +69,32 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             pasajeVista.txtNombre.setEnabled(false);
             pasajeVista.txtDniRegistrado.setEnabled(true);
         }
+    }
 
+    @Override
+    public void itemStateChanged(ItemEvent ie) {
+        if (ie.getStateChange() == ItemEvent.SELECTED) {
+            if (ie.getSource() == pasajeVista.cbRuta) {
+                pasajeVista.cbHorario.removeAllItems();
+                HorarioData hd = new HorarioData();
+                Ruta itemSeleccionado = (Ruta) pasajeVista.cbRuta.getSelectedItem();
+                ArrayList<Horario> horarios = new ArrayList<>();
+
+                horarios = (ArrayList<Horario>) hd.listarHorariosPorRuta(itemSeleccionado);
+                for (Horario horario : horarios) {
+                    System.out.println(horario.toString());
+                    pasajeVista.cbHorario.addItem(horario);
+                }
+                if (horarios.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "No hay horarios activos para esta ruta. Agregue horarios");
+                }
+            }
+            if (ie.getSource() == pasajeVista.rbNoRegistrado) {
+                pasajeVista.txtDni.setEnabled(true);
+                pasajeVista.txtApellido.setEnabled(true);
+                pasajeVista.txtNombre.setEnabled(true);
+            }
+        }
     }
 
     public boolean validarEnteros(String s) {
@@ -88,27 +114,4 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         //estoy perdiendo salud mental con este paquete de control
     }
 
-    @Override
-    public void itemStateChanged(ItemEvent ie) {
-
-        if (ie.getSource() == pasajeVista.cbHorario) {
-            pasajeVista.cbHorario.removeAllItems();
-            HorarioData hd = new HorarioData();
-            Ruta itemSeleccionado = (Ruta) pasajeVista.cbRuta.getSelectedItem();
-            ArrayList<Horario> horarios = new ArrayList<>();
-
-            horarios = (ArrayList<Horario>) hd.listarHorariosPorRuta(itemSeleccionado);
-            for (Horario horario : horarios) {
-                System.out.println(horario.toString());
-                pasajeVista.cbHorario.addItem(horario);
-            }
-        }
-        if (ie.getStateChange() == ItemEvent.SELECTED) {
-            if (ie.getSource() == pasajeVista.rbNoRegistrado) {
-                pasajeVista.txtDni.setEnabled(true);
-                pasajeVista.txtApellido.setEnabled(true);
-                pasajeVista.txtNombre.setEnabled(true);
-            }
-        }
-    }
 }
