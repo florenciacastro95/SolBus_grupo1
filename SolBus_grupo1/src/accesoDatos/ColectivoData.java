@@ -128,6 +128,29 @@ public class ColectivoData {
         }
 
     }
+//ASIENTO PUEDE SER ENTERO POSITIVO SI SE ANULA VENTA O ENTERO NEGATIVO SI SE VENDE
+    public void actualizarAsientos(Colectivo colectivo, int asiento) {
+
+        String sql = "UPDATE colectivo SET capacidad = ?"
+                + " WHERE id_Colectivo= ?";
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            
+            ps.setInt(1, colectivo.getCapacidad()+asiento);
+            ps.setInt(2, colectivo.getIdColectivo());
+            
+            int validation = ps.executeUpdate();
+            if(validation == 1){
+                JOptionPane.showMessageDialog(null, "Los asientos han sido actualizados");
+            }
+            ps.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error SQL en COLECTIVO DATA METODO actualizarAsientos" + e);
+        }
+
+    }
     
     public List<Colectivo> listarColectivos() {
 

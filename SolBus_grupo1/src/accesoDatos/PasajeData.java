@@ -32,7 +32,7 @@ public class PasajeData {
 
     //EMITIR RECIBO A PASAJERO:
     //IReport - Armar formato de pasaje para vincular a la db - 
-    
+    //está agregado el actualizarAsientos de cole data
     public void venderPasaje(Pasaje pasaje) {
         //id_Pasaje, id_Pasajero, id_Colectivo, id_Ruta, fechaViaje, horaViaje, asiento, precio
         String sql = ("INSERT INTO pasaje(id_Pasajero, id_Colectivo, id_Ruta,fechaViaje, horaViaje, asiento, precio)"
@@ -54,6 +54,7 @@ public class PasajeData {
             if (rs.next()) {
 
                 pasaje.setIdPasaje(rs.getInt(1));
+                cd.actualizarAsientos(cd.buscarColectivoPorId(rs.getInt("id_Colectivo")), -1);
                 JOptionPane.showMessageDialog(null, "Pasaje guardado :)");
 
             }
@@ -66,6 +67,8 @@ public class PasajeData {
     }
 
     // ver de implementar borrado logico ahora borramos posta
+    
+    //está agregado el actualizarAsientos de cole data
     public void borrarPasaje(int id) {
         String sql = "DELETE FROM pasaje "
                 + " WHERE id_Pasaje=?";
@@ -77,6 +80,7 @@ public class PasajeData {
 
             if (validation == 1) {
                 JOptionPane.showMessageDialog(null, "Se elimino ese pasaje!");
+                cd.actualizarAsientos(cd.buscarColectivoPorId(buscarPasajePorId(id).getColectivo().getIdColectivo()), 1);
             } else {
                 JOptionPane.showMessageDialog(null, "Ese pasaje no existe pa");
             }

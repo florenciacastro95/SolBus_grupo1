@@ -1,54 +1,62 @@
-
 package vistas;
+
 import entidades.*;
 import vistas.*;
 import accesoDatos.*;
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 public class InfGestionPasajes extends javax.swing.JInternalFrame {
 
     ArrayList<Ruta> rutas = new ArrayList<>();
     ArrayList<Colectivo> colectivos = new ArrayList<>();
-    RutaData rd=new RutaData();
-    HorarioData hd=new HorarioData();
+    RutaData rd = new RutaData();
+    HorarioData hd = new HorarioData();
     ColectivoData cd = new ColectivoData();
+    private DefaultTableModel model;
+
     public InfGestionPasajes() {
-        
+
         initComponents();
-        rutas=(ArrayList<Ruta>) rd.listarRutasDisponibles();
+        model = new DefaultTableModel();
+        rutas = (ArrayList<Ruta>) rd.listarRutasDisponibles();
         colectivos = (ArrayList<Colectivo>) cd.listarColectivos();
         cargarCbRuta(rutas);
         cargarCbHorario();
         cargarCbColectivo(colectivos);
-        
+        armarCabeceraTblAsientos();
     }
 
-   private void cargarCbColectivo(ArrayList<Colectivo>colectivos){
-    
+    private void cargarCbColectivo(ArrayList<Colectivo> colectivos) {
+
         for (Colectivo cole : colectivos) {
             cbColectivos.addItem(cole);
         }
     }
-    private void cargarCbRuta(ArrayList<Ruta>rutas){
-    
+
+    private void cargarCbRuta(ArrayList<Ruta> rutas) {
+
         for (Ruta ruta : rutas) {
             cbRuta.addItem(ruta);
         }
     }
-    private void cargarCbHorario(){
+
+    private void cargarCbHorario() {
         System.out.println(cbRuta.getSelectedItem());
         cargarCbHorario((Ruta) cbRuta.getSelectedItem());
-    
+
     }
-    private void cargarCbHorario(Ruta ruta){
+
+    private void cargarCbHorario(Ruta ruta) {
         ArrayList<Horario> horarios = new ArrayList<>();
-       
-        horarios=(ArrayList<Horario>) hd.listarHorariosPorRuta(ruta);
+
+        horarios = (ArrayList<Horario>) hd.listarHorariosPorRuta(ruta);
         for (Horario horario : horarios) {
             System.out.println(horario.toString());
             cbHorario.addItem(horario);
         }
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -75,6 +83,9 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
         rbNoRegistrado = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
         cbColectivos = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblAsientos = new javax.swing.JTable();
 
         lblTitulo.setText("GESTION DE VENTA DE PASAJES");
 
@@ -99,7 +110,7 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
                 .addComponent(lblDNIRegistrado, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtDniRegistrado, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(465, Short.MAX_VALUE))
         );
         pnlRegistradoLayout.setVerticalGroup(
             pnlRegistradoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -108,7 +119,7 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
                 .addGroup(pnlRegistradoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDNIRegistrado)
                     .addComponent(txtDniRegistrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(72, 72, 72))
+                .addContainerGap(150, Short.MAX_VALUE))
         );
 
         txtNombre.setEnabled(false);
@@ -162,13 +173,23 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
 
         buttonGroup1.add(rbNoRegistrado);
         rbNoRegistrado.setText("PASAJERO NO REGISTRADO");
-        rbNoRegistrado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbNoRegistradoActionPerformed(evt);
-            }
-        });
 
         jLabel1.setText("COLECTIVO");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        tblAsientos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblAsientos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -206,15 +227,20 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
                                 .addComponent(btnVenderPasaje)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(61, 61, 61)
+                                .addComponent(btnEmitirRecibo))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGap(8, 8, 8)
                                 .addComponent(pnlRegistrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addComponent(rbRegistrado))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(61, 61, 61)
-                                .addComponent(btnEmitirRecibo)))))
-                .addContainerGap(117, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(rbRegistrado)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(122, 122, 122)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,7 +254,9 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
                         .addGap(26, 26, 26)
                         .addComponent(lblHorario))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(cbRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cbHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(16, 16, 16)
@@ -247,16 +275,30 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEmitirRecibo)
                     .addComponent(btnVenderPasaje))
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    private void armarCabeceraTblAsientos() {
+        ArrayList<Object> filaCabecera = new ArrayList<>();
+        filaCabecera.add("Ventana");
+        filaCabecera.add("Pasillo");
+        filaCabecera.add("Pasillo");
+        filaCabecera.add("Ventana");
 
-    private void rbNoRegistradoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbNoRegistradoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rbNoRegistradoActionPerformed
-
+        for (Object i : filaCabecera) {
+            model.addColumn(i);
+        }
+        tblAsientos.setModel(model);
+    }
+    
+    private void cargarTblAsientos(){
+        //tengo que recuperar el colectivo
+        //t
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnEmitirRecibo;
@@ -265,7 +307,9 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
     public javax.swing.JComboBox<Colectivo> cbColectivos;
     public javax.swing.JComboBox<Horario> cbHorario;
     public javax.swing.JComboBox<Ruta> cbRuta;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblApellidoNoR;
     private javax.swing.JLabel lblDNIRegistrado;
     private javax.swing.JLabel lblDniNoR;
@@ -277,6 +321,7 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlRegistrado;
     public javax.swing.JRadioButton rbNoRegistrado;
     public javax.swing.JRadioButton rbRegistrado;
+    private javax.swing.JTable tblAsientos;
     public javax.swing.JTextField txtApellido;
     public javax.swing.JTextField txtDni;
     public javax.swing.JTextField txtDniRegistrado;

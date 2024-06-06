@@ -14,6 +14,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
+
+//HAY QUE AGREGAR VALIDACIÓN DE PASAJES SEGUN CAPCIDAD DE COLECTIVO Y ASIENTOS DISPONIBLES
 public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
     private Pasaje pasaje;
@@ -104,6 +106,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
     }
 
+   
     @Override
     public void itemStateChanged(ItemEvent ie) {
         if (ie.getStateChange() == ItemEvent.SELECTED) {
@@ -140,8 +143,10 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         return m.matches();
     }
 
+    //cambié expresión regular para que acepte todos las tildes por si metemos
+    //nombres en otros idiomas latinos como apellido Müller o nombre François
     public boolean validarString(String s) {
-        String regExp = "^[a-zA-Z ]+$";
+        String regExp = "^[\\p{L}\\p{M} .'-]+$";
 
         return s.matches(regExp);
         //estoy perdiendo salud mental con este paquete de control
