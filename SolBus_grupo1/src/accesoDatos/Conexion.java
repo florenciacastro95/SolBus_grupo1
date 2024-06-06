@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 
 public class Conexion {
     private static final String URL = "jdbc:mariadb://localhost/";
-    private static final String DB = "solbusdb";
+    private static final String DB = "solbusdbcargada";
     private static final String USER ="root";
     private static final String PASSWORD = "";
     

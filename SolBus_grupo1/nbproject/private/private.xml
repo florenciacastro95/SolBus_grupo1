@@ -3,7 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/tDev/Documents/universidad/laboratorio/proyectoFinal/SolBus_grupo1/SolBus_grupo1/src/Main/SolBusMain.java</file>
+            <file>file:/C:/Users/Usuario/Desktop/Software%202024/Laboratorio%201/SolBus/SolBus_grupo1/src/vistas/InfGestionPasajes.java</file>
+            <file>file:/C:/Users/Usuario/Desktop/Software%202024/Laboratorio%201/SolBus/SolBus_grupo1/src/accesoDatos/RutaData.java</file>
+            <file>file:/C:/Users/Usuario/Desktop/Software%202024/Laboratorio%201/SolBus/SolBus_grupo1/src/controladores/ctrlCargaPasajes.java</file>
+            <file>file:/C:/Users/Usuario/Desktop/Software%202024/Laboratorio%201/SolBus/SolBus_grupo1/src/accesoDatos/HorarioData.java</file>
+            <file>file:/C:/Users/Usuario/Desktop/Software%202024/Laboratorio%201/SolBus/SolBus_grupo1/src/vistas/GeneralSolBus.java</file>
+            <file>file:/C:/Users/Usuario/Desktop/Software%202024/Laboratorio%201/SolBus/SolBus_grupo1/src/accesoDatos/PasajeData.java</file>
+            <file>file:/C:/Users/Usuario/Desktop/Software%202024/Laboratorio%201/SolBus/SolBus_grupo1/src/accesoDatos/PasajeroData.java</file>
         </group>
     </open-files>
 </project-private>
