@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
 public class InfListarRutas extends javax.swing.JInternalFrame {
     
     ArrayList<Ruta> rutas = new ArrayList<>();
-    private DefaultTableModel model;
+    private DefaultTableModel model = new DefaultTableModel();
 
     public InfListarRutas() {
         initComponents();
@@ -45,6 +45,7 @@ public class InfListarRutas extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        radioButtonGrupo = new javax.swing.ButtonGroup();
         spListarRutas = new javax.swing.JScrollPane();
         tblListarRutas = new javax.swing.JTable();
         lblTituloListarRutas = new javax.swing.JLabel();
@@ -70,18 +71,11 @@ public class InfListarRutas extends javax.swing.JInternalFrame {
 
         lblTituloListarRutas.setText("LISTAR RUTAS");
 
+        radioButtonGrupo.add(rbVerTodasRutas);
         rbVerTodasRutas.setText("Ver Todas las Rutas");
 
+        radioButtonGrupo.add(rbListarOrigenDestino);
         rbListarOrigenDestino.setText("Listar por Origen o Destino");
-
-        txtOrigen.setText("jTextField1");
-        txtOrigen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtOrigenActionPerformed(evt);
-            }
-        });
-
-        txtDestino.setText("jTextField2");
 
         lblOrigen.setText("Origen");
 
@@ -126,7 +120,6 @@ public class InfListarRutas extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rbVerTodasRutas)
                     .addComponent(rbListarOrigenDestino))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(44, 44, 44)
@@ -146,15 +139,12 @@ public class InfListarRutas extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOrigenActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtOrigenActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblDestino;
     private javax.swing.JLabel lblOrigen;
     private javax.swing.JLabel lblTituloListarRutas;
+    private javax.swing.ButtonGroup radioButtonGrupo;
     public javax.swing.JRadioButton rbListarOrigenDestino;
     public javax.swing.JRadioButton rbVerTodasRutas;
     private javax.swing.JScrollPane spListarRutas;

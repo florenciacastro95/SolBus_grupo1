@@ -37,9 +37,9 @@ public class GeneralSolBus extends javax.swing.JFrame {
         mPasajeros = new javax.swing.JMenu();
         mColectivos = new javax.swing.JMenu();
         mHorarios = new javax.swing.JMenu();
-        miListarRutas = new javax.swing.JMenu();
+        MRutas = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        miListarRutas = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -78,20 +78,20 @@ public class GeneralSolBus extends javax.swing.JFrame {
         mHorarios.setText("Horarios");
         mbEscritorio.add(mHorarios);
 
-        miListarRutas.setText("Rutas");
+        MRutas.setText("Rutas");
+
+        jMenuItem1.setText("Gestion de rutas");
+        MRutas.add(jMenuItem1);
+
+        miListarRutas.setText("Rutas disponibles");
         miListarRutas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 miListarRutasActionPerformed(evt);
             }
         });
+        MRutas.add(miListarRutas);
 
-        jMenuItem1.setText("Gestion de rutas");
-        miListarRutas.add(jMenuItem1);
-
-        jMenuItem2.setText("Rutas disponibles");
-        miListarRutas.add(jMenuItem2);
-
-        mbEscritorio.add(miListarRutas);
+        mbEscritorio.add(MRutas);
 
         setJMenuBar(mbEscritorio);
 
@@ -171,9 +171,9 @@ public class GeneralSolBus extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu MRutas;
     private javax.swing.JDesktopPane dpEscritorio;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenu mColectivos;
     private javax.swing.JMenu mHorarios;
     private javax.swing.JMenu mPasajeros;
@@ -181,6 +181,6 @@ public class GeneralSolBus extends javax.swing.JFrame {
     private javax.swing.JMenuBar mbEscritorio;
     private javax.swing.JMenuItem miGestionPasajes;
     private javax.swing.JMenuItem miHistorialAnular;
-    private javax.swing.JMenu miListarRutas;
+    private javax.swing.JMenuItem miListarRutas;
     // End of variables declaration//GEN-END:variables
 }
