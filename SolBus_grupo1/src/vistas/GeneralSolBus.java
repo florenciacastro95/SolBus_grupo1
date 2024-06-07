@@ -35,6 +35,7 @@ public class GeneralSolBus extends javax.swing.JFrame {
         miGestionPasajes = new javax.swing.JMenuItem();
         miHistorialAnular = new javax.swing.JMenuItem();
         mPasajeros = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         mColectivos = new javax.swing.JMenu();
         mHorarios = new javax.swing.JMenu();
         MRutas = new javax.swing.JMenu();
@@ -70,6 +71,15 @@ public class GeneralSolBus extends javax.swing.JFrame {
         mbEscritorio.add(mPasajes);
 
         mPasajeros.setText("Pasajeros");
+
+        jMenuItem2.setText("Listar Pasajeros");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        mPasajeros.add(jMenuItem2);
+
         mbEscritorio.add(mPasajeros);
 
         mColectivos.setText("Colectivos");
@@ -135,6 +145,19 @@ public class GeneralSolBus extends javax.swing.JFrame {
         dpEscritorio.moveToFront(ilr);
     }//GEN-LAST:event_miListarRutasActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        Pasajero pasajero = new Pasajero();
+        PasajeroData pasajeroData = new PasajeroData();
+        vistas.InfListaBajaPasajeros ibp = new vistas.InfListaBajaPasajeros();
+        ctrlListarPasajeros clp = new ctrlListarPasajeros(pasajero, pasajeroData, ibp);
+        dpEscritorio.removeAll();
+        dpEscritorio.repaint();
+        ibp.setVisible(true);
+        ibp.setLocation(00, 00);
+        dpEscritorio.add(ibp);
+        dpEscritorio.moveToFront(ibp);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -174,6 +197,7 @@ public class GeneralSolBus extends javax.swing.JFrame {
     private javax.swing.JMenu MRutas;
     private javax.swing.JDesktopPane dpEscritorio;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenu mColectivos;
     private javax.swing.JMenu mHorarios;
     private javax.swing.JMenu mPasajeros;

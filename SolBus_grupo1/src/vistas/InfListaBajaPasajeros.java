@@ -27,11 +27,7 @@ public class InfListaBajaPasajeros extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
-        buttonGroup2 = new javax.swing.ButtonGroup();
-        buttonGroup3 = new javax.swing.ButtonGroup();
-        buttonGroup4 = new javax.swing.ButtonGroup();
-        buttonGroup5 = new javax.swing.ButtonGroup();
+        grupete = new javax.swing.ButtonGroup();
         spListarPasajeros = new javax.swing.JScrollPane();
         jtListarPasajeros = new javax.swing.JTable();
         btnBorrar = new javax.swing.JButton();
@@ -61,10 +57,13 @@ public class InfListaBajaPasajeros extends javax.swing.JInternalFrame {
 
         lblTituloListarPasajeros.setText("LISTAR PASAJEROS");
 
+        grupete.add(rbDni);
         rbDni.setText("DNI");
 
-        rbNombreApellido.setText("NOMBRE/APELLIDO");
+        grupete.add(rbNombreApellido);
+        rbNombreApellido.setText("APELLIDO");
 
+        grupete.add(rbVerTodo);
         rbVerTodo.setText("Ver Todo");
 
         javax.swing.GroupLayout pnlDniNombreLayout = new javax.swing.GroupLayout(pnlDniNombre);
@@ -126,7 +125,7 @@ public class InfListaBajaPasajeros extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(143, 143, 143)
                         .addComponent(lblTituloListarPasajeros)))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,11 +158,7 @@ public class InfListaBajaPasajeros extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBorrar;
     public javax.swing.JButton btnBuscar;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.ButtonGroup buttonGroup3;
-    private javax.swing.ButtonGroup buttonGroup4;
-    private javax.swing.ButtonGroup buttonGroup5;
+    private javax.swing.ButtonGroup grupete;
     public javax.swing.JTextField jtDni;
     public javax.swing.JTable jtListarPasajeros;
     public javax.swing.JTextField jtNombre;

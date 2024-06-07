@@ -201,7 +201,7 @@ public class PasajeroData {
 
     public List<Pasajero> listarPasajeros() {
 
-        String sql = "SELECT `id_Pasajero` `nombre`, `apellido`, `dni`, `estado`, `correo`, `telefono`"
+        String sql = "SELECT `id_Pasajero`, `nombre`, `apellido`, `dni`, `estado`, `correo`, `telefono`"
                 + "  FROM pasajero WHERE estado = 1";
         ArrayList<Pasajero> pasajeros = new ArrayList<>();
 
@@ -226,6 +226,76 @@ public class PasajeroData {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error SQL en PASAJERO DATA metodo listar coles" + e);
+        }
+
+        return pasajeros;
+    }
+
+    public List<Pasajero> listarPasajerosPorPrefijoDni(String dniABuscar) {
+
+        String sql = "SELECT `id_Pasajero`, `nombre`, `apellido`, `dni`, `estado`, `correo`, `telefono` "
+            + "FROM pasajero WHERE dni LIKE ?";
+          
+        ArrayList<Pasajero> pasajeros = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setString(1, dniABuscar + "%");
+            ResultSet rs = ps.executeQuery();
+            
+
+            while (rs.next()) {
+                Pasajero pasajero = new Pasajero();
+                pasajero = new Pasajero();
+                pasajero.setIdPasajero(rs.getInt("id_Pasajero"));
+                pasajero.setNombre(rs.getString("nombre"));
+                pasajero.setApellido(rs.getString("apellido"));
+                pasajero.setDni(rs.getString("dni"));
+                pasajero.setEstado(rs.getBoolean("estado"));
+                pasajero.setCorreo(rs.getString("correo"));
+                pasajero.setTelefono(rs.getString("telefono"));
+
+                pasajeros.add(pasajero);
+            }
+            ps.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error SQL en PASAJERO DATA EN EL DE EL PREFIJO  metodo listar coles" + e);
+        }
+
+        return pasajeros;
+    }
+    public List<Pasajero> listarPasajerosPorPrefijoApellido(String apellidoABuscar) {
+
+        String sql = "SELECT `id_Pasajero`, `nombre`, `apellido`, `dni`, `estado`, `correo`, `telefono` "
+                + "FROM pasajero WHERE apellido LIKE ?";
+
+        ArrayList<Pasajero> pasajeros = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setString(1, apellidoABuscar + "%");
+            ResultSet rs = ps.executeQuery();
+            
+
+            while (rs.next()) {
+                Pasajero pasajero = new Pasajero();
+                pasajero = new Pasajero();
+                pasajero.setIdPasajero(rs.getInt("id_Pasajero"));
+                pasajero.setNombre(rs.getString("nombre"));
+                pasajero.setApellido(rs.getString("apellido"));
+                pasajero.setDni(rs.getString("dni"));
+                pasajero.setEstado(rs.getBoolean("estado"));
+                pasajero.setCorreo(rs.getString("correo"));
+                pasajero.setTelefono(rs.getString("telefono"));
+
+                pasajeros.add(pasajero);
+            }
+            ps.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error SQL en PASAJERO DATA EN EL DE EL PREFIJO DEL APELLIDO  metodo listar coles" + e);
+            System.out.println(e);
         }
 
         return pasajeros;

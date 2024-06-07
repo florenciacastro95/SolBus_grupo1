@@ -8,7 +8,11 @@ import accesoDatos.*;
 import entidades.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import vistas.*;
 
@@ -32,7 +36,7 @@ public class ctrlListarPasajeros implements ActionListener{
         pasajeroVista.rbVerTodo.addActionListener(this);
         pasajeroVista.rbDni.addActionListener(this);
         armarCabecera();
-        
+        addDocumentListeners();
         
     }
     
@@ -63,20 +67,17 @@ public class ctrlListarPasajeros implements ActionListener{
             pasajeroVista.jtDni.setEnabled(false);
         }
         if (e.getSource() == pasajeroVista.rbVerTodo) {
-            //llamar al metodo
+            pasajeroVista.jtNombre.setEnabled(false);
+            pasajeroVista.jtDni.setEnabled(false);
+            actualizarTablaConPasajeros((ArrayList<Pasajero>) pasajeroData.listarPasajeros());
+            
         }
         
-        if (e.getSource() == pasajeroVista.btnBuscar) {
-            if (pasajeroVista.rbDni.isSelected()) {
-                int dni = Integer.parseInt(pasajeroVista.jtDni.getText());
-                Pasajero pasajero = new Pasajero();
-                pasajero = pasajeroData.buscarPasajeroPorDni(dni+"");
-                cargarTabla(pasajero);
-            }
-        }
+        
         
         
     }
+    
     
     public void cargarTabla(Pasajero p){
     
@@ -96,7 +97,83 @@ public class ctrlListarPasajeros implements ActionListener{
         return s.matches(regExp);
         //estoy perdiendo salud mental con este paquete de control
     }
+
+
+        private void addDocumentListeners() {
+        pasajeroVista.jtDni.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                buscarPorDni();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                buscarPorDni();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                buscarPorDni();
+            }
+        });
+
+        pasajeroVista.jtNombre.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                buscarPorNombreApellido();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                buscarPorNombreApellido();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                buscarPorNombreApellido();
+            }
+        });
+    }
     
+        private void buscarPorDni() {
+            System.out.println("viva la pepadni");
+        if (pasajeroVista.rbDni.isSelected()) {
+            String dniText = pasajeroVista.jtDni.getText();
+            if (!dniText.isEmpty()) {
+                ArrayList<Pasajero> pasajeros = (ArrayList<Pasajero>) pasajeroData.listarPasajerosPorPrefijoDni(dniText);
+                actualizarTablaConPasajeros(pasajeros);
+            } else {
+                model.setRowCount(0); 
+            }
+        }
+    }
+
+    private void buscarPorNombreApellido() {
+        System.out.println("viva la pepa");
+        if (pasajeroVista.rbNombreApellido.isSelected()) {
+            String nombreApellido = pasajeroVista.jtNombre.getText();
+            if (!nombreApellido.isEmpty()) {
+                ArrayList<Pasajero> pasajeros = (ArrayList<Pasajero>) pasajeroData.listarPasajerosPorPrefijoApellido(nombreApellido);
+                actualizarTablaConPasajeros(pasajeros);
+            } else {
+                model.setRowCount(0); 
+            }
+        }
+    }
     
-    
+        private void actualizarTablaConPasajeros(ArrayList<Pasajero> pasajeros) {
+        // Limpia la tabla
+        model.setRowCount(0);
+
+        // Añade los pasajeros al modelo de la tabla
+        for (Pasajero pasajero : pasajeros) {
+            model.addRow(new Object[]{
+                pasajero.getNombre(),
+                pasajero.getApellido(),
+                pasajero.getDni(),
+                pasajero.getCorreo(),
+                pasajero.getTelefono()
+            });
+        }
+    }
 }
