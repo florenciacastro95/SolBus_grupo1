@@ -1,22 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package controladores;
 
 import accesoDatos.RutaData;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import vistas.InfListarRutas;
 
 /**
  *
  * @author amiev
  */
-public class ctrlListarRutas implements ActionListener, ItemListener {
+public class ctrlListarRutas implements ActionListener {
     
     private RutaData rutaData;
     private InfListarRutas listarRutasVista;
@@ -27,7 +23,25 @@ public class ctrlListarRutas implements ActionListener, ItemListener {
         this.listarRutasVista = listarRutasVista;
         listarRutasVista.rbVerTodasRutas.addActionListener(this);
         listarRutasVista.rbListarOrigenDestino.addActionListener(this);
+        listarRutasVista.txtOrigen.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent de) {
+                //accion
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent de) {
+                //acción
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent de) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        
     }
+    
 
     @Override
     public void actionPerformed(ActionEvent ae) {
@@ -42,19 +56,12 @@ public class ctrlListarRutas implements ActionListener, ItemListener {
         }
     }
 
-    @Override
-    public void itemStateChanged(ItemEvent ie) {
-        
-        if(ie.getSource()==listarRutasVista.rbListarOrigenDestino){
-            listarRutasVista.txtOrigen.setEnabled(true);
-            listarRutasVista.txtDestino.setEnabled(true);
-        }
-    }
-    
-    
-    
-    
-    
-    
-    
+   
 }
+    
+    
+    
+    
+    
+    
+
