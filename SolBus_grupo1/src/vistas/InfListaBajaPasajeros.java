@@ -33,18 +33,18 @@ public class InfListaBajaPasajeros extends javax.swing.JInternalFrame {
         buttonGroup4 = new javax.swing.ButtonGroup();
         buttonGroup5 = new javax.swing.ButtonGroup();
         spListarPasajeros = new javax.swing.JScrollPane();
-        tblListarPasajeros = new javax.swing.JTable();
+        jtListarPasajeros = new javax.swing.JTable();
         btnBorrar = new javax.swing.JButton();
         lblTituloListarPasajeros = new javax.swing.JLabel();
         pnlDniNombre = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        rbDni = new javax.swing.JRadioButton();
+        rbNombreApellido = new javax.swing.JRadioButton();
         rbVerTodo = new javax.swing.JRadioButton();
-        txtDni = new javax.swing.JTextField();
-        txtNombreApe = new javax.swing.JTextField();
-        bntActualizar = new javax.swing.JButton();
+        jtDni = new javax.swing.JTextField();
+        jtNombre = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
 
-        tblListarPasajeros.setModel(new javax.swing.table.DefaultTableModel(
+        jtListarPasajeros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -55,15 +55,15 @@ public class InfListaBajaPasajeros extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        spListarPasajeros.setViewportView(tblListarPasajeros);
+        spListarPasajeros.setViewportView(jtListarPasajeros);
 
         btnBorrar.setText("BORRAR");
 
         lblTituloListarPasajeros.setText("LISTAR PASAJEROS");
 
-        jRadioButton1.setText("DNI");
+        rbDni.setText("DNI");
 
-        jRadioButton2.setText("NOMBRE/APELLIDO");
+        rbNombreApellido.setText("NOMBRE/APELLIDO");
 
         rbVerTodo.setText("Ver Todo");
 
@@ -74,8 +74,8 @@ public class InfListaBajaPasajeros extends javax.swing.JInternalFrame {
             .addGroup(pnlDniNombreLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlDniNombreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton1)
+                    .addComponent(rbNombreApellido)
+                    .addComponent(rbDni)
                     .addComponent(rbVerTodo))
                 .addContainerGap())
         );
@@ -83,24 +83,24 @@ public class InfListaBajaPasajeros extends javax.swing.JInternalFrame {
             pnlDniNombreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlDniNombreLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton1)
+                .addComponent(rbDni)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton2)
+                .addComponent(rbNombreApellido)
                 .addGap(18, 18, 18)
                 .addComponent(rbVerTodo)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        txtDni.setText("jTextField1");
-        txtDni.addActionListener(new java.awt.event.ActionListener() {
+        jtDni.setEnabled(false);
+        jtDni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDniActionPerformed(evt);
+                jtDniActionPerformed(evt);
             }
         });
 
-        txtNombreApe.setText("jTextField2");
+        jtNombre.setEnabled(false);
 
-        bntActualizar.setText("ACTUALIZAR");
+        btnBuscar.setText("BUSCAR");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -110,19 +110,19 @@ public class InfListaBajaPasajeros extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(60, 60, 60)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(pnlDniNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(35, 35, 35)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtNombreApe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jtDni)
+                                    .addComponent(jtNombre)))
                             .addComponent(spListarPasajeros, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(98, 98, 98)
                         .addComponent(btnBorrar)
                         .addGap(97, 97, 97)
-                        .addComponent(bntActualizar))
+                        .addComponent(btnBuscar))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(143, 143, 143)
                         .addComponent(lblTituloListarPasajeros)))
@@ -135,43 +135,43 @@ public class InfListaBajaPasajeros extends javax.swing.JInternalFrame {
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jtDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
-                        .addComponent(txtNombreApe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(pnlDniNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(spListarPasajeros, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBorrar)
-                    .addComponent(bntActualizar))
+                    .addComponent(btnBuscar))
                 .addContainerGap(54, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDniActionPerformed
+    private void jtDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtDniActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtDniActionPerformed
+    }//GEN-LAST:event_jtDniActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bntActualizar;
     private javax.swing.JButton btnBorrar;
+    public javax.swing.JButton btnBuscar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.ButtonGroup buttonGroup5;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
+    public javax.swing.JTextField jtDni;
+    public javax.swing.JTable jtListarPasajeros;
+    public javax.swing.JTextField jtNombre;
     private javax.swing.JLabel lblTituloListarPasajeros;
     private javax.swing.JPanel pnlDniNombre;
-    private javax.swing.JRadioButton rbVerTodo;
+    public javax.swing.JRadioButton rbDni;
+    public javax.swing.JRadioButton rbNombreApellido;
+    public javax.swing.JRadioButton rbVerTodo;
     private javax.swing.JScrollPane spListarPasajeros;
-    private javax.swing.JTable tblListarPasajeros;
-    private javax.swing.JTextField txtDni;
-    private javax.swing.JTextField txtNombreApe;
     // End of variables declaration//GEN-END:variables
 }

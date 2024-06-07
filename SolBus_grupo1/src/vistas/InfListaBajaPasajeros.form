@@ -35,13 +35,13 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="pnlDniNombre" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="txtNombreApe" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtDni" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jtDni" max="32767" attributes="0"/>
+                                  <Component id="jtNombre" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Component id="spListarPasajeros" min="-2" pref="345" max="-2" attributes="0"/>
@@ -51,7 +51,7 @@
                       <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
                       <Component id="btnBorrar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
-                      <Component id="bntActualizar" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnBuscar" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="143" max="-2" attributes="0"/>
@@ -69,9 +69,9 @@
               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="txtDni" min="-2" max="-2" attributes="0"/>
+                      <Component id="jtDni" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                      <Component id="txtNombreApe" min="-2" max="-2" attributes="0"/>
+                      <Component id="jtNombre" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="pnlDniNombre" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -80,7 +80,7 @@
               <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnBorrar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="bntActualizar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="54" max="32767" attributes="0"/>
           </Group>
@@ -95,7 +95,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="tblListarPasajeros">
+        <Component class="javax.swing.JTable" name="jtListarPasajeros">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="4" rowCount="4">
@@ -106,6 +106,9 @@
               </Table>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -127,8 +130,8 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jRadioButton2" min="-2" max="-2" attributes="0"/>
-                      <Component id="jRadioButton1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbNombreApellido" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbDni" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="rbVerTodo" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -139,9 +142,9 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jRadioButton1" min="-2" max="-2" attributes="0"/>
+                  <Component id="rbDni" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jRadioButton2" min="-2" max="-2" attributes="0"/>
+                  <Component id="rbNombreApellido" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="rbVerTodo" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
@@ -150,40 +153,58 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JRadioButton" name="jRadioButton1">
+        <Component class="javax.swing.JRadioButton" name="rbDni">
           <Properties>
             <Property name="text" type="java.lang.String" value="DNI"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="jRadioButton2">
+        <Component class="javax.swing.JRadioButton" name="rbNombreApellido">
           <Properties>
             <Property name="text" type="java.lang.String" value="NOMBRE/APELLIDO"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JRadioButton" name="rbVerTodo">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ver Todo"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JTextField" name="txtDni">
+    <Component class="javax.swing.JTextField" name="jtDni">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtDniActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jtDniActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtNombreApe">
+    <Component class="javax.swing.JTextField" name="jtNombre">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField2"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
     </Component>
-    <Component class="javax.swing.JButton" name="bntActualizar">
+    <Component class="javax.swing.JButton" name="btnBuscar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="ACTUALIZAR"/>
+        <Property name="text" type="java.lang.String" value="BUSCAR"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
