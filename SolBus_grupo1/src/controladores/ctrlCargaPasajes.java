@@ -5,6 +5,10 @@ import java.awt.event.ActionListener;
 import entidades.*;
 import vistas.*;
 import accesoDatos.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.time.LocalDate;
@@ -17,6 +21,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.BorderFactory;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.table.DefaultTableCellRenderer;
 
 //HAY QUE AGREGAR VALIDACIÓN DE PASAJES SEGUN CAPCIDAD DE COLECTIVO Y ASIENTOS DISPONIBLES
 public class ctrlCargaPasajes implements ActionListener, ItemListener {
@@ -41,6 +51,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         pasajeVista.rbNoRegistrado.addActionListener(this);
         armarCabeceraTblAsientos();
         cargarTblAsientos();
+        poneteBonito();
     }
 
     @Override
@@ -113,7 +124,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
     @Override
     public void itemStateChanged(ItemEvent ie) {
-        
+
         if (ie.getStateChange() == ItemEvent.SELECTED) {
             if (ie.getSource() == pasajeVista.cbRuta) {
                 pasajeVista.cbHorario.removeAllItems();
@@ -125,7 +136,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                 for (Horario horario : horarios) {
                     System.out.println(horario.toString());
                     pasajeVista.cbHorario.addItem(horario);
-                    
+
                 }
                 cargarTblAsientos();
                 if (horarios.isEmpty()) {
@@ -164,7 +175,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
     }
 
     private void armarCabeceraTblAsientos() {
-        DefaultTableModel model = new DefaultTableModel(new Object[]{"VENTANA", "PASILLO", "PASILLO", "VENTANA"}, 0) {
+        DefaultTableModel model = new DefaultTableModel(new Object[]{"V", "P", "P", "V"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; // Hacer que las celdas no sean editables
@@ -185,23 +196,90 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                 numAsiento++, numAsiento++, numAsiento++, numAsiento++
             });
         }
-        try{
-        ArrayList<Integer> asientosOcupados = (ArrayList<Integer>) pasajeData.listarAsientosOcupadosPorViaje((Ruta) pasajeVista.cbRuta.getSelectedItem(), (Colectivo) pasajeVista.cbColectivos.getSelectedItem(),
-                LocalDate.of(2024,6,6), ((Horario) pasajeVista.cbHorario.getSelectedItem()).getHoraSalida());
-        for (int fila = 0; fila < model.getRowCount(); fila++) {
-            for (int columna = 0; columna < model.getColumnCount(); columna++) {
-                Integer asientoActual = (Integer) model.getValueAt(fila, columna);
-                System.out.println(asientoActual);
-                if (asientosOcupados.contains(asientoActual)) {
-                    model.setValueAt("Ocupado", fila, columna);
+        try {
+            ArrayList<Integer> asientosOcupados = (ArrayList<Integer>) pasajeData.listarAsientosOcupadosPorViaje((Ruta) pasajeVista.cbRuta.getSelectedItem(), (Colectivo) pasajeVista.cbColectivos.getSelectedItem(),
+                    LocalDate.of(2024, 6, 6), ((Horario) pasajeVista.cbHorario.getSelectedItem()).getHoraSalida());
+            for (int fila = 0; fila < model.getRowCount(); fila++) {
+                for (int columna = 0; columna < model.getColumnCount(); columna++) {
+                    Integer asientoActual = (Integer) model.getValueAt(fila, columna);
+                    System.out.println(asientoActual);
+                    if (asientosOcupados.contains(asientoActual)) {
+                        model.setValueAt("ocup", fila, columna);
+                    }
                 }
             }
-        }
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println(e);
         }
-        
 
     }
 
+    public void poneteBonito() {
+            // Borde del JInternalFrame
+    pasajeVista.setBorder(BorderFactory.createLineBorder(new Color(41, 37, 28), 3)); // Marrón oscuro
+
+    // Cambiar el color de fondo del JInternalFrame
+    pasajeVista.getContentPane().setBackground(new Color(231, 221, 211)); // Beige claro
+
+    // Cambiar el color de los botones
+    pasajeVista.btnVenderPasaje.setBackground(new Color(41, 37, 28)); // Rosa claro
+    pasajeVista.btnEmitirRecibo.setBackground(new Color(41, 37, 28)); // Marrón oscuro
+    pasajeVista.btnVenderPasaje.setForeground(Color.white); // Texto blanco
+    pasajeVista.btnEmitirRecibo.setForeground(Color.white); // Texto blanco
+
+    // Cambiar el color del título
+    pasajeVista.lblTitulo.setForeground(new Color(41, 37, 28)); // Marrón oscuro
+
+    // Cambiar el color de la tabla y del scroll pane
+    pasajeVista.spTabla.setBackground(new Color(231, 221, 211)); // Beige claro
+    pasajeVista.tblAsientos.setBackground(new Color(192, 153, 139)); // Rosa claro
+
+    // Cambiar el color del texto
+    pasajeVista.lblRuta.setForeground(new Color(41, 37, 28)); // Marrón oscuro
+    pasajeVista.lblHorario.setForeground(new Color(41, 37, 28)); // Marrón oscuro
+    pasajeVista.lblNombreNoR.setForeground(new Color(41, 37, 28)); // Marrón oscuro
+    pasajeVista.lblApellidoNoR.setForeground(new Color(41, 37, 28)); // Marrón oscuro
+    pasajeVista.lblDniNoR.setForeground(new Color(41, 37, 28)); // Marrón oscuro
+    pasajeVista.lblDNIRegistrado.setForeground(new Color(41, 37, 28)); // Marrón oscuro
+    pasajeVista.lblPrecio.setForeground(new Color(41, 37, 28)); // Marrón oscuro
+    pasajeVista.lblFecha.setForeground(new Color(41, 37, 28)); // Marrón oscuro
+    pasajeVista.lblColectivo.setForeground(new Color(41, 37, 28)); // Marrón oscuro
+
+    // Cambiar el color de fondo de los paneles
+    pasajeVista.pnlNoRegistrado.setBackground(new Color(231, 221, 211)); // Beige claro
+    pasajeVista.pnlRegistrado.setBackground(new Color(231, 221, 211)); // Beige claro
+
+    // Cambiar el color de fondo de los text fields
+    pasajeVista.txtNombre.setBackground(new Color(192, 153, 139)); // Rosa claro
+    pasajeVista.txtApellido.setBackground(new Color(192, 153, 139)); // Rosa claro
+    pasajeVista.txtDni.setBackground(new Color(192, 153, 139)); // Rosa claro
+    pasajeVista.txtDniRegistrado.setBackground(new Color(192, 153, 139)); // Rosa claro
+
+    // Cambiar el color de fondo de los combos
+    pasajeVista.cbRuta.setBackground(new Color(231, 221, 211)); // Beige claro
+    pasajeVista.cbHorario.setBackground(new Color(231, 221, 211)); // Beige claro
+    pasajeVista.cbColectivos.setBackground(new Color(231, 221, 211)); // Beige claro
+    pasajeVista.cbPrecios.setBackground(new Color(231, 221, 211)); // Beige claro
+
+    // Cambiar el color de los botones de radio
+    pasajeVista.rbRegistrado.setForeground(new Color(41, 37, 28)); // Marrón oscuro
+    pasajeVista.rbNoRegistrado.setForeground(new Color(41, 37, 28)); // Marrón oscuro
+
+
+        // Establecer un renderizador personalizado para la tabla
+        pasajeVista.tblAsientos.setDefaultRenderer(Object.class, new PoneteBonitaTablita());
+    }
+
+    class PoneteBonitaTablita extends DefaultTableCellRenderer {
+
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                boolean hasFocus, int row, int column) {
+            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            setBorder(noFocusBorder);
+            setFont(new java.awt.Font("Arial", 0, 14)); // Cambiar el font de las celdas de la tabla
+            setHorizontalAlignment(SwingConstants.CENTER); // Alinear el contenido al centro
+            return this;
+        }
+
+    }
 }

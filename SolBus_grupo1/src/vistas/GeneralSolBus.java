@@ -3,6 +3,9 @@ package vistas;
 import entidades.*;
 import accesoDatos.*;
 import controladores.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class GeneralSolBus extends javax.swing.JFrame {
 
@@ -109,7 +112,10 @@ public class GeneralSolBus extends javax.swing.JFrame {
     private void miGestionPasajesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGestionPasajesActionPerformed
         Pasaje p = new Pasaje();
         PasajeData pd = new PasajeData();
-        vistas.InfGestionPasajes ip = new vistas.InfGestionPasajes();
+        vistas.InfGestionPasajes ip;
+        try {
+            ip = new vistas.InfGestionPasajes();
+        
         ctrlCargaPasajes cp = new ctrlCargaPasajes(p, pd, ip);
         dpEscritorio.removeAll();
         dpEscritorio.repaint();
@@ -117,6 +123,10 @@ public class GeneralSolBus extends javax.swing.JFrame {
         ip.setLocation(00, 00);
         dpEscritorio.add(ip);
         dpEscritorio.moveToFront(ip);
+        
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(GeneralSolBus.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_miGestionPasajesActionPerformed
 
     private void miListarRutasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miListarRutasActionPerformed
