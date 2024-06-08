@@ -1,14 +1,12 @@
-
 package entidades;
 
 import java.time.LocalTime;
 
-
 public class Horario {
-    
+
     private int idHorario;
     private Ruta ruta;
-    private LocalTime horaSalida,horaLlegada;
+    private LocalTime horaSalida, horaLlegada;
     private boolean estado;
 
     public Horario() {
@@ -19,14 +17,14 @@ public class Horario {
         this.ruta = ruta;
         this.horaSalida = horaSalida;
         this.horaLlegada = horaLlegada;
-        this.estado=estado;
+        this.estado = estado;
     }
 
     public Horario(Ruta ruta, LocalTime horaSalida, LocalTime horaLlegada, boolean estado) {
         this.ruta = ruta;
         this.horaSalida = horaSalida;
         this.horaLlegada = horaLlegada;
-        this.estado=estado;
+        this.estado = estado;
     }
 
     public int getIdHorario() {
@@ -36,8 +34,7 @@ public class Horario {
     public void setIdHorario(int idHorario) {
         this.idHorario = idHorario;
     }
-       
-    
+
     public Ruta getRuta() {
         return ruta;
     }
@@ -69,12 +66,10 @@ public class Horario {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
-    
-  
+
     @Override
     public String toString() {
-        return "Horario nº " + idHorario + ruta.toString() +
-                "Hora salida:" + horaSalida + "Hora llegada: " + horaLlegada;
+        return horaSalida + " - " + horaLlegada;
     }
-            
+
 }

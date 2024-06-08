@@ -187,10 +187,11 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         }
         try{
         ArrayList<Integer> asientosOcupados = (ArrayList<Integer>) pasajeData.listarAsientosOcupadosPorViaje((Ruta) pasajeVista.cbRuta.getSelectedItem(), (Colectivo) pasajeVista.cbColectivos.getSelectedItem(),
-                LocalDate.now(), ((Horario) pasajeVista.cbHorario.getSelectedItem()).getHoraSalida());
+                LocalDate.of(2024,6,6), ((Horario) pasajeVista.cbHorario.getSelectedItem()).getHoraSalida());
         for (int fila = 0; fila < model.getRowCount(); fila++) {
             for (int columna = 0; columna < model.getColumnCount(); columna++) {
                 Integer asientoActual = (Integer) model.getValueAt(fila, columna);
+                System.out.println(asientoActual);
                 if (asientosOcupados.contains(asientoActual)) {
                     model.setValueAt("Ocupado", fila, columna);
                 }
