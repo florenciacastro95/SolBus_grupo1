@@ -125,11 +125,11 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
 
         btnVenderPasaje.setFont(new java.awt.Font("Gill Sans MT", 0, 14)); // NOI18N
         btnVenderPasaje.setText("VENDER PASAJE");
-        getContentPane().add(btnVenderPasaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 340, 150, 90));
+        getContentPane().add(btnVenderPasaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 340, 150, 90));
 
         btnEmitirRecibo.setFont(new java.awt.Font("Gill Sans MT", 0, 14)); // NOI18N
         btnEmitirRecibo.setText("EMITIR RECIBO");
-        getContentPane().add(btnEmitirRecibo, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 150, 90));
+        getContentPane().add(btnEmitirRecibo, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 450, 150, 90));
 
         lblDNIRegistrado.setFont(new java.awt.Font("Gill Sans MT", 1, 14)); // NOI18N
         lblDNIRegistrado.setText("DNI");
@@ -265,7 +265,7 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
     public javax.swing.JComboBox<Horario> cbHorario;
     public javax.swing.JComboBox<String> cbPrecios;
     public javax.swing.JComboBox<Ruta> cbRuta;
-    private com.toedter.calendar.JDateChooser dateChooser;
+    public com.toedter.calendar.JDateChooser dateChooser;
     public javax.swing.JLabel lblApellidoNoR;
     public javax.swing.JLabel lblColectivo;
     public javax.swing.JLabel lblDNIRegistrado;
