@@ -175,32 +175,38 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         return tam == 8 || tam == 7;
     }
 
-    private void armarCabeceraTblAsientos() {
+      private void armarCabeceraTblAsientos() {
         DefaultTableModel model = new DefaultTableModel(new Object[]{"Ventana", "Pasillo", "Pasillo", "Ventana"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; // Hacer que las celdas no sean editables
             }
         };
-       
-       
+
         pasajeVista.tblAsientos.setModel(model);
         pasajeVista.tblAsientos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         pasajeVista.tblAsientos.setCellSelectionEnabled(true);
-        try{
-        // Obtener la cabecera de la tabla
-        JTableHeader header = pasajeVista.tblAsientos.getTableHeader();
-        
-        // Personalizar la cabecera de la tabla
-        Font montserratFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.BOLD, 14);
-        
-        header.setFont(montserratFont); // Cambiar la fuente y tamaño del texto
-        header.setForeground(new Color(41, 37, 28)); // Cambiar el color del texto
-        header.setBackground(new Color(231, 221, 211));
-        }
-        catch (FontFormatException | IOException e) {
+
+        try {
+            JTableHeader header = pasajeVista.tblAsientos.getTableHeader();
+            Font montserratFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.BOLD, 14);
+
+            header.setFont(montserratFont);
+            header.setForeground(new Color(41, 37, 28)); 
+            header.setBackground(new Color(231, 221, 211)); 
+
+            header.setOpaque(true);
+            header.setBackground(new Color(192, 153, 139)); 
+
+            Dimension headerSize = header.getPreferredSize();
+            headerSize.height = 36; 
+            header.setPreferredSize(headerSize);
+        } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
+
+        //NO TE MOVAS CARAJO
+        pasajeVista.tblAsientos.getTableHeader().setReorderingAllowed(false);
     }
 
     private void cargarTblAsientos() {
@@ -221,7 +227,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                     Integer asientoActual = (Integer) model.getValueAt(fila, columna);
                     System.out.println(asientoActual);
                     if (asientosOcupados.contains(asientoActual)) {
-                        model.setValueAt("Ocupado", fila, columna);
+                        model.setValueAt("Ocup.", fila, columna);
                     }
                 }
             }
@@ -231,30 +237,33 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
     }
 
+    //PALETA DE COLORES EN:https://paletadecolores.com.ar/paleta/e7ddd3/c0c2bd/9c9994/29251c/e6aa9f/
+    //    #174D51
+    //    #0c2521
+    //    #D48931
+    //    #6F1C00
     public void poneteBonito() {
-        // Establecer el tamaño del JInternalFrame
-        pasajeVista.setSize(new Dimension(570, 620)); // Tamaño deseado
 
-        // Borde del JInternalFrame
-        pasajeVista.setBorder(BorderFactory.createLineBorder(new Color(41, 37, 28), 3)); // Marrón oscuro
+        pasajeVista.setSize(new Dimension(570, 620));
 
-        // Cambiar el color de fondo del JInternalFrame
-        pasajeVista.getContentPane().setBackground(new Color(231, 221, 211)); // Beige claro
+        pasajeVista.setBorder(BorderFactory.createLineBorder(new Color(41, 37, 28), 3));
 
-        // Cambiar el color de los botones
-        pasajeVista.btnVenderPasaje.setBackground(new Color(41, 37, 28)); // Rosa claro
-        pasajeVista.btnEmitirRecibo.setBackground(new Color(41, 37, 28)); // Marrón oscuro
-        pasajeVista.btnVenderPasaje.setForeground(Color.white); // Texto blanco
-        pasajeVista.btnEmitirRecibo.setForeground(Color.white); // Texto blanco
+        //FONDITO INTERNAAAAL
+        pasajeVista.getContentPane().setBackground(new Color(231, 221, 211));
 
-        // Cambiar el color del título
-        pasajeVista.lblTitulo.setForeground(new Color(41, 37, 28)); // Marrón oscuro
+        //MIRA ESOS BUTTONS PAPA
+        pasajeVista.btnVenderPasaje.setBackground(new Color(41, 37, 28));
+        pasajeVista.btnEmitirRecibo.setBackground(new Color(41, 37, 28));
+        pasajeVista.btnVenderPasaje.setForeground(Color.white);
+        pasajeVista.btnEmitirRecibo.setForeground(Color.white);
+        //TITULO
+        pasajeVista.lblTitulo.setForeground(new Color(41, 37, 28));
 
-        // Cambiar el color de la tabla y del scroll pane
+        //TABLITA BACK
         pasajeVista.spTabla.setBackground(new Color(231, 221, 211)); // Beige claro
         pasajeVista.tblAsientos.setBackground(new Color(192, 153, 139)); // Rosa claro
 
-        // Cambiar el color del texto
+        //LABELS
         pasajeVista.lblRuta.setForeground(new Color(41, 37, 28)); // Marrón oscuro
         pasajeVista.lblHorario.setForeground(new Color(41, 37, 28)); // Marrón oscuro
         pasajeVista.lblNombreNoR.setForeground(new Color(41, 37, 28)); // Marrón oscuro
@@ -265,27 +274,27 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         pasajeVista.lblFecha.setForeground(new Color(41, 37, 28)); // Marrón oscuro
         pasajeVista.lblColectivo.setForeground(new Color(41, 37, 28)); // Marrón oscuro
 
-        // Cambiar el color de fondo de los paneles
+        //PANELS
         pasajeVista.pnlNoRegistrado.setBackground(new Color(231, 221, 211)); // Beige claro
         pasajeVista.pnlRegistrado.setBackground(new Color(231, 221, 211)); // Beige claro
 
-        // Cambiar el color de fondo de los text fields
+        //TEXTFILEDS
         pasajeVista.txtNombre.setBackground(new Color(192, 153, 139)); // Rosa claro
         pasajeVista.txtApellido.setBackground(new Color(192, 153, 139)); // Rosa claro
         pasajeVista.txtDni.setBackground(new Color(192, 153, 139)); // Rosa claro
         pasajeVista.txtDniRegistrado.setBackground(new Color(192, 153, 139)); // Rosa claro
 
-        // Cambiar el color de fondo de los combos
+        //COMBOBITCHES
         pasajeVista.cbRuta.setBackground(new Color(231, 221, 211)); // Beige claro
         pasajeVista.cbHorario.setBackground(new Color(231, 221, 211)); // Beige claro
         pasajeVista.cbColectivos.setBackground(new Color(231, 221, 211)); // Beige claro
         pasajeVista.cbPrecios.setBackground(new Color(231, 221, 211)); // Beige claro
 
-        // Cambiar el color de los botones de radio
+        //RADIOB
         pasajeVista.rbRegistrado.setForeground(new Color(41, 37, 28)); // Marrón oscuro
         pasajeVista.rbNoRegistrado.setForeground(new Color(41, 37, 28)); // Marrón oscuro
 
-        // Establecer un renderizador personalizado para la tabla
+        //el render de la tabla
         pasajeVista.tblAsientos.setDefaultRenderer(Object.class, new PoneteBonitaTablita());
 
         //CENTREMOS EL TITULO
@@ -293,7 +302,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         try {
             Font montserratFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.PLAIN, 14);
             Font montserratFontTitulo = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.BOLD, 18);
-            // Aplicar la fuente a los componentes necesarios
+           
             pasajeVista.lblTitulo.setFont(montserratFontTitulo);
             pasajeVista.lblRuta.setFont(montserratFont);
             pasajeVista.lblHorario.setFont(montserratFont);
@@ -327,9 +336,17 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                 boolean hasFocus, int row, int column) {
             super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             setBorder(noFocusBorder);
-            setFont(new java.awt.Font("Arial", 0, 14)); // Cambiar el font de las celdas de la tabla
-            setHorizontalAlignment(SwingConstants.CENTER); // Alinear el contenido al centro
-              table.setRowHeight(28);
+            setFont(new java.awt.Font("Arial", 0, 18));
+            setHorizontalAlignment(SwingConstants.CENTER);
+            table.setRowHeight(28);
+            if (isSelected) {
+                setBackground(new Color(41, 37, 28)); 
+                setForeground(new Color(231, 221, 211));
+            } else {
+                setBackground(table.getBackground());
+                setForeground(table.getForeground()); 
+            }
+
             return this;
         }
 
