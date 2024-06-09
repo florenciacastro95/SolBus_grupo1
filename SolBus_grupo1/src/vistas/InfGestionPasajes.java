@@ -125,11 +125,11 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
 
         btnVenderPasaje.setFont(new java.awt.Font("Gill Sans MT", 0, 14)); // NOI18N
         btnVenderPasaje.setText("VENDER PASAJE");
-        getContentPane().add(btnVenderPasaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 330, 150, 60));
+        getContentPane().add(btnVenderPasaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 340, 150, 90));
 
         btnEmitirRecibo.setFont(new java.awt.Font("Gill Sans MT", 0, 14)); // NOI18N
         btnEmitirRecibo.setText("EMITIR RECIBO");
-        getContentPane().add(btnEmitirRecibo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 400, 150, 60));
+        getContentPane().add(btnEmitirRecibo, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 150, 90));
 
         lblDNIRegistrado.setFont(new java.awt.Font("Gill Sans MT", 1, 14)); // NOI18N
         lblDNIRegistrado.setText("DNI");
@@ -242,7 +242,7 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
         ));
         spTabla.setViewportView(tblAsientos);
 
-        getContentPane().add(spTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 310, 190, 160));
+        getContentPane().add(spTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 320, 260));
         getContentPane().add(dateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 259, 210, 30));
 
         lblPrecio.setFont(new java.awt.Font("Gill Sans MT", 1, 14)); // NOI18N
