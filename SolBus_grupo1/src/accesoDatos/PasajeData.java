@@ -90,6 +90,77 @@ public class PasajeData {
         }
     }
 
+    //flor ta out chicos
+    public boolean eliminarPasajePorViaje(int asiento, Ruta rutaBuscada,
+            Colectivo colectivo, LocalDate fecha, LocalTime hora) {
+        boolean band = true;
+        String sql = "DELETE from pasaje WHERE id_Ruta = ? AND id_Colectivo = ? AND "
+                + "fechaViaje = ? AND horaViaje = ? AND asiento = ?";
+
+        Colectivo idC=cd.buscarColectivoPorId(buscarPasajePorViaje(rutaBuscada, colectivo, fecha, hora, asiento).getColectivo().getIdColectivo());
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, rutaBuscada.getIdRuta());
+            ps.setInt(2, colectivo.getIdColectivo());
+            ps.setDate(3, Date.valueOf(fecha));
+            ps.setTime(4, Time.valueOf(hora));
+            ps.setInt(5, asiento);
+            int validation = ps.executeUpdate();
+            if (validation == 1) {
+                cd.actualizarAsientos(idC, 1);
+                JOptionPane.showMessageDialog(null, "Se elimino ese pasaje!");
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Ese pasaje no existe pa");
+                band = false;
+            }
+            ps.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en el metodo eliminarPasajePorViaje, no se pudo acceder a los pasajes ." + e);
+            band = false;
+        }
+
+        return band;
+    }
+
+    public Pasaje buscarPasajePorViaje(Ruta rutaBuscada,
+            Colectivo colectivo, LocalDate fecha, LocalTime hora, int asiento) {
+
+        Pasaje pasaje = null;
+        String sql = "SELECT * FROM pasaje WHERE id_Ruta = ? AND id_Colectivo = ? AND "
+                + "fechaViaje = ? AND horaViaje = ? AND asiento = ?";
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, rutaBuscada.getIdRuta());
+            ps.setInt(2, colectivo.getIdColectivo());
+            ps.setDate(3, Date.valueOf(fecha));
+            ps.setTime(4, Time.valueOf(hora));
+            ps.setInt(5, asiento);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                pasaje = new Pasaje();
+                pasaje.setIdPasaje(rs.getInt("id_Pasaje"));
+                pasaje.setPasajero(pd.buscarPasajeroPorId(rs.getInt("id_Pasajero")));
+                pasaje.setColectivo(cd.buscarColectivoPorId(rs.getInt("id_Colectivo")));
+                pasaje.setRuta(rd.buscarRutaPorID(rs.getInt("id_Ruta")));
+                pasaje.setFechaViaje(rs.getDate("fechaViaje").toLocalDate());
+                pasaje.setHoraViaje(rs.getTime("horaViaje").toLocalTime());
+                pasaje.setAsiento(rs.getInt("asiento"));
+                pasaje.setPrecio(rs.getDouble("precio"));
+
+            }
+            ps.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en el metodo buscarPasajePorViaje, no se pudo acceder a los pasajes ." + e);
+        }
+
+        return pasaje;
+    }
+
     public Pasaje buscarPasajePorId(int id) {
 
         Pasaje pasaje = null;
@@ -305,14 +376,14 @@ public class PasajeData {
             ps.setTime(4, Time.valueOf(hora));
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                
+
                 asientosOcupados.add(rs.getInt("asiento"));
 
             }
             ps.close();
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error en el metodo pasajesPorRuta, no se pudo acceder a los pasajes ." + e);
+            JOptionPane.showMessageDialog(null, "Error en el metodo listarAsientosOcupadosPorViaje, no se pudo acceder a los pasajes ." + e);
         }
 
         return asientosOcupados;

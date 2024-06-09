@@ -12,6 +12,8 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import java.io.File;
 import java.io.IOException;
+import java.time.ZoneId;
 import javax.swing.BorderFactory;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -51,12 +54,22 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         pasajeVista.cbRuta.addItemListener(this);
         pasajeVista.rbRegistrado.addActionListener(this);
         pasajeVista.rbNoRegistrado.addActionListener(this);
+        pasajeVista.btnAnularPasaje.addActionListener(this);
         armarCabeceraTblAsientos();
         cargarTblAsientos();
         poneteBonito();
+        pasajeVista.dateChooser.addPropertyChangeListener("date", new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if ("date".equals(evt.getPropertyName())) {
+                    cargarTblAsientos();
+                }
+            }
+        });
     }
 
     @Override
+
     public void actionPerformed(ActionEvent e) {
         //mirar la capacidad de el colectivo
         if (e.getSource() == pasajeVista.btnVenderPasaje) {
@@ -64,6 +77,8 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             Pasajero pasajero;
             LocalTime horita = null;
             boolean bandera = true;
+            LocalDate fechaDtch;
+            int asiento = 0;
 
             Colectivo colectivo = (Colectivo) pasajeVista.cbColectivos.getSelectedItem();
             String nombre = "", apellido = "", dni = "";
@@ -98,13 +113,74 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                 bandera = false;
                 JOptionPane.showMessageDialog(null, "No se puede vender un pasaje sin horario");
             }
-            if (bandera && horita != null) {
+            if (pasajeVista.dateChooser.getDate() != null) {
+                fechaDtch = pasajeVista.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            } else {
+                fechaDtch = LocalDate.now();
+            }
+            int selectedRow = pasajeVista.tblAsientos.getSelectedRow();
+            int selectedColumn = pasajeVista.tblAsientos.getSelectedColumn();
+
+            if (selectedRow != -1 && selectedColumn != -1) {
+                Object value = pasajeVista.tblAsientos.getValueAt(selectedRow, selectedColumn);
+                if (value instanceof Integer) {
+                    asiento = (Integer) value;
+                    System.out.println("Asiento seleccionado: " + asiento);
+                } else {
+                    bandera = false;
+                    JOptionPane.showMessageDialog(null, "Seleccione un asiento válido.");
+                }
+            } else {
+                bandera = false;
+                JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún asiento.");
+            }
+
+            if (bandera && horita != null && asiento != 0) {
                 pasajero = new Pasajero(nombre, apellido, dni, null, null);
                 pasajeroData.guardarPasajero(pasajero);
-                pasaje = new Pasaje(pasajero, colectivo, (Ruta) pasajeVista.cbRuta.getSelectedItem(), LocalDate.now(), horita, 14, 0);
+                pasaje = new Pasaje(pasajero, colectivo, (Ruta) pasajeVista.cbRuta.getSelectedItem(),
+                        fechaDtch, horita, asiento, 0);
                 pasajeData.venderPasaje(pasaje);
+                cargarTblAsientos();
+                limpiarCampos();
             } else {
                 JOptionPane.showMessageDialog(null, "No se pudo vender pasaje");
+
+            }
+        }
+
+        if (e.getSource() == pasajeVista.btnAnularPasaje) {
+
+            int asiento = 0;
+            LocalDate fechita = null;
+            LocalTime horita = null;
+            int selectedRow = pasajeVista.tblAsientos.getSelectedRow();
+            int selectedColumn = pasajeVista.tblAsientos.getSelectedColumn();
+            Colectivo colectivo = (Colectivo) pasajeVista.cbColectivos.getSelectedItem();
+            Ruta ruta = (Ruta) pasajeVista.cbRuta.getSelectedItem();
+
+            if (pasajeVista.cbHorario.getSelectedItem() != null) {
+                horita = ((Horario) pasajeVista.cbHorario.getSelectedItem()).getHoraSalida();
+            }
+            if (pasajeVista.dateChooser.getDate() != null) {
+                fechita = pasajeVista.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            }
+            if (selectedRow != -1 && selectedColumn != -1) {
+                Object value = pasajeVista.tblAsientos.getValueAt(selectedRow, selectedColumn);
+                if (value instanceof Integer) {
+                    asiento = (Integer) value;
+                    System.out.println("Asiento seleccionado: " + asiento);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Seleccione un asiento válido.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún asiento.");
+            }
+            if (horita != null && fechita != null && asiento != 0) {
+
+                pasajeData.eliminarPasajePorViaje(asiento, ruta, colectivo, fechita, horita);
+                cargarTblAsientos();
+
             }
         }
 
@@ -115,7 +191,8 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             pasajeVista.txtNombre.setEnabled(true);
             pasajeVista.txtDniRegistrado.setEnabled(false);
 
-        } else if (e.getSource() == pasajeVista.rbRegistrado) {
+        } else if (e.getSource()
+                == pasajeVista.rbRegistrado) {
             pasajeVista.txtDni.setEnabled(false);
             pasajeVista.txtApellido.setEnabled(false);
             pasajeVista.txtNombre.setEnabled(false);
@@ -151,6 +228,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                 pasajeVista.txtNombre.setEnabled(true);
             }
         }
+
     }
 
     public boolean validarEnteros(String s) {
@@ -174,6 +252,14 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
     public boolean validarDniTam(int tam) {
         return tam == 8 || tam == 7;
+    }
+
+    public void limpiarCampos() {
+        pasajeVista.txtApellido.setText("");
+        pasajeVista.txtDni.setText("");
+        pasajeVista.txtNombre.setText("");
+        pasajeVista.txtDniRegistrado.setText("");
+
     }
 
     private void armarCabeceraTblAsientos() {
@@ -215,22 +301,28 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         model.setRowCount(0);
 
         int numAsiento = 1;
-        for (int fila = 0; fila < 8; fila++) {  
+        for (int fila = 0; fila < 8; fila++) {
             model.addRow(new Object[]{
                 numAsiento++, numAsiento++, numAsiento++, numAsiento++
             });
         }
         try {
+            LocalDate fechaDtch;
+            if (pasajeVista.dateChooser.getDate() != null) {
+                fechaDtch = pasajeVista.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            } else {
+                fechaDtch = LocalDate.now();
+            }
+
             ArrayList<Integer> asientosOcupados = (ArrayList<Integer>) pasajeData.listarAsientosOcupadosPorViaje((Ruta) pasajeVista.cbRuta.getSelectedItem(), (Colectivo) pasajeVista.cbColectivos.getSelectedItem(),
-                    LocalDate.of(2024, 6, 6), ((Horario) pasajeVista.cbHorario.getSelectedItem()).getHoraSalida());
-            for (int fila = 0; fila < model.getRowCount(); fila++) {
-                for (int columna = 0; columna < model.getColumnCount(); columna++) {
-                    Integer asientoActual = (Integer) model.getValueAt(fila, columna);
-                    System.out.println(asientoActual);
-                    if (asientosOcupados.contains(asientoActual)) {
-                        model.setValueAt("Ocup.", fila, columna);
-                    }
-                }
+                    fechaDtch, ((Horario) pasajeVista.cbHorario.getSelectedItem()).getHoraSalida());
+            // Convertir la lista a un conjunto para un acceso más rápido
+            ArrayList<Integer> asientosOcupadosSet = new ArrayList<>(asientosOcupados);
+
+            // Asignar el renderer personalizado a cada columna
+            PoneteBonitaTablita renderer = new PoneteBonitaTablita(asientosOcupadosSet);
+            for (int i = 0; i < pasajeVista.tblAsientos.getColumnCount(); i++) {
+                pasajeVista.tblAsientos.getColumnModel().getColumn(i).setCellRenderer(renderer);
             }
         } catch (NullPointerException e) {
             System.out.println(e);
@@ -262,10 +354,10 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
         //TABLITA BACK
         pasajeVista.spTabla.setBackground(new Color(231, 221, 211));
-        pasajeVista.tblAsientos.setBackground(new Color(192, 153, 139)); 
-        
+        pasajeVista.tblAsientos.setBackground(new Color(192, 153, 139));
+
         //LABELS
-        pasajeVista.lblRuta.setForeground(new Color(41, 37, 28)); 
+        pasajeVista.lblRuta.setForeground(new Color(41, 37, 28));
         pasajeVista.lblHorario.setForeground(new Color(41, 37, 28));
         pasajeVista.lblNombreNoR.setForeground(new Color(41, 37, 28));
         pasajeVista.lblApellidoNoR.setForeground(new Color(41, 37, 28));
@@ -273,7 +365,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         pasajeVista.lblDNIRegistrado.setForeground(new Color(41, 37, 28));
         pasajeVista.lblPrecio.setForeground(new Color(41, 37, 28));
         pasajeVista.lblFecha.setForeground(new Color(41, 37, 28));
-        pasajeVista.lblColectivo.setForeground(new Color(41, 37, 28)); 
+        pasajeVista.lblColectivo.setForeground(new Color(41, 37, 28));
 
         //PANELS
         pasajeVista.pnlNoRegistrado.setBackground(new Color(231, 221, 211));
@@ -282,24 +374,26 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         //TEXTFILEDS
         pasajeVista.txtNombre.setBackground(new Color(192, 153, 139));
         pasajeVista.txtApellido.setBackground(new Color(192, 153, 139));
-        pasajeVista.txtDni.setBackground(new Color(192, 153, 139)); 
+        pasajeVista.txtDni.setBackground(new Color(192, 153, 139));
         pasajeVista.txtDniRegistrado.setBackground(new Color(192, 153, 139));
 
         //COMBOBITCHES
-        pasajeVista.cbRuta.setBackground(new Color(231, 221, 211)); 
-        pasajeVista.cbHorario.setBackground(new Color(231, 221, 211)); 
+        pasajeVista.cbRuta.setBackground(new Color(231, 221, 211));
+        pasajeVista.cbHorario.setBackground(new Color(231, 221, 211));
         pasajeVista.cbColectivos.setBackground(new Color(231, 221, 211));
         pasajeVista.cbPrecios.setBackground(new Color(231, 221, 211));
 
         //RADIOB
-        pasajeVista.rbRegistrado.setForeground(new Color(41, 37, 28)); 
+        pasajeVista.rbRegistrado.setForeground(new Color(41, 37, 28));
         pasajeVista.rbNoRegistrado.setForeground(new Color(41, 37, 28));
         //text field del JDATE
         JTextField dateTextField = ((JTextField) pasajeVista.dateChooser.getDateEditor().getUiComponent());
         dateTextField.setForeground(new Color(231, 221, 211));
         dateTextField.setBackground(new Color(192, 153, 139));
         //el render de la tabla
-        pasajeVista.tblAsientos.setDefaultRenderer(Object.class, new PoneteBonitaTablita());
+        ArrayList<Integer> asientosOcupados = null;
+        pasajeVista.tblAsientos.setDefaultRenderer(Object.class,
+                new PoneteBonitaTablita(asientosOcupados));
 
         //CENTREMOS EL TITULO
         pasajeVista.lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
@@ -330,14 +424,22 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             pasajeVista.rbRegistrado.setFont(montserratFont);
             pasajeVista.rbNoRegistrado.setFont(montserratFont);
             dateTextField.setFont(montserratFont);
-            
+
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
+
         }
     }
 
     class PoneteBonitaTablita extends DefaultTableCellRenderer {
 
+        private ArrayList<Integer> asientosOcupados;
+
+        public PoneteBonitaTablita(ArrayList<Integer> asientosOcupados) {
+            this.asientosOcupados = asientosOcupados;
+        }
+
+        @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
                 boolean hasFocus, int row, int column) {
             super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
@@ -345,9 +447,13 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             setFont(new java.awt.Font("Arial", 0, 18));
             setHorizontalAlignment(SwingConstants.CENTER);
             table.setRowHeight(28);
+
             if (isSelected) {
                 setBackground(new Color(41, 37, 28));
                 setForeground(new Color(231, 221, 211));
+            } else if (asientosOcupados.contains(value)) {
+                setBackground(Color.RED);
+                setForeground(Color.WHITE);
             } else {
                 setBackground(table.getBackground());
                 setForeground(table.getForeground());
