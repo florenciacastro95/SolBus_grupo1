@@ -104,32 +104,22 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
         lblPrecio = new javax.swing.JLabel();
         lblFecha = new javax.swing.JLabel();
 
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
         lblTitulo.setFont(new java.awt.Font("Gill Sans MT", 1, 24)); // NOI18N
         lblTitulo.setText("GESTION DE VENTA DE PASAJES");
-        getContentPane().add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 410, 50));
 
         lblRuta.setFont(new java.awt.Font("Gill Sans MT", 1, 14)); // NOI18N
         lblRuta.setText("Ruta");
-        getContentPane().add(lblRuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 50, 40));
 
         lblHorario.setFont(new java.awt.Font("Gill Sans MT", 1, 14)); // NOI18N
         lblHorario.setText("Horario");
-        getContentPane().add(lblHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 60, 40));
 
         cbRuta.setForeground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(cbRuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 200, -1));
-
-        getContentPane().add(cbHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, 200, -1));
 
         btnVenderPasaje.setFont(new java.awt.Font("Gill Sans MT", 0, 14)); // NOI18N
         btnVenderPasaje.setText("VENDER PASAJE");
-        getContentPane().add(btnVenderPasaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 340, 150, 90));
 
         btnEmitirRecibo.setFont(new java.awt.Font("Gill Sans MT", 0, 14)); // NOI18N
         btnEmitirRecibo.setText("EMITIR RECIBO");
-        getContentPane().add(btnEmitirRecibo, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 450, 150, 90));
 
         lblDNIRegistrado.setFont(new java.awt.Font("Gill Sans MT", 1, 14)); // NOI18N
         lblDNIRegistrado.setText("DNI");
@@ -145,7 +135,7 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
                 .addComponent(lblDNIRegistrado, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtDniRegistrado, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         pnlRegistradoLayout.setVerticalGroup(
             pnlRegistradoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,8 +146,6 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
                     .addComponent(txtDniRegistrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
-
-        getContentPane().add(pnlRegistrado, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 250, 210, 60));
 
         txtNombre.setEnabled(false);
 
@@ -189,7 +177,7 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
                     .addComponent(txtApellido, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
                     .addComponent(txtNombre)
                     .addComponent(txtDni))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         pnlNoRegistradoLayout.setVerticalGroup(
             pnlNoRegistradoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,26 +196,18 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
                     .addComponent(lblDniNoR)))
         );
 
-        getContentPane().add(pnlNoRegistrado, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, 210, -1));
-
         buttonGroup1.add(rbRegistrado);
         rbRegistrado.setFont(new java.awt.Font("Gill Sans MT", 0, 14)); // NOI18N
         rbRegistrado.setText("PASAJERO REGISTRADO");
-        getContentPane().add(rbRegistrado, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 230, -1, -1));
 
         buttonGroup1.add(rbNoRegistrado);
         rbNoRegistrado.setFont(new java.awt.Font("Gill Sans MT", 0, 14)); // NOI18N
         rbNoRegistrado.setText("PASAJERO NO REGISTRADO");
-        getContentPane().add(rbNoRegistrado, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 70, -1, -1));
 
         lblColectivo.setFont(new java.awt.Font("Gill Sans MT", 1, 14)); // NOI18N
         lblColectivo.setText("Colectivo");
-        getContentPane().add(lblColectivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 80, 40));
-
-        getContentPane().add(cbColectivos, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, 200, -1));
 
         cbPrecios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(cbPrecios, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 210, 200, -1));
 
         tblAsientos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -242,16 +222,107 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
         ));
         spTabla.setViewportView(tblAsientos);
 
-        getContentPane().add(spTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 320, 270));
-        getContentPane().add(dateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 259, 210, 30));
-
         lblPrecio.setFont(new java.awt.Font("Gill Sans MT", 1, 14)); // NOI18N
         lblPrecio.setText("Precio");
-        getContentPane().add(lblPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 80, 40));
 
         lblFecha.setFont(new java.awt.Font("Gill Sans MT", 1, 14)); // NOI18N
         lblFecha.setText("Fecha");
-        getContentPane().add(lblFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 60, 30));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblColectivo, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbColectivos, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(50, 50, 50)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rbNoRegistrado)
+                    .addComponent(pnlNoRegistrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(cbPrecios, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(dateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rbRegistrado)
+                    .addComponent(pnlRegistrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnVenderPasaje, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEmitirRecibo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(lblRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(lblHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(lblColectivo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(cbRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14)
+                        .addComponent(cbHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14)
+                        .addComponent(cbColectivos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(rbNoRegistrado)
+                        .addGap(2, 2, 2)
+                        .addComponent(pnlNoRegistrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(cbPrecios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(19, 19, 19)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(dateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addComponent(spTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rbRegistrado)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(pnlRegistrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(30, 30, 30)
+                        .addComponent(btnVenderPasaje, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(btnEmitirRecibo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
