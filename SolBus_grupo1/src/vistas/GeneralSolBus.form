@@ -21,6 +21,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Historial de pasajes y anular ventas"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miHistorialAnularActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

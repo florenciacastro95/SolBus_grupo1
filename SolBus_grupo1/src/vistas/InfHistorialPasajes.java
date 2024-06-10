@@ -44,6 +44,7 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
         pnlHorario = new javax.swing.JPanel();
         rbHorario = new javax.swing.JRadioButton();
         cbHorarios = new javax.swing.JComboBox<>();
+        jlPasajesT = new javax.swing.JLabel();
 
         tblHistPasajes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -111,7 +112,7 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
                 .addComponent(rbRuta)
                 .addGap(18, 18, 18)
                 .addComponent(cbRutas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         rbgPasRutaHor.add(rbHorario);
@@ -139,25 +140,34 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
                 .addContainerGap(99, Short.MAX_VALUE))
         );
 
+        jlPasajesT.setText("Pasajes de hoy!");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
+                .addComponent(pnlPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(spnHistPasajes)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(pnlPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
                         .addComponent(pnlRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(95, 95, 95)
-                        .addComponent(pnlHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(95, 95, 95))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(139, 139, 139)
+                        .addComponent(jlPasajesT)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(pnlHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblTituloHistPasajes)
                 .addGap(298, 298, 298))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(spnHistPasajes)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,10 +178,13 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pnlHorario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlPasajero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlRuta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pnlRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jlPasajesT)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(spnHistPasajes, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addContainerGap(132, Short.MAX_VALUE))
         );
 
         pack();
@@ -181,15 +194,16 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JComboBox<Horario> cbHorarios;
     public javax.swing.JComboBox<Ruta> cbRutas;
-    private javax.swing.JLabel lblTituloHistPasajes;
-    private javax.swing.JPanel pnlHorario;
-    private javax.swing.JPanel pnlPasajero;
-    private javax.swing.JPanel pnlRuta;
+    public javax.swing.JLabel jlPasajesT;
+    public javax.swing.JLabel lblTituloHistPasajes;
+    public javax.swing.JPanel pnlHorario;
+    public javax.swing.JPanel pnlPasajero;
+    public javax.swing.JPanel pnlRuta;
     public javax.swing.JRadioButton rbHorario;
     public javax.swing.JRadioButton rbPasajero;
     public javax.swing.JRadioButton rbRuta;
     private javax.swing.ButtonGroup rbgPasRutaHor;
-    private javax.swing.JScrollPane spnHistPasajes;
+    public javax.swing.JScrollPane spnHistPasajes;
     public javax.swing.JTable tblHistPasajes;
     public javax.swing.JTextField txtApellido;
     public javax.swing.JTextField txtDNI;

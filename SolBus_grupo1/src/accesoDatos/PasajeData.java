@@ -89,6 +89,38 @@ public class PasajeData {
             JOptionPane.showMessageDialog(null, "Error SQL en pasaje data (metodo borrar pasaje)." + e);
         }
     }
+    
+    public boolean estaElPasaje(int asiento, Ruta rutaBuscada,
+            Colectivo colectivo, LocalDate fecha, LocalTime hora){
+    String sql = "SELECT * FROM pasaje WHERE id_Ruta = ? AND id_Colectivo = ? AND "
+                + "fechaViaje = ? AND horaViaje = ? AND asiento = ?";
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, rutaBuscada.getIdRuta());
+            ps.setInt(2, colectivo.getIdColectivo());
+            ps.setDate(3, Date.valueOf(fecha));
+            ps.setTime(4, Time.valueOf(hora));
+            ps.setInt(5, asiento);
+            int validation = ps.executeUpdate();
+            ps.close();
+            if (validation == 1) {
+                System.out.println("Funcionaaa");
+                return true;
+
+            } else {
+                System.out.println("No funciona");
+                return false;
+            }
+            
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en el metodo eliminarPasajePorViaje, no se pudo acceder a los pasajes ." + e);
+            
+        }    
+        return false;
+
+    }
+    
 
     //flor ta out chicos
     public boolean eliminarPasajePorViaje(int asiento, Ruta rutaBuscada,

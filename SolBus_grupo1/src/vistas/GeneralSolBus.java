@@ -3,6 +3,7 @@ package vistas;
 import entidades.*;
 import accesoDatos.*;
 import controladores.*;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -56,6 +57,11 @@ public class GeneralSolBus extends javax.swing.JFrame {
         mPasajes.add(miGestionPasajes);
 
         miHistorialAnular.setText("Historial de pasajes y anular ventas");
+        miHistorialAnular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miHistorialAnularActionPerformed(evt);
+            }
+        });
         mPasajes.add(miHistorialAnular);
 
         mbEscritorio.add(mPasajes);
@@ -157,6 +163,27 @@ public class GeneralSolBus extends javax.swing.JFrame {
         dpEscritorio.add(ibp);
         dpEscritorio.moveToFront(ibp);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void miHistorialAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miHistorialAnularActionPerformed
+       PasajeData pd = new PasajeData();
+       RutaData rd = new RutaData();
+       HorarioData hd = new HorarioData();
+       ColectivoData cd = new ColectivoData();
+       PasajeroData pasd = new PasajeroData();
+       Pasaje pasaje = new Pasaje();
+       InfHistorialPasajes ihp = new InfHistorialPasajes();
+        try {
+            ctrlHistorialPasajes chp = new ctrlHistorialPasajes(pasaje, pd, rd, hd, cd, ihp, pasd);
+        } catch (IOException ex) {
+            Logger.getLogger(GeneralSolBus.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       dpEscritorio.removeAll();
+       dpEscritorio.repaint();
+       ihp.setVisible(true);
+       ihp.setLocation(00, 00);
+       dpEscritorio.add(ihp);
+       dpEscritorio.moveToFront(ihp);
+    }//GEN-LAST:event_miHistorialAnularActionPerformed
 
     /**
      * @param args the command line arguments

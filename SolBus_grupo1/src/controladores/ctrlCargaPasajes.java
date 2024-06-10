@@ -193,8 +193,11 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             }
 
             if (selectedRow != -1 && selectedColumn != -1) {
-                Object value = pasajeVista.tblAsientos.getValueAt(selectedRow, selectedColumn);
+                 Object value = pasajeVista.tblAsientos.getValueAt(selectedRow, selectedColumn);
                 if (value instanceof Integer) {
+                    if (pasajeData.estaElPasaje((Integer)value, ruta, colectivo, fechita, horita)) {
+                    
+                
                     asiento = (Integer) value;
                     System.out.println("Asiento seleccionado: " + asiento);
 
@@ -220,13 +223,16 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                     } else {
                         JOptionPane.showMessageDialog(null, "No se pudo encontrar el pasajero para el asiento seleccionado.");
                     }//*/
-
+                   }else{
+                    JOptionPane.showMessageDialog(null, "No se puede anular un pasaje con asiento libre");
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "Seleccione un asiento válido.");
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún asiento.");
             }
+                
             cargarTblAsientos();
         }
 
