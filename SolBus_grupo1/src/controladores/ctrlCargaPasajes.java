@@ -29,7 +29,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
@@ -42,6 +41,11 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
     private InfGestionPasajes pasajeVista;
     private PasajeroData pasajeroData;
 
+    
+    /********************
+    *****CONSTRUCTOR*****
+    *********************/
+    
     public ctrlCargaPasajes(Pasaje pasaje, PasajeData pasajeData, InfGestionPasajes pasajeVista) {
         this.pasaje = pasaje;
         this.pasajeData = pasajeData;
@@ -69,9 +73,17 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
     }
 
     @Override
+    
+    /*************************
+    *****ACTION PERFORMED*****
+    **************************/
 
     public void actionPerformed(ActionEvent e) {
         //mirar la capacidad de el colectivo
+        
+        /**********************
+        *****VENDER PASAJE*****
+        ***********************/
         if (e.getSource() == pasajeVista.btnVenderPasaje) {
             Pasaje pasaje;
             Pasajero pasajero;
@@ -149,6 +161,9 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             }
         }
 
+        /**********************
+        *****ANULAR PASAJE*****
+        ***********************/
         if (e.getSource() == pasajeVista.btnAnularPasaje) {
 
             int asiento = 0;
@@ -183,7 +198,11 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
             }
         }
-
+        
+        /******************************
+        *****PASAJERO REG/O NO REG*****
+        *******************************/
+        
         if (e.getSource() == pasajeVista.rbNoRegistrado) {
 
             pasajeVista.txtDni.setEnabled(true);
@@ -201,6 +220,10 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
     }
 
+    /*************************
+    ***ITEM CHANGE PARA EL ***
+    ****COMBO DE HORARIO******
+    **************************/    
     @Override
     public void itemStateChanged(ItemEvent ie) {
 
@@ -222,15 +245,14 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                     JOptionPane.showMessageDialog(null, "No hay horarios activos para esta ruta. Agregue horarios");
                 }
             }
-            if (ie.getSource() == pasajeVista.rbNoRegistrado) {
-                pasajeVista.txtDni.setEnabled(true);
-                pasajeVista.txtApellido.setEnabled(true);
-                pasajeVista.txtNombre.setEnabled(true);
-            }
+          
         }
 
     }
 
+    /*********************
+    *****VALIDACIONES*****
+    **********************/
     public boolean validarEnteros(String s) {
 
         String regExp = "^-?\\d+$";
@@ -262,6 +284,11 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
     }
 
+    
+    /***********************
+    ***CABECERA DEL TABLE***
+    ************************/
+    
     private void armarCabeceraTblAsientos() {
         DefaultTableModel model = new DefaultTableModel(new Object[]{"Ventana", "Pasillo", "Pasillo", "Ventana"}, 0) {
             @Override
@@ -296,6 +323,9 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         pasajeVista.tblAsientos.getTableHeader().setReorderingAllowed(false);
     }
 
+    /**********************
+    ***TABLE DE ASIENTOS***
+    ***********************/
     private void cargarTblAsientos() {
         DefaultTableModel model = (DefaultTableModel) pasajeVista.tblAsientos.getModel();
         model.setRowCount(0);
@@ -319,7 +349,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             // Convertir la lista a un conjunto para un acceso más rápido
             ArrayList<Integer> asientosOcupadosSet = new ArrayList<>(asientosOcupados);
 
-            // Asignar el renderer personalizado a cada columna
+            // aca llamamos al renderer personalizado y se lo asignamos a cada columna
             PoneteBonitaTablita renderer = new PoneteBonitaTablita(asientosOcupadosSet);
             for (int i = 0; i < pasajeVista.tblAsientos.getColumnCount(); i++) {
                 pasajeVista.tblAsientos.getColumnModel().getColumn(i).setCellRenderer(renderer);
@@ -327,15 +357,18 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         } catch (NullPointerException e) {
             System.out.println(e);
         }
-
     }
 
+    
+    /********************
+    ***PARTE DE DISEÑO***
+    *********************/
     //PALETA DE COLORES EN:https://paletadecolores.com.ar/paleta/e7ddd3/c0c2bd/9c9994/29251c/e6aa9f/
     //    #174D51
     //    #0c2521
     //    #D48931
     //    #6F1C00
-    public void poneteBonito() {
+    public final void poneteBonito() {
 
         pasajeVista.setSize(new Dimension(570, 620));
 
@@ -347,8 +380,11 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         //MIRA ESOS BUTTONS PAPA
         pasajeVista.btnVenderPasaje.setBackground(new Color(41, 37, 28));
         pasajeVista.btnEmitirRecibo.setBackground(new Color(41, 37, 28));
+        pasajeVista.btnAnularPasaje.setBackground(new Color(41, 37, 28));
         pasajeVista.btnVenderPasaje.setForeground(Color.white);
         pasajeVista.btnEmitirRecibo.setForeground(Color.white);
+        pasajeVista.btnAnularPasaje.setForeground(Color.white);
+        
         //TITULO
         pasajeVista.lblTitulo.setForeground(new Color(41, 37, 28));
 
@@ -397,6 +433,8 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
         //CENTREMOS EL TITULO
         pasajeVista.lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        //LA FONT MAS LINDA
         try {
             Font montserratFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.PLAIN, 14);
             Font montserratFontTitulo = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.BOLD, 18);
@@ -413,6 +451,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             pasajeVista.lblColectivo.setFont(montserratFont);
             pasajeVista.btnVenderPasaje.setFont(montserratFont);
             pasajeVista.btnEmitirRecibo.setFont(montserratFont);
+            pasajeVista.btnAnularPasaje.setFont(montserratFont);
             pasajeVista.txtNombre.setFont(montserratFont);
             pasajeVista.txtApellido.setFont(montserratFont);
             pasajeVista.txtDni.setFont(montserratFont);
@@ -427,10 +466,16 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
-
         }
     }
 
+    /***********************************
+    ********CLASE INTERNA PARA *********
+    ****DARLE FORMATO A LAS CELDAS *****
+    *USAMOS LA CLASE A IMPLEMENTAR DEL *
+    ******DefaultTableCellRenderer *****
+    ************************************/
+    
     class PoneteBonitaTablita extends DefaultTableCellRenderer {
 
         private ArrayList<Integer> asientosOcupados;
@@ -461,6 +506,5 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
             return this;
         }
-
     }
 }
