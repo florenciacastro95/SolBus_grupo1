@@ -179,19 +179,19 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> cbHorarios;
-    private javax.swing.JComboBox<String> cbRutas;
+    public javax.swing.JComboBox<String> cbHorarios;
+    public javax.swing.JComboBox<String> cbRutas;
     private javax.swing.JLabel lblTituloHistPasajes;
     private javax.swing.JPanel pnlHorario;
     private javax.swing.JPanel pnlPasajero;
     private javax.swing.JPanel pnlRuta;
-    private javax.swing.JRadioButton rbHorario;
-    private javax.swing.JRadioButton rbPasajero;
-    private javax.swing.JRadioButton rbRuta;
+    public javax.swing.JRadioButton rbHorario;
+    public javax.swing.JRadioButton rbPasajero;
+    public javax.swing.JRadioButton rbRuta;
     private javax.swing.ButtonGroup rbgPasRutaHor;
     private javax.swing.JScrollPane spnHistPasajes;
-    private javax.swing.JTable tblHistPasajes;
-    private javax.swing.JTextField txtApellido;
-    private javax.swing.JTextField txtDNI;
+    public javax.swing.JTable tblHistPasajes;
+    public javax.swing.JTextField txtApellido;
+    public javax.swing.JTextField txtDNI;
     // End of variables declaration//GEN-END:variables
 }
