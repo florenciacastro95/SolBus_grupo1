@@ -88,7 +88,7 @@ public class Pasajero {
     
     @Override
     public String toString() {
-        return "Nombre: " + nombre + " " +apellido;
+        return nombre + " " +apellido;
     }
     
     

@@ -132,7 +132,7 @@ public class PasajeData {
                 + "fechaViaje = ? AND horaViaje = ? AND asiento = ?";
 
         try {
-            PreparedStatement ps = c.prepareStatement(sql);
+            PreparedStatement ps =c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, rutaBuscada.getIdRuta());
             ps.setInt(2, colectivo.getIdColectivo());
             ps.setDate(3, Date.valueOf(fecha));
