@@ -41,9 +41,10 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
     private InfGestionPasajes pasajeVista;
     private PasajeroData pasajeroData;
 
-    /**
-     * ******************
-     *****CONSTRUCTOR***** *******************
+    /*
+     *********************
+     *****CONSTRUCTOR*****
+     *********************
      */
     public ctrlCargaPasajes(Pasaje pasaje, PasajeData pasajeData, InfGestionPasajes pasajeVista) {
         this.pasaje = pasaje;
@@ -76,16 +77,18 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
     @Override
 
-    /**
-     * ***********************
-     *****ACTION PERFORMED***** ************************
+    /*
+     **************************
+     *****ACTION PERFORMED*****
+     **************************
      */
     public void actionPerformed(ActionEvent e) {
         //mirar la capacidad de el colectivo
 
-        /**
-         * ********************
-         *****VENDER PASAJE***** *********************
+        /*
+         ***********************
+         *****VENDER PASAJE*****
+         ***********************
          */
         if (e.getSource() == pasajeVista.btnVenderPasaje) {
             Pasaje pasaje;
@@ -164,9 +167,10 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             }
         }
 
-        /**
-         * ********************
-         *****ANULAR PASAJE***** *********************
+        /*
+         ***********************
+         *****ANULAR PASAJE*****
+         ***********************
          */
         if (e.getSource() == pasajeVista.btnAnularPasaje) {
 
@@ -181,14 +185,13 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             if (pasajeVista.cbHorario.getSelectedItem() != null) {
                 horita = ((Horario) pasajeVista.cbHorario.getSelectedItem()).getHoraSalida();
             }
-            
+
             if (pasajeVista.dateChooser.getDate() != null) {
                 fechita = pasajeVista.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            }
-            else {
+            } else {
                 fechita = LocalDate.now();
             }
-                
+
             if (selectedRow != -1 && selectedColumn != -1) {
                 Object value = pasajeVista.tblAsientos.getValueAt(selectedRow, selectedColumn);
                 if (value instanceof Integer) {
@@ -197,7 +200,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
                     Pasaje pasaje = pasajeData.buscarPasajePorViaje(ruta, colectivo, fechita, horita, asiento);
                     Pasajero pasajero = pasajeroData.buscarPasajeroPorId(pasaje.getPasajero().getIdPasajero());
-                    
+
                     System.out.println(pasajero.getIdPasajero());
                     ///*
                     if (pasaje != null) {
@@ -228,9 +231,8 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         }
 
         /**
-         * ****************************
-         *****PASAJERO REG/O NO REG*****
-         *****************************
+         *******************************
+         *****PASAJERO REG/O NO REG***** ******************************
          */
         if (e.getSource() == pasajeVista.rbNoRegistrado) {
 
@@ -248,11 +250,11 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
     }
 
-    /**
-     * ***********************
+    /*
+     **************************
      ***ITEM CHANGE PARA EL ***
-     **COMBO DE HORARIO******
-     * ************************
+     *** COMBO DE HORARIO******
+     **************************
      */
     @Override
     public void itemStateChanged(ItemEvent ie) {
@@ -281,14 +283,18 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                 System.out.println("A ver si esto funca");
                 cargarTblAsientos();
             }
+            if(ie.getSource() == pasajeVista.cbHorario){
+            
+            }
 
         }
 
     }
 
-    /**
-     * *******************
-     *****VALIDACIONES***** ********************
+    /*
+     **********************
+     *****VALIDACIONES*****
+     **********************
      */
     public boolean validarEnteros(String s) {
 
@@ -321,9 +327,10 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
     }
 
-    /**
-     * *********************
-     ***CABECERA DEL TABLE*** **********************
+    /*
+     ************************
+     ***CABECERA DEL TABLE***
+     ************************
      */
     private void armarCabeceraTblAsientos() {
         DefaultTableModel model = new DefaultTableModel(new Object[]{"Ventana", "Pasillo", "Pasillo", "Ventana"}, 0) {
@@ -359,9 +366,10 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         pasajeVista.tblAsientos.getTableHeader().setReorderingAllowed(false);
     }
 
-    /**
-     * ********************
-     ***TABLE DE ASIENTOS*** *********************
+    /*
+     ***********************
+     ***TABLE DE ASIENTOS*** 
+     ***********************
      */
     private void cargarTblAsientos() {
         DefaultTableModel model = (DefaultTableModel) pasajeVista.tblAsientos.getModel();
@@ -396,9 +404,10 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         }
     }
 
-    /**
-     * ******************
-     ***PARTE DE DISEÑO*** *******************
+    /*
+     *********************
+     ***PARTE DE DISEÑO***
+     *********************
      */
     //PALETA DE COLORES EN:https://paletadecolores.com.ar/paleta/e7ddd3/c0c2bd/9c9994/29251c/e6aa9f/
     //    #174D51
@@ -506,11 +515,13 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         }
     }
 
-    /**
-     * *********************************
-     ********CLASE INTERNA PARA ********* ***DARLE FORMATO A LAS CELDAS *****
-     * USAMOS LA CLASE A IMPLEMENTAR DEL * *****DefaultTableCellRenderer *****
-     * **********************************
+    /*
+     *************************************
+     ********CLASE INTERNA PARA **********
+     ***DARLE FORMATO A LAS CELDAS *******
+     * USAMOS LA CLASE A IMPLEMENTAR DEL * 
+     *****DefaultTableCellRenderer *******
+     *************************************
      */
     class PoneteBonitaTablita extends DefaultTableCellRenderer {
 
