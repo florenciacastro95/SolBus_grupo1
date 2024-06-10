@@ -10,6 +10,8 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalTime;
@@ -17,28 +19,39 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 import vistas.infGestionRutaHorario;
 
-public class ctrlGestionRutaHorario implements ActionListener {
+public class ctrlGestionRutaHorario implements ActionListener, ItemListener {
     
     private Ruta ruta;
     private Horario horario;
     private RutaData rD;
     private HorarioData hD;
     private infGestionRutaHorario gRutHorVista;
-
+    private DefaultTableModel model1 = new DefaultTableModel();
+    private DefaultTableModel model2 = new DefaultTableModel();
+    
     public ctrlGestionRutaHorario(Ruta ruta, Horario horario, RutaData rD, HorarioData hD, infGestionRutaHorario gRutHorVista) {
         this.ruta = ruta;
         this.horario = horario;
         this.rD = rD;
         this.hD = hD;
         this.gRutHorVista = gRutHorVista;
-        gRutHorVista.cargarTablaRuta((ArrayList) rD.listarRutasDisponibles());
+        armarCabeceraRuta();
+        armarCabeceraHor();
+        poneteBonito();
+        cargarCbRuta((ArrayList) rD.listarRutasDisponibles());
+        cargarTablaRuta((ArrayList) rD.listarRutasDisponibles());
+        
         gRutHorVista.btnAgregar.addActionListener(this);
         gRutHorVista.btnFiltrar.addActionListener(this);
+        gRutHorVista.btnVerTodas.addActionListener(this);
         gRutHorVista.btnBajaRuta.addActionListener(this);
+        gRutHorVista.btnActRuta.addActionListener(this);
+        gRutHorVista.btnAgregarF.addActionListener(this);
         
-        poneteBonito();
+        gRutHorVista.cbRuta.addItemListener(this);
     }
 
     
@@ -46,6 +59,7 @@ public class ctrlGestionRutaHorario implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent ae) {
+        //PANEL DE RUTA
         if (ae.getSource() == gRutHorVista.btnAgregar) {
             
             if (validarString(gRutHorVista.jtfOrigen.getText())) {
@@ -60,7 +74,7 @@ public class ctrlGestionRutaHorario implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Campo inválido de Destino");
             }
 
-            if (validarDuracion(gRutHorVista.jtfDuracion.getText())) {
+            if (validarTiempo(gRutHorVista.jtfDuracion.getText())) {
                 ruta.setDuracion(LocalTime.parse(gRutHorVista.jtfDuracion.getText()));
             } else {
                 JOptionPane.showMessageDialog(null, "Campo inválido de Duración");
@@ -68,31 +82,37 @@ public class ctrlGestionRutaHorario implements ActionListener {
             ruta.setEstado(true);
             rD.guardarRuta(ruta);
             limpiarTFRuta();
-            gRutHorVista.cargarTablaRuta((ArrayList) rD.listarRutasDisponibles());
+            limpiarTablaRuta();
+            cargarTablaRuta((ArrayList) rD.listarRutasDisponibles());
         }
         if (ae.getSource() == gRutHorVista.btnFiltrar) {
-            /*
-            A MEJORAR:
-                *   Que envíe un mensaje si el origen o el destino no existe en SolBus
-                *   Que el Internal Frame inicie con todas las rutas listadas
-                *   Actualizar las rutas listadas luego de guardar, eliminar y actualizar.
-                *   Btn ver todas. O volver a radioButton.
-            */
-            gRutHorVista.limpiarTablaRuta();
+            
+            limpiarTablaRuta();
             if (validarString(gRutHorVista.jtfOrigen.getText())) {
-                gRutHorVista.cargarTablaRuta((ArrayList) rD.listarRutasPorOrigen(gRutHorVista.jtfOrigen.getText()));
+                cargarTablaRuta((ArrayList) rD.listarRutasPorOrigen(gRutHorVista.jtfOrigen.getText()));
 
             } else if (validarString(gRutHorVista.jtfDestino.getText())) {
                 //Acá listar por destino
-                gRutHorVista.cargarTablaRuta((ArrayList) rD.listarRutasPorDestino(gRutHorVista.jtfDestino.getText()));
+                cargarTablaRuta((ArrayList) rD.listarRutasPorDestino(gRutHorVista.jtfDestino.getText()));
             } else {
                 JOptionPane.showMessageDialog(null, "Busqueda inválida. Para poder efectuar esta búsqueda debe ingresar un "
                         + "origen o un destino válidos");
-                gRutHorVista.cargarTablaRuta((ArrayList) rD.listarRutasDisponibles());
+                cargarTablaRuta((ArrayList) rD.listarRutasDisponibles());
+            }
+            if(tablaRutaVacia()){
+                JOptionPane.showMessageDialog(null, "Ese origen o destino no se encuentra entre nuestras rutas aún :'(");
             }
             limpiarTFRuta();
         }
+        
+        if (ae.getSource() == gRutHorVista.btnVerTodas) {
+            
+            limpiarTablaRuta();
+            cargarTablaRuta((ArrayList) rD.listarRutasDisponibles());
+        }
+        
         if (ae.getSource() == gRutHorVista.btnBajaRuta) {
+            
             int filaSelect = gRutHorVista.tblListarRutas.getSelectedRow();
             if (filaSelect != -1) {
                 String mensaje = "¿Está seguro que desea eliminar la ruta?";
@@ -101,11 +121,126 @@ public class ctrlGestionRutaHorario implements ActionListener {
                     int idRuta = (int) gRutHorVista.tblListarRutas.getValueAt(filaSelect, 0);
                     
                     rD.bajaRuta(idRuta);
-                    gRutHorVista.limpiarTablaRuta();
-                    gRutHorVista.cargarTablaRuta((ArrayList) rD.listarRutasDisponibles());
-  
+                    limpiarTablaRuta();
+                    cargarTablaRuta((ArrayList) rD.listarRutasDisponibles());
                 }
             }
+        }
+        
+        if (ae.getSource() == gRutHorVista.btnActRuta) {
+            int filaSelect = gRutHorVista.tblListarRutas.getSelectedRow();
+            if (filaSelect != -1) {
+                int idRuta = (int) gRutHorVista.tblListarRutas.getValueAt(filaSelect, 0);
+                ruta = rD.buscarRutaPorID(idRuta);
+                if(validarString((String) gRutHorVista.tblListarRutas.getValueAt(filaSelect, 1))){
+                    ruta.setOrigen((String) gRutHorVista.tblListarRutas.getValueAt(filaSelect, 1));
+                }
+                if(validarString((String) gRutHorVista.tblListarRutas.getValueAt(filaSelect, 2))){
+                    ruta.setDestino((String) gRutHorVista.tblListarRutas.getValueAt(filaSelect, 2));
+                }
+                if(validarTiempo((String) gRutHorVista.tblListarRutas.getValueAt(filaSelect, 3))){
+                    ruta.setDuracion(LocalTime.parse((String) gRutHorVista.tblListarRutas.getValueAt(filaSelect, 3)));
+                }
+                
+                String mensaje = "¿Está seguro que desea actualizar la ruta?";
+                int respuesta = JOptionPane.showConfirmDialog(null, mensaje, "Confirmación", JOptionPane.YES_NO_OPTION);
+                if (respuesta == JOptionPane.YES_OPTION){
+                    rD.actualizarRuta(ruta);
+                    limpiarTablaRuta();
+                    cargarTablaRuta((ArrayList) rD.listarRutasDisponibles());
+                }
+                
+            }
+            
+        }
+        
+        //PANEL DE HORARIOS
+        if(ae.getSource() == gRutHorVista.btnAgregarF){
+ 
+            model2.addRow(new Object[] {"", "Salida", "Llegada"});
+        }
+        //Falta agregar funcionalidad 
+        if(ae.getSource() == gRutHorVista.btnAgregarHor){
+            ArrayList<Horario> hor = new ArrayList<Horario>();
+            
+        }
+        /*
+        Eliminar y actualizar
+        */
+    }
+    
+    @Override
+    public void itemStateChanged(ItemEvent ie) {
+        if(ie.getStateChange() == ItemEvent.SELECTED){
+            if(ie.getSource() == gRutHorVista.cbRuta){
+                limpiarTablaHor();
+                ArrayList<Horario> hor = new ArrayList<Horario>();
+                ruta = (Ruta) gRutHorVista.cbRuta.getSelectedItem();
+                hor = (ArrayList<Horario>) hD.listarHorariosPorRuta(ruta);
+                cargarTablaHor(hor);
+            }         
+        }
+    }
+    
+    
+    private void armarCabeceraRuta() {
+        ArrayList<Object> filaCabecera = new ArrayList<>();
+        filaCabecera.add("N° de Ruta");
+        filaCabecera.add("Origen");
+        filaCabecera.add("Destino");
+        filaCabecera.add("Duracion");
+        
+
+        for (Object i : filaCabecera) {
+            model1.addColumn(i);
+        }
+        gRutHorVista.tblListarRutas.setModel(model1);
+    }
+    
+    private void armarCabeceraHor() {
+        ArrayList<Object> cabHorario = new ArrayList<>();
+        cabHorario.add("N° de Horario");
+        cabHorario.add("Hora de salida");
+        cabHorario.add("Hora de llegada");
+        
+
+        for (Object i : cabHorario) {
+            model2.addColumn(i);
+        }
+        gRutHorVista.tblHorarios.setModel(model2);
+    }
+    
+    public void cargarTablaRuta(ArrayList arrayList){
+        ArrayList<Ruta> comodin = arrayList;
+        
+        for(Ruta rut : comodin) {
+            model1.addRow(new Object[] {rut.getIdRuta(), rut.getOrigen(), rut.getDestino(), rut.getDuracion()});                    
+        }  
+    }
+    
+    public void cargarTablaHor(ArrayList arrayList){
+        ArrayList<Horario> comodin = arrayList;
+        
+        for(Horario hor : comodin) {
+            model2.addRow(new Object[] {hor.getIdHorario(), hor.getHoraSalida(), hor.getHoraLlegada()});                    
+        }  
+    }
+    
+    public void limpiarTablaRuta(){
+        model1.setRowCount(0);
+    }
+    
+    public void limpiarTablaHor(){
+        model2.setRowCount(0);
+    }
+    
+    public boolean tablaRutaVacia(){
+        return model1.getRowCount() == 0;
+    }
+    
+    public void cargarCbRuta(ArrayList<Ruta> rutas) {
+        for (Ruta ruta : rutas) {
+            gRutHorVista.cbRuta.addItem(ruta);
         }
     }
     
@@ -116,7 +251,7 @@ public class ctrlGestionRutaHorario implements ActionListener {
         //reciclar código está buenísmo =)
     }
     
-    public boolean validarDuracion(String s) {
+    public boolean validarTiempo(String s) {
         String regExp = "^([0-1][0-9]|2[0-3]):[0-5][0-9]$";
 
         return s.matches(regExp);
@@ -129,7 +264,7 @@ public class ctrlGestionRutaHorario implements ActionListener {
     }
     public final void poneteBonito() {
 
-        gRutHorVista.setSize(new Dimension(570, 620));
+        gRutHorVista.setSize(new Dimension(1000, 620));
         gRutHorVista.setBorder(BorderFactory.createLineBorder(new Color(41, 37, 28), 3));
         gRutHorVista.getContentPane().setBackground(new Color(231, 221, 211));
 
@@ -139,20 +274,20 @@ public class ctrlGestionRutaHorario implements ActionListener {
         gRutHorVista.btnAgregarF.setBackground(new Color(41, 37, 28));
         gRutHorVista.btnBajaRuta.setBackground(new Color(41, 37, 28));
         gRutHorVista.btnFiltrar.setBackground(new Color(41, 37, 28));
-        gRutHorVista.jButton2.setBackground(new Color(41, 37, 28));
+        gRutHorVista.btnAgregarHor.setBackground(new Color(41, 37, 28));
         gRutHorVista.jButton3.setBackground(new Color(41, 37, 28));
         gRutHorVista.jButton4.setBackground(new Color(41, 37, 28));
-        gRutHorVista.jButton5.setBackground(new Color(41, 37, 28));
+        gRutHorVista.btnVerTodas.setBackground(new Color(41, 37, 28));
 
         gRutHorVista.btnActRuta.setForeground(Color.white);
         gRutHorVista.btnAgregar.setForeground(Color.white);
         gRutHorVista.btnAgregarF.setForeground(Color.white);
         gRutHorVista.btnBajaRuta.setForeground(Color.white);
         gRutHorVista.btnFiltrar.setForeground(Color.white);
-        gRutHorVista.jButton2.setForeground(Color.white);
+        gRutHorVista.btnAgregarHor.setForeground(Color.white);
         gRutHorVista.jButton3.setForeground(Color.white);
         gRutHorVista.jButton4.setForeground(Color.white);
-        gRutHorVista.jButton5.setForeground(Color.white);
+        gRutHorVista.btnVerTodas.setForeground(Color.white);
 
         // Labels
         gRutHorVista.jLabel1.setForeground(new Color(41, 37, 28));
@@ -172,11 +307,11 @@ public class ctrlGestionRutaHorario implements ActionListener {
         gRutHorVista.jtfOrigen.setBackground(new Color(192, 153, 139));
 
         // ComboBox
-        gRutHorVista.cbHorario.setBackground(new Color(231, 221, 211));
+        gRutHorVista.cbRuta.setBackground(new Color(231, 221, 211));
 
         // Tablas
       
-        gRutHorVista.jTable2.setBackground(new Color(192, 153, 139));
+        gRutHorVista.tblHorarios.setBackground(new Color(192, 153, 139));
         gRutHorVista.tblListarRutas.setBackground(new Color(192, 153, 139));
 
         // Centramos los títulos
@@ -204,19 +339,20 @@ public class ctrlGestionRutaHorario implements ActionListener {
             gRutHorVista.btnAgregarF.setFont(montserratFont);
             gRutHorVista.btnBajaRuta.setFont(montserratFont);
             gRutHorVista.btnFiltrar.setFont(montserratFont);
-            gRutHorVista.jButton2.setFont(montserratFont);
+            gRutHorVista.btnAgregarHor.setFont(montserratFont);
             gRutHorVista.jButton3.setFont(montserratFont);
             gRutHorVista.jButton4.setFont(montserratFont);
-            gRutHorVista.jButton5.setFont(montserratFont);
+            gRutHorVista.btnVerTodas.setFont(montserratFont);
             gRutHorVista.jtfDestino.setFont(montserratFont);
             gRutHorVista.jtfDuracion.setFont(montserratFont);
             gRutHorVista.jtfOrigen.setFont(montserratFont);
-            gRutHorVista.cbHorario.setFont(montserratFont);
+            gRutHorVista.cbRuta.setFont(montserratFont);
 
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
     }
+
     
     
 }
