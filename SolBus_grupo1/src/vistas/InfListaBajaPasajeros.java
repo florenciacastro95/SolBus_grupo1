@@ -208,7 +208,7 @@ public class InfListaBajaPasajeros extends javax.swing.JInternalFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jtDni, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
                             .addComponent(jtNombre))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(7, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addGap(89, 89, 89)
@@ -274,38 +274,28 @@ public class InfListaBajaPasajeros extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton btnActualizar;
     public javax.swing.JButton btnActualizar1;
     public javax.swing.JButton btnBorrar;
-    public javax.swing.JButton btnBorrar1;
     public javax.swing.JButton btnRegistrar;
     private javax.swing.ButtonGroup grupete;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    public javax.swing.JPanel jPanel1;
+    public javax.swing.JPanel jPanel3;
     public javax.swing.JTextField jTextField5;
     public javax.swing.JTextField jtDni;
     public javax.swing.JTable jtListarPasajeros;
-    public javax.swing.JTable jtListarPasajeros1;
     public javax.swing.JTextField jtNombre;
-    private javax.swing.JLabel lblApellido;
-    private javax.swing.JLabel lblCorreo;
-    private javax.swing.JLabel lblDni;
-    private javax.swing.JLabel lblNombre;
-    private javax.swing.JLabel lblTelefono;
-    private javax.swing.JLabel lblTituloListarPasajeros;
-    private javax.swing.JLabel lblTituloListarPasajeros1;
-    private javax.swing.JLabel lblTituloRegistroPasajero;
-    private javax.swing.JPanel pnlDniNombre;
-    private javax.swing.JPanel pnlDniNombre1;
+    public javax.swing.JLabel lblApellido;
+    public javax.swing.JLabel lblCorreo;
+    public javax.swing.JLabel lblDni;
+    public javax.swing.JLabel lblNombre;
+    public javax.swing.JLabel lblTelefono;
+    public javax.swing.JLabel lblTituloListarPasajeros;
+    public javax.swing.JLabel lblTituloRegistroPasajero;
+    public javax.swing.JPanel pnlDniNombre;
     public javax.swing.JRadioButton rbDni;
-    public javax.swing.JRadioButton rbDni1;
     public javax.swing.JRadioButton rbNombreApellido;
-    public javax.swing.JRadioButton rbNombreApellido1;
     public javax.swing.JRadioButton rbVerTodo;
-    public javax.swing.JRadioButton rbVerTodo1;
-    private javax.swing.JScrollPane spListarPasajeros;
-    private javax.swing.JScrollPane spListarPasajeros1;
+    public javax.swing.JScrollPane spListarPasajeros;
     public javax.swing.JTextField txtApellido;
     public javax.swing.JTextField txtCorreo;
     public javax.swing.JTextField txtDni;
