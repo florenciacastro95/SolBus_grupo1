@@ -35,10 +35,9 @@ public class ctrlListarPasajeros implements ActionListener {
         pasajeroVista.rbDni.addActionListener(this);
         pasajeroVista.rbNombreApellido.addActionListener(this);
         pasajeroVista.rbVerTodo.addActionListener(this);
-        pasajeroVista.rbDni.addActionListener(this);
         pasajeroVista.btnBorrar.addActionListener(this);
         pasajeroVista.btnRegistrar.addActionListener(this);
-        pasajeroVista.btnActualizar.addActionListener(this);
+        pasajeroVista.btnActualizar1.addActionListener(this);
         armarCabecera();
         addDocumentListeners();
 
@@ -109,17 +108,17 @@ public class ctrlListarPasajeros implements ActionListener {
 
             if (!validarString(nombre)) {
                 JOptionPane.showMessageDialog(pasajeroVista, "Nombre inválido.");
-               
+
             }
 
             if (!validarString(apellido)) {
                 JOptionPane.showMessageDialog(pasajeroVista, "Apellido inválido.");
-               
+
             }
 
             if (!dniText.matches("\\d+") || !validarDniTam(dniText.length())) {
                 JOptionPane.showMessageDialog(pasajeroVista, "DNI inválido.");
-                
+
             }
 
             Pasajero nuevoPasajero = new Pasajero();
@@ -143,11 +142,10 @@ public class ctrlListarPasajeros implements ActionListener {
             pasajeroVista.jTextField5.setText("");
         }
 
-        if (e.getSource() == pasajeroVista.btnActualizar) {
+        if (e.getSource() == pasajeroVista.btnActualizar1) {
             int filaSeleccionada = pasajeroVista.jtListarPasajeros.getSelectedRow();
             if (filaSeleccionada != -1) {
                 String dni = (String) pasajeroVista.jtListarPasajeros.getValueAt(filaSeleccionada, 2);
-                 System.out.println("DNI seleccionado: " + dni);
                 Pasajero pasajero = pasajeroData.buscarPasajeroPorDni(dni);
 
                 if (pasajero != null) {
@@ -167,24 +165,20 @@ public class ctrlListarPasajeros implements ActionListener {
             }
         }
 
+    }
 
+    public void cargarTabla(Pasajero p) {
 
+        model.setRowCount(0);
+
+        model.addRow(new Object[]{p.getNombre(), p.getApellido(), p.getDni(), p.getCorreo(), p.getTelefono()});
 
     }
 
-    
-    public void cargarTabla(Pasajero p){
-    
-       model.setRowCount(0);
-       
-       model.addRow(new Object[] {p.getNombre(),p.getApellido(),p.getDni(),p.getCorreo(),p.getTelefono()});
-    
-    }
-    
- public boolean validarDniTam(int tam) {
+    public boolean validarDniTam(int tam) {
         return tam == 8 || tam == 7;
     }
-    
+
     public boolean validarString(String s) {
         String regExp = "^[\\p{L}\\p{M} .'-]+$";
 
@@ -192,8 +186,7 @@ public class ctrlListarPasajeros implements ActionListener {
         //estoy perdiendo salud mental con este paquete de control
     }
 
-
-        private void addDocumentListeners() {
+    private void addDocumentListeners() {
         pasajeroVista.jtDni.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -228,34 +221,32 @@ public class ctrlListarPasajeros implements ActionListener {
             }
         });
     }
-    
-        private void buscarPorDni() {
-            System.out.println("viva la pepadni");
+
+    private void buscarPorDni() {
         if (pasajeroVista.rbDni.isSelected()) {
             String dniText = pasajeroVista.jtDni.getText();
             if (!dniText.isEmpty()) {
                 ArrayList<Pasajero> pasajeros = (ArrayList<Pasajero>) pasajeroData.listarPasajerosPorPrefijoDni(dniText);
                 actualizarTablaConPasajeros(pasajeros);
             } else {
-                model.setRowCount(0); 
+                model.setRowCount(0);
             }
         }
     }
 
     private void buscarPorNombreApellido() {
-        System.out.println("viva la pepa");
         if (pasajeroVista.rbNombreApellido.isSelected()) {
             String nombreApellido = pasajeroVista.jtNombre.getText();
             if (!nombreApellido.isEmpty()) {
                 ArrayList<Pasajero> pasajeros = (ArrayList<Pasajero>) pasajeroData.listarPasajerosPorPrefijoApellido(nombreApellido);
                 actualizarTablaConPasajeros(pasajeros);
             } else {
-                model.setRowCount(0); 
+                model.setRowCount(0);
             }
         }
     }
-    
-        private void actualizarTablaConPasajeros(ArrayList<Pasajero> pasajeros) {
+
+    private void actualizarTablaConPasajeros(ArrayList<Pasajero> pasajeros) {
         // Limpia la tabla
         model.setRowCount(0);
 
