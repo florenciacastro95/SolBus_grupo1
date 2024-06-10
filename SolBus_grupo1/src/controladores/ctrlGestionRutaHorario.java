@@ -34,20 +34,13 @@ public class ctrlGestionRutaHorario implements ActionListener {
         gRutHorVista.btnBajaRuta.addActionListener(this);
     }
 
-    public ctrlGestionRutaHorario(RutaData rd, infGestionRutaHorario igrh) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
     
     
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == gRutHorVista.btnAgregar) {
-            /*
-            ATENCIÓN
-            Se guardan con estado = false;
-            Corregir-
-            */
+            
             if (validarString(gRutHorVista.jtfOrigen.getText())) {
                 ruta.setOrigen(gRutHorVista.jtfOrigen.getText());
             } else {
@@ -65,8 +58,10 @@ public class ctrlGestionRutaHorario implements ActionListener {
             } else {
                 JOptionPane.showMessageDialog(null, "Campo inválido de Duración");
             }
+            ruta.setEstado(true);
             rD.guardarRuta(ruta);
             limpiarTFRuta();
+            gRutHorVista.cargarTablaRuta((ArrayList) rD.listarRutasDisponibles());
         }
         if (ae.getSource() == gRutHorVista.btnFiltrar) {
             /*

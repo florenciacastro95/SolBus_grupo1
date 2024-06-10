@@ -13,11 +13,11 @@ public class Ruta {
     public Ruta() {
     }
 
-    public Ruta(String origen, String destino, LocalTime duracion, boolean estado) {
+    public Ruta(String origen, String destino, LocalTime duracion) {
         this.origen = origen;
         this.destino = destino;
         this.duracion = duracion;
-        this.estado=estado;
+        this.estado= true;
     }
 
     public Ruta(int idRuta, String origen, String destino, LocalTime duracion, boolean estado) {

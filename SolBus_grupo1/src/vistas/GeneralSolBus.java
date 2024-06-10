@@ -30,7 +30,7 @@ public class GeneralSolBus extends javax.swing.JFrame {
         mHorarios = new javax.swing.JMenu();
         MRutas = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        miListarRutas = new javax.swing.JMenuItem();
+        miGestRutHor = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -83,13 +83,13 @@ public class GeneralSolBus extends javax.swing.JFrame {
         jMenuItem1.setText("Gestion de rutas");
         MRutas.add(jMenuItem1);
 
-        miListarRutas.setText("Rutas disponibles");
-        miListarRutas.addActionListener(new java.awt.event.ActionListener() {
+        miGestRutHor.setText("Gestion de rutas y horarios");
+        miGestRutHor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miListarRutasActionPerformed(evt);
+                miGestRutHorActionPerformed(evt);
             }
         });
-        MRutas.add(miListarRutas);
+        MRutas.add(miGestRutHor);
 
         mbEscritorio.add(MRutas);
 
@@ -129,18 +129,21 @@ public class GeneralSolBus extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_miGestionPasajesActionPerformed
 
-    private void miListarRutasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miListarRutasActionPerformed
+    private void miGestRutHorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGestRutHorActionPerformed
         // TODO add your handling code here:
+        Ruta r = new Ruta();
+        Horario h = new Horario();
         RutaData rd = new RutaData();
-        vistas.InfListarRutas ilr = new vistas.InfListarRutas();
-        ctrlListarRutas clr = new ctrlListarRutas(rd, ilr);
+        HorarioData hd = new HorarioData();
+        vistas.infGestionRutaHorario igrh = new vistas.infGestionRutaHorario();
+        ctrlGestionRutaHorario cgrh = new ctrlGestionRutaHorario(r, h, rd, hd, igrh);
         dpEscritorio.removeAll();
         dpEscritorio.repaint();
-        ilr.setVisible(true);
-        ilr.setLocation(00, 00);
-        dpEscritorio.add(ilr);
-        dpEscritorio.moveToFront(ilr);
-    }//GEN-LAST:event_miListarRutasActionPerformed
+        igrh.setVisible(true);
+        igrh.setLocation(00, 00);
+        dpEscritorio.add(igrh);
+        dpEscritorio.moveToFront(igrh);
+    }//GEN-LAST:event_miGestRutHorActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         Pasajero pasajero = new Pasajero();
@@ -200,8 +203,8 @@ public class GeneralSolBus extends javax.swing.JFrame {
     private javax.swing.JMenu mPasajeros;
     private javax.swing.JMenu mPasajes;
     private javax.swing.JMenuBar mbEscritorio;
+    private javax.swing.JMenuItem miGestRutHor;
     private javax.swing.JMenuItem miGestionPasajes;
     private javax.swing.JMenuItem miHistorialAnular;
-    private javax.swing.JMenuItem miListarRutas;
     // End of variables declaration//GEN-END:variables
 }

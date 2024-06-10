@@ -59,12 +59,12 @@
                 <Property name="text" type="java.lang.String" value="Gestion de rutas"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="miListarRutas">
+            <MenuItem class="javax.swing.JMenuItem" name="miGestRutHor">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Rutas disponibles"/>
+                <Property name="text" type="java.lang.String" value="Gestion de rutas y horarios"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miListarRutasActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miGestRutHorActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

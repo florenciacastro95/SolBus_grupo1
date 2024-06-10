@@ -173,7 +173,7 @@ public class PasajeroData {
 
     public void actualizarPasajero(Pasajero pasajero) {
 
-        String sql = "UPDATE pasajero SET nombre=?, apellido=?, `dni`=?, `estado`=?, `correo`=?, `telefono`=?,"
+        String sql = "UPDATE pasajero SET nombre=?, apellido=?, `dni`=?, `correo`=?, `telefono`=?,"
                 + " WHERE id_Pasajero= ?";
 
         try {
@@ -182,10 +182,9 @@ public class PasajeroData {
             ps.setString(1, pasajero.getNombre());
             ps.setString(2, pasajero.getApellido());
             ps.setString(3, pasajero.getDni());
-            ps.setBoolean(4, pasajero.isEstado());
-            ps.setString(5, pasajero.getCorreo());
-            ps.setString(6, pasajero.getTelefono());
-            ps.setInt(7, pasajero.getIdPasajero());
+            ps.setString(4, pasajero.getCorreo());
+            ps.setString(5, pasajero.getTelefono());
+            ps.setInt(6, pasajero.getIdPasajero());
 
             int validation = ps.executeUpdate();
             if (validation == 1) {
