@@ -5,6 +5,9 @@
  */
 package vistas;
 
+import entidades.Horario;
+import entidades.Ruta;
+
 /**
  *
  * @author Usuario
@@ -44,13 +47,13 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
 
         tblHistPasajes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8"
             }
         ));
         spnHistPasajes.setViewportView(tblHistPasajes);
@@ -60,10 +63,6 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
         rbgPasRutaHor.add(rbPasajero);
         rbPasajero.setText("pasajero");
 
-        txtApellido.setText("jTextField1");
-
-        txtDNI.setText("jTextField2");
-
         javax.swing.GroupLayout pnlPasajeroLayout = new javax.swing.GroupLayout(pnlPasajero);
         pnlPasajero.setLayout(pnlPasajeroLayout);
         pnlPasajeroLayout.setHorizontalGroup(
@@ -71,10 +70,12 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
             .addGroup(pnlPasajeroLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(pnlPasajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rbPasajero)
-                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(59, Short.MAX_VALUE))
+                    .addComponent(txtApellido)
+                    .addGroup(pnlPasajeroLayout.createSequentialGroup()
+                        .addComponent(rbPasajero)
+                        .addGap(0, 53, Short.MAX_VALUE))
+                    .addComponent(txtDNI))
+                .addContainerGap())
         );
         pnlPasajeroLayout.setVerticalGroup(
             pnlPasajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -88,8 +89,6 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
                 .addContainerGap(65, Short.MAX_VALUE))
         );
 
-        cbRutas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         rbgPasRutaHor.add(rbRuta);
         rbRuta.setText("ruta");
 
@@ -100,9 +99,11 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
             .addGroup(pnlRutaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlRutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rbRuta)
-                    .addComponent(cbRutas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(95, Short.MAX_VALUE))
+                    .addGroup(pnlRutaLayout.createSequentialGroup()
+                        .addComponent(rbRuta)
+                        .addGap(0, 100, Short.MAX_VALUE))
+                    .addComponent(cbRutas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         pnlRutaLayout.setVerticalGroup(
             pnlRutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,8 +117,6 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
         rbgPasRutaHor.add(rbHorario);
         rbHorario.setText("horario");
 
-        cbHorarios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         javax.swing.GroupLayout pnlHorarioLayout = new javax.swing.GroupLayout(pnlHorario);
         pnlHorario.setLayout(pnlHorarioLayout);
         pnlHorarioLayout.setHorizontalGroup(
@@ -125,9 +124,11 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
             .addGroup(pnlHorarioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rbHorario)
-                    .addComponent(cbHorarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(73, Short.MAX_VALUE))
+                    .addGroup(pnlHorarioLayout.createSequentialGroup()
+                        .addComponent(rbHorario)
+                        .addGap(0, 67, Short.MAX_VALUE))
+                    .addComponent(cbHorarios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         pnlHorarioLayout.setVerticalGroup(
             pnlHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,21 +144,20 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spnHistPasajes)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(205, 205, 205)
-                        .addComponent(lblTituloHistPasajes))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(spnHistPasajes, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(pnlPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(pnlRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(pnlHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(27, Short.MAX_VALUE))
+                        .addComponent(pnlPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+                        .addComponent(pnlRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(95, 95, 95)
+                        .addComponent(pnlHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTituloHistPasajes)
+                .addGap(298, 298, 298))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,8 +179,8 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JComboBox<String> cbHorarios;
-    public javax.swing.JComboBox<String> cbRutas;
+    public javax.swing.JComboBox<Horario> cbHorarios;
+    public javax.swing.JComboBox<Ruta> cbRutas;
     private javax.swing.JLabel lblTituloHistPasajes;
     private javax.swing.JPanel pnlHorario;
     private javax.swing.JPanel pnlPasajero;
