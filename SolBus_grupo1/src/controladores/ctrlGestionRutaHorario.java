@@ -264,63 +264,61 @@ public class ctrlGestionRutaHorario implements ActionListener, ItemListener {
     }
     public final void poneteBonito() {
 
-        gRutHorVista.setSize(new Dimension(1000, 620));
-        gRutHorVista.setBorder(BorderFactory.createLineBorder(new Color(41, 37, 28), 3));
-        gRutHorVista.getContentPane().setBackground(new Color(231, 221, 211));
+    gRutHorVista.setSize(new Dimension(1000, 620));
+    gRutHorVista.setBorder(BorderFactory.createLineBorder(new Color(202, 40, 43), 3));
+    gRutHorVista.getContentPane().setBackground(new Color(240, 240, 240)); // Gris claro
 
-        // Botones
-        gRutHorVista.btnActRuta.setBackground(new Color(41, 37, 28));
-        gRutHorVista.btnAgregar.setBackground(new Color(41, 37, 28));
-        gRutHorVista.btnAgregarF.setBackground(new Color(41, 37, 28));
-        gRutHorVista.btnBajaRuta.setBackground(new Color(41, 37, 28));
-        gRutHorVista.btnFiltrar.setBackground(new Color(41, 37, 28));
-        gRutHorVista.btnAgregarHor.setBackground(new Color(41, 37, 28));
-        gRutHorVista.jButton3.setBackground(new Color(41, 37, 28));
-        gRutHorVista.jButton4.setBackground(new Color(41, 37, 28));
-        gRutHorVista.btnVerTodas.setBackground(new Color(41, 37, 28));
+    // Botones
+    gRutHorVista.btnActRuta.setBackground(new Color(202, 40, 43)); // Color acento
+    gRutHorVista.btnAgregar.setBackground(new Color(202, 40, 43)); // Color acento
+    gRutHorVista.btnAgregarF.setBackground(new Color(202, 40, 43)); // Color acento
+    gRutHorVista.btnBajaRuta.setBackground(new Color(202, 40, 43)); // Color acento
+    gRutHorVista.btnFiltrar.setBackground(new Color(202, 40, 43)); // Color acento
+    gRutHorVista.btnAgregarHor.setBackground(new Color(202, 40, 43)); // Color acento
+    gRutHorVista.jButton3.setBackground(new Color(202, 40, 43)); // Color acento
+    gRutHorVista.jButton4.setBackground(new Color(202, 40, 43)); // Color acento
+    gRutHorVista.btnVerTodas.setBackground(new Color(202, 40, 43)); // Color acento
+    gRutHorVista.btnActRuta.setForeground(Color.white);
+    gRutHorVista.btnAgregar.setForeground(Color.white);
+    gRutHorVista.btnAgregarF.setForeground(Color.white);
+    gRutHorVista.btnBajaRuta.setForeground(Color.white);
+    gRutHorVista.btnFiltrar.setForeground(Color.white);
+    gRutHorVista.btnAgregarHor.setForeground(Color.white);
+    gRutHorVista.jButton3.setForeground(Color.white);
+    gRutHorVista.jButton4.setForeground(Color.white);
+    gRutHorVista.btnVerTodas.setForeground(Color.white);
 
-        gRutHorVista.btnActRuta.setForeground(Color.white);
-        gRutHorVista.btnAgregar.setForeground(Color.white);
-        gRutHorVista.btnAgregarF.setForeground(Color.white);
-        gRutHorVista.btnBajaRuta.setForeground(Color.white);
-        gRutHorVista.btnFiltrar.setForeground(Color.white);
-        gRutHorVista.btnAgregarHor.setForeground(Color.white);
-        gRutHorVista.jButton3.setForeground(Color.white);
-        gRutHorVista.jButton4.setForeground(Color.white);
-        gRutHorVista.btnVerTodas.setForeground(Color.white);
+    // Labels
+    gRutHorVista.jLabel1.setForeground(new Color(41, 37, 28));
+    gRutHorVista.jLabel2.setForeground(new Color(41, 37, 28));
+    gRutHorVista.jLabel3.setForeground(new Color(41, 37, 28));
+    gRutHorVista.jLabel4.setForeground(new Color(41, 37, 28));
+    gRutHorVista.jLabel5.setForeground(new Color(41, 37, 28));
+    gRutHorVista.jLabel6.setForeground(new Color(41, 37, 28));
 
-        // Labels
-        gRutHorVista.jLabel1.setForeground(new Color(41, 37, 28));
-        gRutHorVista.jLabel2.setForeground(new Color(41, 37, 28));
-        gRutHorVista.jLabel3.setForeground(new Color(41, 37, 28));
-        gRutHorVista.jLabel4.setForeground(new Color(41, 37, 28));
-        gRutHorVista.jLabel5.setForeground(new Color(41, 37, 28));
-        gRutHorVista.jLabel6.setForeground(new Color(41, 37, 28));
+    // Panels
+    gRutHorVista.pnlHorario.setBackground(new Color(240, 240, 240)); // Gris claro
+    gRutHorVista.pnlRuta.setBackground(new Color(240, 240, 240)); // Gris claro
 
-        // Panels
-        gRutHorVista.pnlHorario.setBackground(new Color(231, 221, 211));
-        gRutHorVista.pnlRuta.setBackground(new Color(231, 221, 211));
+    // TextFields
+    gRutHorVista.jtfDestino.setBackground(new Color(220, 220, 220)); // Gris medio
+    gRutHorVista.jtfDuracion.setBackground(new Color(220, 220, 220)); // Gris medio
+    gRutHorVista.jtfOrigen.setBackground(new Color(220, 220, 220)); // Gris medio
 
-        // TextFields
-        gRutHorVista.jtfDestino.setBackground(new Color(192, 153, 139));
-        gRutHorVista.jtfDuracion.setBackground(new Color(192, 153, 139));
-        gRutHorVista.jtfOrigen.setBackground(new Color(192, 153, 139));
+    // ComboBox
+    gRutHorVista.cbRuta.setBackground(new Color(240, 240, 240)); // Gris claro
 
-        // ComboBox
-        gRutHorVista.cbRuta.setBackground(new Color(231, 221, 211));
+    // Tablas
+    gRutHorVista.tblHorarios.setBackground(new Color(220, 220, 220)); // Gris medio
+    gRutHorVista.tblListarRutas.setBackground(new Color(220, 220, 220)); // Gris medio
 
-        // Tablas
-      
-        gRutHorVista.tblHorarios.setBackground(new Color(192, 153, 139));
-        gRutHorVista.tblListarRutas.setBackground(new Color(192, 153, 139));
-
-        // Centramos los títulos
-        gRutHorVista.jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
-        gRutHorVista.jLabel2.setHorizontalAlignment(SwingConstants.CENTER);
-        gRutHorVista.jLabel3.setHorizontalAlignment(SwingConstants.CENTER);
-        gRutHorVista.jLabel4.setHorizontalAlignment(SwingConstants.CENTER);
-        gRutHorVista.jLabel5.setHorizontalAlignment(SwingConstants.CENTER);
-        gRutHorVista.jLabel6.setHorizontalAlignment(SwingConstants.CENTER);
+    // Centramos los títulos
+    gRutHorVista.jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
+    gRutHorVista.jLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+    gRutHorVista.jLabel3.setHorizontalAlignment(SwingConstants.CENTER);
+    gRutHorVista.jLabel4.setHorizontalAlignment(SwingConstants.CENTER);
+    gRutHorVista.jLabel5.setHorizontalAlignment(SwingConstants.CENTER);
+    gRutHorVista.jLabel6.setHorizontalAlignment(SwingConstants.CENTER);
 
         // Aplicamos la fuente personalizada
         try {

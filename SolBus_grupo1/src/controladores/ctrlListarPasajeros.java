@@ -261,92 +261,88 @@ public class ctrlListarPasajeros implements ActionListener {
         }
     }
     
-    public final void poneteBonito() {
+public final void poneteBonito() {
 
-        pasajeroVista.setSize(new Dimension(900, 620));
-        pasajeroVista.setBorder(BorderFactory.createLineBorder(new Color(41, 37, 28), 3));
-        pasajeroVista.getContentPane().setBackground(new Color(231, 221, 211));
+    pasajeroVista.setSize(new Dimension(570, 620));
 
-        // Botones
-        pasajeroVista.btnActualizar1.setBackground(new Color(41, 37, 28));
-        pasajeroVista.btnBorrar.setBackground(new Color(41, 37, 28));
-        pasajeroVista.btnRegistrar.setBackground(new Color(41, 37, 28));
-        pasajeroVista.btnActualizar1.setForeground(Color.white);
-        pasajeroVista.btnBorrar.setForeground(Color.white);
-        pasajeroVista.btnRegistrar.setForeground(Color.white);
+    pasajeroVista.setBorder(BorderFactory.createLineBorder(new Color(202, 40, 43), 3));
 
-        // Títulos
-        pasajeroVista.lblTituloListarPasajeros.setForeground(new Color(41, 37, 28));
-        pasajeroVista.lblTituloRegistroPasajero.setForeground(new Color(41, 37, 28));
+    // FONDITO INTERNAAAAL
+    pasajeroVista.getContentPane().setBackground(new Color(240, 240, 240)); // Gris claro
 
-        // Tablas
-        pasajeroVista.spListarPasajeros.setBackground(new Color(231, 221, 211));
-        pasajeroVista.jtListarPasajeros.setBackground(new Color(192, 153, 139));
+    // MIRA ESOS BUTTONS PAPA
+    pasajeroVista.btnActualizar1.setBackground(new Color(202, 40, 43)); // Color acento
+    pasajeroVista.btnBorrar.setBackground(new Color(202, 40, 43)); // Color acento
+    pasajeroVista.btnRegistrar.setBackground(new Color(202, 40, 43)); // Color acento
+    pasajeroVista.btnActualizar1.setForeground(Color.white);
+    pasajeroVista.btnBorrar.setForeground(Color.white);
+    pasajeroVista.btnRegistrar.setForeground(Color.white);
 
-        // Labels
-        pasajeroVista.lblApellido.setForeground(new Color(41, 37, 28));
-        pasajeroVista.lblCorreo.setForeground(new Color(41, 37, 28));
-        pasajeroVista.lblDni.setForeground(new Color(41, 37, 28));
-        pasajeroVista.lblNombre.setForeground(new Color(41, 37, 28));
-        pasajeroVista.lblTelefono.setForeground(new Color(41, 37, 28));
+    // TITULO
+    pasajeroVista.lblTituloListarPasajeros.setForeground(new Color(41, 37, 28));
 
-        // Panels
-        pasajeroVista.jPanel1.setBackground(new Color(231, 221, 211));
-        pasajeroVista.jPanel3.setBackground(new Color(231, 221, 211));
-        pasajeroVista.pnlDniNombre.setBackground(new Color(231, 221, 211));
-        
+    // TABLITA BACK
+    pasajeroVista.spListarPasajeros.setBackground(new Color(240, 240, 240)); // Gris claro
+    pasajeroVista.jtListarPasajeros.setBackground(new Color(220, 220, 220)); // Gris medio
 
-        // TextFields
-        pasajeroVista.txtNombre.setBackground(new Color(192, 153, 139));
-        pasajeroVista.txtApellido.setBackground(new Color(192, 153, 139));
-        pasajeroVista.txtDni.setBackground(new Color(192, 153, 139));
-        pasajeroVista.jtDni.setBackground(new Color(192, 153, 139));
-        pasajeroVista.jtNombre.setBackground(new Color(192, 153, 139));
-        pasajeroVista.txtCorreo.setBackground(new Color(192, 153, 139));
-        pasajeroVista.jTextField5.setBackground(new Color(192, 153, 139));
+    // LABELS
+    pasajeroVista.lblApellido.setForeground(new Color(41, 37, 28));
+    pasajeroVista.lblCorreo.setForeground(new Color(41, 37, 28));
+    pasajeroVista.lblDni.setForeground(new Color(41, 37, 28));
+    pasajeroVista.lblNombre.setForeground(new Color(41, 37, 28));
+    pasajeroVista.lblTelefono.setForeground(new Color(41, 37, 28));
 
-        // RadioButtons
-        pasajeroVista.rbDni.setForeground(new Color(41, 37, 28));
-        
-        pasajeroVista.rbNombreApellido.setForeground(new Color(41, 37, 28));
-       
-        pasajeroVista.rbVerTodo.setForeground(new Color(41, 37, 28));
-       
+    // PANELS
+    pasajeroVista.jPanel1.setBackground(new Color(240, 240, 240)); // Gris claro
+    pasajeroVista.jPanel3.setBackground(new Color(240, 240, 240)); // Gris claro
+    pasajeroVista.pnlDniNombre.setBackground(new Color(240, 240, 240)); // Gris claro
 
-        // Centramos los títulos
-        pasajeroVista.lblTituloListarPasajeros.setHorizontalAlignment(SwingConstants.CENTER);
-        
-        pasajeroVista.lblTituloRegistroPasajero.setHorizontalAlignment(SwingConstants.CENTER);
+    // TEXTFIELDS
+    pasajeroVista.txtNombre.setBackground(new Color(220, 220, 220)); // Gris medio
+    pasajeroVista.txtApellido.setBackground(new Color(220, 220, 220)); // Gris medio
+    pasajeroVista.txtDni.setBackground(new Color(220, 220, 220)); // Gris medio
+    pasajeroVista.jtDni.setBackground(new Color(220, 220, 220)); // Gris medio
+    pasajeroVista.jtNombre.setBackground(new Color(220, 220, 220)); // Gris medio
+    pasajeroVista.txtCorreo.setBackground(new Color(220, 220, 220)); // Gris medio
+    pasajeroVista.jTextField5.setBackground(new Color(220, 220, 220)); // Gris medio
 
-        // Aplicamos la fuente personalizada
-        try {
-            Font montserratFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.PLAIN, 14);
-            Font montserratFontTitulo = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.BOLD, 18);
+    // RADIOBUTTONS
+    pasajeroVista.rbDni.setForeground(new Color(41, 37, 28));
+    pasajeroVista.rbNombreApellido.setForeground(new Color(41, 37, 28));
+    pasajeroVista.rbVerTodo.setForeground(new Color(41, 37, 28));
 
-            pasajeroVista.lblTituloListarPasajeros.setFont(montserratFontTitulo);
-            pasajeroVista.lblTituloRegistroPasajero.setFont(montserratFontTitulo);
+    // Centramos los títulos
+    pasajeroVista.lblTituloListarPasajeros.setHorizontalAlignment(SwingConstants.CENTER);
 
-            pasajeroVista.lblApellido.setFont(montserratFont);
-            pasajeroVista.lblCorreo.setFont(montserratFont);
-            pasajeroVista.lblDni.setFont(montserratFont);
-            pasajeroVista.lblNombre.setFont(montserratFont);
-            pasajeroVista.lblTelefono.setFont(montserratFont);
-            pasajeroVista.btnActualizar1.setFont(montserratFont);
-            pasajeroVista.btnBorrar.setFont(montserratFont);
-            pasajeroVista.btnRegistrar.setFont(montserratFont);
-            pasajeroVista.txtNombre.setFont(montserratFont);
-            pasajeroVista.txtApellido.setFont(montserratFont);
-            pasajeroVista.txtDni.setFont(montserratFont);
-            pasajeroVista.jtDni.setFont(montserratFont);
-            pasajeroVista.jtNombre.setFont(montserratFont);
-            pasajeroVista.txtCorreo.setFont(montserratFont);
-            pasajeroVista.jTextField5.setFont(montserratFont);
-            pasajeroVista.rbDni.setFont(montserratFont);
-            pasajeroVista.rbNombreApellido.setFont(montserratFont);
-            pasajeroVista.rbVerTodo.setFont(montserratFont);
+    // Aplicamos la fuente personalizada
+    try {
+        Font montserratFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.PLAIN, 14);
+        Font montserratFontTitulo = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.BOLD, 18);
 
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
-        }
+        pasajeroVista.lblTituloListarPasajeros.setFont(montserratFontTitulo);
+
+        pasajeroVista.lblApellido.setFont(montserratFont);
+        pasajeroVista.lblCorreo.setFont(montserratFont);
+        pasajeroVista.lblDni.setFont(montserratFont);
+        pasajeroVista.lblNombre.setFont(montserratFont);
+        pasajeroVista.lblTelefono.setFont(montserratFont);
+        pasajeroVista.btnActualizar1.setFont(montserratFont);
+        pasajeroVista.btnBorrar.setFont(montserratFont);
+        pasajeroVista.btnRegistrar.setFont(montserratFont);
+        pasajeroVista.txtNombre.setFont(montserratFont);
+        pasajeroVista.txtApellido.setFont(montserratFont);
+        pasajeroVista.txtDni.setFont(montserratFont);
+        pasajeroVista.jtDni.setFont(montserratFont);
+        pasajeroVista.jtNombre.setFont(montserratFont);
+        pasajeroVista.txtCorreo.setFont(montserratFont);
+        pasajeroVista.jTextField5.setFont(montserratFont);
+        pasajeroVista.rbDni.setFont(montserratFont);
+        pasajeroVista.rbNombreApellido.setFont(montserratFont);
+        pasajeroVista.rbVerTodo.setFont(montserratFont);
+
+    } catch (FontFormatException | IOException e) {
+        e.printStackTrace();
     }
+}
+
 }
