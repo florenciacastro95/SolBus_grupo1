@@ -357,7 +357,7 @@ public class ctrlGestionRutaHorario implements ActionListener, ItemListener {
     }
     public final void poneteBonito() {
 
-    gRutHorVista.setSize(new Dimension(1000, 620));
+    gRutHorVista.setSize(new Dimension(950, 520));
     gRutHorVista.setBorder(BorderFactory.createLineBorder(new Color(202, 40, 43), 3));
     gRutHorVista.getContentPane().setBackground(new Color(240, 240, 240)); // Gris claro
 
