@@ -422,106 +422,110 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
     //    #0c2521
     //    #D48931
     //    #6F1C00
-    public final void poneteBonito() {
+public final void poneteBonito() {
 
-        pasajeVista.setSize(new Dimension(570, 620));
+    pasajeVista.setSize(new Dimension(570, 620));
 
-        pasajeVista.setBorder(BorderFactory.createLineBorder(new Color(41, 37, 28), 3));
+    pasajeVista.setBorder(BorderFactory.createLineBorder(new Color(202, 40, 43), 3));
 
-        //FONDITO INTERNAAAAL
-        pasajeVista.getContentPane().setBackground(new Color(231, 221, 211));
+    // FONDITO INTERNAAAAL
+    pasajeVista.getContentPane().setBackground(new Color(240, 240, 240)); // Gris claro
 
-        //MIRA ESOS BUTTONS PAPA
-        pasajeVista.btnVenderPasaje.setBackground(new Color(41, 37, 28));
-        pasajeVista.btnEmitirRecibo.setBackground(new Color(41, 37, 28));
-        pasajeVista.btnAnularPasaje.setBackground(new Color(41, 37, 28));
-        pasajeVista.btnVenderPasaje.setForeground(Color.white);
-        pasajeVista.btnEmitirRecibo.setForeground(Color.white);
-        pasajeVista.btnAnularPasaje.setForeground(Color.white);
+    // MIRA ESOS BUTTONS PAPA
+    pasajeVista.btnVenderPasaje.setBackground(new Color(202, 40, 43)); // Color acento
+    pasajeVista.btnEmitirRecibo.setBackground(new Color(202, 40, 43)); // Color acento
+    pasajeVista.btnAnularPasaje.setBackground(new Color(202, 40, 43)); // Color acento
+    pasajeVista.btnVenderPasaje.setForeground(Color.white);
+    pasajeVista.btnEmitirRecibo.setForeground(Color.white);
+    pasajeVista.btnAnularPasaje.setForeground(Color.white);
 
-        //TITULO
-        pasajeVista.lblTitulo.setForeground(new Color(41, 37, 28));
+    // TITULO
+    pasajeVista.lblTitulo.setForeground(new Color(41, 37, 28));
 
-        //TABLITA BACK
-        pasajeVista.spTabla.setBackground(new Color(231, 221, 211));
-        pasajeVista.tblAsientos.setBackground(new Color(192, 153, 139));
+    // TABLITA BACK
+    pasajeVista.spTabla.setBackground(new Color(240, 240, 240)); // Gris claro
+    pasajeVista.tblAsientos.setBackground(new Color(220, 220, 220)); // Gris medio
 
-        //LABELS
-        pasajeVista.lblRuta.setForeground(new Color(41, 37, 28));
-        pasajeVista.lblHorario.setForeground(new Color(41, 37, 28));
-        pasajeVista.lblNombreNoR.setForeground(new Color(41, 37, 28));
-        pasajeVista.lblApellidoNoR.setForeground(new Color(41, 37, 28));
-        pasajeVista.lblDniNoR.setForeground(new Color(41, 37, 28));
-        pasajeVista.lblDNIRegistrado.setForeground(new Color(41, 37, 28));
-        pasajeVista.lblPrecio.setForeground(new Color(41, 37, 28));
-        pasajeVista.lblFecha.setForeground(new Color(41, 37, 28));
-        pasajeVista.lblColectivo.setForeground(new Color(41, 37, 28));
+    // LABELS
+    pasajeVista.lblRuta.setForeground(new Color(41, 37, 28));
+    pasajeVista.lblHorario.setForeground(new Color(41, 37, 28));
+    pasajeVista.lblNombreNoR.setForeground(new Color(41, 37, 28));
+    pasajeVista.lblApellidoNoR.setForeground(new Color(41, 37, 28));
+    pasajeVista.lblDniNoR.setForeground(new Color(41, 37, 28));
+    pasajeVista.lblDNIRegistrado.setForeground(new Color(41, 37, 28));
+    pasajeVista.lblPrecio.setForeground(new Color(41, 37, 28));
+    pasajeVista.lblFecha.setForeground(new Color(41, 37, 28));
+    pasajeVista.lblColectivo.setForeground(new Color(41, 37, 28));
 
-        //PANELS
-        pasajeVista.pnlNoRegistrado.setBackground(new Color(231, 221, 211));
-        pasajeVista.pnlRegistrado.setBackground(new Color(231, 221, 211));
+    // PANELS
+    pasajeVista.pnlNoRegistrado.setBackground(new Color(240, 240, 240)); // Gris claro
+    pasajeVista.pnlRegistrado.setBackground(new Color(240, 240, 240)); // Gris claro
 
-        //TEXTFILEDS
-        pasajeVista.txtNombre.setBackground(new Color(192, 153, 139));
-        pasajeVista.txtApellido.setBackground(new Color(192, 153, 139));
-        pasajeVista.txtDni.setBackground(new Color(192, 153, 139));
-        pasajeVista.txtDniRegistrado.setBackground(new Color(192, 153, 139));
+    // TEXTFIELDS
+    pasajeVista.txtNombre.setBackground(new Color(220, 220, 220)); // Gris medio
+    pasajeVista.txtApellido.setBackground(new Color(220, 220, 220)); // Gris medio
+    pasajeVista.txtDni.setBackground(new Color(220, 220, 220)); // Gris medio
+    pasajeVista.txtDniRegistrado.setBackground(new Color(220, 220, 220)); // Gris medio
 
-        //COMBOBITCHES
-        pasajeVista.cbRuta.setBackground(new Color(231, 221, 211));
-        pasajeVista.cbHorario.setBackground(new Color(231, 221, 211));
-        pasajeVista.cbColectivos.setBackground(new Color(231, 221, 211));
-        pasajeVista.cbPrecios.setBackground(new Color(231, 221, 211));
+    // COMBOBOXES
+    pasajeVista.cbRuta.setBackground(new Color(240, 240, 240)); // Gris claro
+    pasajeVista.cbHorario.setBackground(new Color(240, 240, 240)); // Gris claro
+    pasajeVista.cbColectivos.setBackground(new Color(240, 240, 240)); // Gris claro
+    pasajeVista.cbPrecios.setBackground(new Color(240, 240, 240)); // Gris claro
 
-        //RADIOB
-        pasajeVista.rbRegistrado.setForeground(new Color(41, 37, 28));
-        pasajeVista.rbNoRegistrado.setForeground(new Color(41, 37, 28));
-        //text field del JDATE
-        JTextField dateTextField = ((JTextField) pasajeVista.dateChooser.getDateEditor().getUiComponent());
-        dateTextField.setForeground(new Color(231, 221, 211));
-        dateTextField.setBackground(new Color(192, 153, 139));
-        //el render de la tabla
-        ArrayList<Integer> asientosOcupados = null;
-        pasajeVista.tblAsientos.setDefaultRenderer(Object.class,
-                new PoneteBonitaTablita(asientosOcupados));
+    // RADIOBUTTONS
+    pasajeVista.rbRegistrado.setForeground(new Color(41, 37, 28));
+    pasajeVista.rbNoRegistrado.setForeground(new Color(41, 37, 28));
 
-        //CENTREMOS EL TITULO
-        pasajeVista.lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+    // text field del JDATE
+    JTextField dateTextField = ((JTextField) pasajeVista.dateChooser.getDateEditor().getUiComponent());
+    dateTextField.setForeground(new Color(41, 37, 28));
+    dateTextField.setBackground(new Color(220, 220, 220)); // Gris medio
 
-        //LA FONT MAS LINDA
-        try {
-            Font montserratFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.PLAIN, 14);
-            Font montserratFontTitulo = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.BOLD, 18);
+    // el render de la tabla
+    ArrayList<Integer> asientosOcupados = null;
+    pasajeVista.tblAsientos.setDefaultRenderer(Object.class,
+    new PoneteBonitaTablita(asientosOcupados));
 
-            pasajeVista.lblTitulo.setFont(montserratFontTitulo);
-            pasajeVista.lblRuta.setFont(montserratFont);
-            pasajeVista.lblHorario.setFont(montserratFont);
-            pasajeVista.lblNombreNoR.setFont(montserratFont);
-            pasajeVista.lblApellidoNoR.setFont(montserratFont);
-            pasajeVista.lblDniNoR.setFont(montserratFont);
-            pasajeVista.lblDNIRegistrado.setFont(montserratFont);
-            pasajeVista.lblPrecio.setFont(montserratFont);
-            pasajeVista.lblFecha.setFont(montserratFont);
-            pasajeVista.lblColectivo.setFont(montserratFont);
-            pasajeVista.btnVenderPasaje.setFont(montserratFont);
-            pasajeVista.btnEmitirRecibo.setFont(montserratFont);
-            pasajeVista.btnAnularPasaje.setFont(montserratFont);
-            pasajeVista.txtNombre.setFont(montserratFont);
-            pasajeVista.txtApellido.setFont(montserratFont);
-            pasajeVista.txtDni.setFont(montserratFont);
-            pasajeVista.txtDniRegistrado.setFont(montserratFont);
-            pasajeVista.cbRuta.setFont(montserratFont);
-            pasajeVista.cbHorario.setFont(montserratFont);
-            pasajeVista.cbColectivos.setFont(montserratFont);
-            pasajeVista.cbPrecios.setFont(montserratFont);
-            pasajeVista.rbRegistrado.setFont(montserratFont);
-            pasajeVista.rbNoRegistrado.setFont(montserratFont);
-            dateTextField.setFont(montserratFont);
+    // CENTREMOS EL TITULO
+    pasajeVista.lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
-        }
+    // LA FONT MAS LINDA
+    try {
+        Font montserratFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.PLAIN, 14);
+        Font montserratFontTitulo = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.BOLD, 18);
+
+        pasajeVista.lblTitulo.setFont(montserratFontTitulo);
+        pasajeVista.lblRuta.setFont(montserratFont);
+        pasajeVista.lblHorario.setFont(montserratFont);
+        pasajeVista.lblNombreNoR.setFont(montserratFont);
+        pasajeVista.lblApellidoNoR.setFont(montserratFont);
+        pasajeVista.lblDniNoR.setFont(montserratFont);
+        pasajeVista.lblDNIRegistrado.setFont(montserratFont);
+        pasajeVista.lblPrecio.setFont(montserratFont);
+        pasajeVista.lblFecha.setFont(montserratFont);
+        pasajeVista.lblColectivo.setFont(montserratFont);
+        pasajeVista.btnVenderPasaje.setFont(montserratFont);
+        pasajeVista.btnEmitirRecibo.setFont(montserratFont);
+        pasajeVista.btnAnularPasaje.setFont(montserratFont);
+        pasajeVista.txtNombre.setFont(montserratFont);
+        pasajeVista.txtApellido.setFont(montserratFont);
+        pasajeVista.txtDni.setFont(montserratFont);
+        pasajeVista.txtDniRegistrado.setFont(montserratFont);
+        pasajeVista.cbRuta.setFont(montserratFont);
+        pasajeVista.cbHorario.setFont(montserratFont);
+        pasajeVista.cbColectivos.setFont(montserratFont);
+        pasajeVista.cbPrecios.setFont(montserratFont);
+        pasajeVista.rbRegistrado.setFont(montserratFont);
+        pasajeVista.rbNoRegistrado.setFont(montserratFont);
+        dateTextField.setFont(montserratFont);
+
+    } catch (FontFormatException | IOException e) {
+        e.printStackTrace();
     }
+}
+
+
 
     /*
      *************************************
@@ -548,19 +552,19 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                 boolean hasFocus, int row, int column) {
             super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             setBorder(noFocusBorder);
-            setFont(new java.awt.Font("Arial", 0, 18));
+            setFont(new java.awt.Font("Montserrat", 0, 18));  // Cambia la fuente a Montserrat
             setHorizontalAlignment(SwingConstants.CENTER);
             table.setRowHeight(28);
 
             if (isSelected) {
-                setBackground(new Color(41, 37, 28));
-                setForeground(new Color(231, 221, 211));
-            } else if (asientosOcupados.contains(value)) {
+                setBackground(new Color(202, 40, 43));  // Color de acento cuando está seleccionado
+                setForeground(Color.white);  // Texto blanco cuando está seleccionado
+            } else if (asientosOcupados != null && asientosOcupados.contains(value)) {
                 setBackground(Color.RED);
                 setForeground(Color.WHITE);
             } else {
-                setBackground(table.getBackground());
-                setForeground(table.getForeground());
+                setBackground(new Color(240, 240, 240));  // Fondo gris claro
+                setForeground(new Color(41, 37, 28));  // Texto color oscuro
             }
 
             return this;

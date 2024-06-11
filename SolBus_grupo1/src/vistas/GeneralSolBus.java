@@ -3,16 +3,22 @@ package vistas;
 import entidades.*;
 import accesoDatos.*;
 import controladores.*;
+import java.awt.BorderLayout;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UnsupportedLookAndFeelException;
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import javax.swing.JDesktopPane;
 
 public class GeneralSolBus extends javax.swing.JFrame {
 
     
     public GeneralSolBus() {
         initComponents();
+        
     }
 
     
@@ -39,11 +45,11 @@ public class GeneralSolBus extends javax.swing.JFrame {
         dpEscritorio.setLayout(dpEscritorioLayout);
         dpEscritorioLayout.setHorizontalGroup(
             dpEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1100, Short.MAX_VALUE)
+            .addGap(0, 999, Short.MAX_VALUE)
         );
         dpEscritorioLayout.setVerticalGroup(
             dpEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 646, Short.MAX_VALUE)
+            .addGap(0, 550, Short.MAX_VALUE)
         );
 
         mPasajes.setText("Pasajes");
@@ -105,11 +111,11 @@ public class GeneralSolBus extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(dpEscritorio, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(dpEscritorio)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(dpEscritorio, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(dpEscritorio)
         );
 
         pack();
@@ -219,6 +225,10 @@ public class GeneralSolBus extends javax.swing.JFrame {
             }
         });
     }
+
+
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu MRutas;
