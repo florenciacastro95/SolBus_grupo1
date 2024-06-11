@@ -15,13 +15,25 @@ import javax.swing.JDesktopPane;
 import javax.swing.JPanel;
 
 public class GeneralSolBus extends javax.swing.JFrame {
-//    Fondo fondo = new Fondo();   
+    private Image imagenFondo;
     
     public GeneralSolBus() {
-//        this.setContentPane(fondo);
         initComponents();
+        cargarImagenFondo();
         
     }
+    private void cargarImagenFondo() {
+        imagenFondo = new ImageIcon(getClass().getResource("/imagenes/bg.jpg")).getImage();
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        g.drawImage(imagenFondo, 0, 0, getWidth(), getHeight(), this);
+        mbEscritorio.setVisible(true); // Dibujar el menú sobre la imagen de fondo
+    }
+
+
 
     
     @SuppressWarnings("unchecked")
@@ -117,7 +129,7 @@ public class GeneralSolBus extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(dpEscritorio)
+            .addComponent(dpEscritorio, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         pack();

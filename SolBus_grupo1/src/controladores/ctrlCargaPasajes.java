@@ -518,6 +518,7 @@ public final void poneteBonito() {
         pasajeVista.cbPrecios.setFont(montserratFont);
         pasajeVista.rbRegistrado.setFont(montserratFont);
         pasajeVista.rbNoRegistrado.setFont(montserratFont);
+        
         dateTextField.setFont(montserratFont);
 
     } catch (FontFormatException | IOException e) {
