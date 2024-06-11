@@ -45,9 +45,8 @@ public class GeneralSolBus extends javax.swing.JFrame {
         mPasajeros = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         mColectivos = new javax.swing.JMenu();
-        mHorarios = new javax.swing.JMenu();
+        miColectivos = new javax.swing.JMenuItem();
         MRutas = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
         miGestRutHor = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -100,15 +99,13 @@ public class GeneralSolBus extends javax.swing.JFrame {
         mbEscritorio.add(mPasajeros);
 
         mColectivos.setText("Colectivos");
+
+        miColectivos.setText("Gestión de colectivos");
+        mColectivos.add(miColectivos);
+
         mbEscritorio.add(mColectivos);
 
-        mHorarios.setText("Horarios");
-        mbEscritorio.add(mHorarios);
-
-        MRutas.setText("Rutas");
-
-        jMenuItem1.setText("Gestion de rutas");
-        MRutas.add(jMenuItem1);
+        MRutas.setText("Rutas y horarios");
 
         miGestRutHor.setText("Gestion de rutas y horarios");
         miGestRutHor.addActionListener(new java.awt.event.ActionListener() {
@@ -254,13 +251,12 @@ public class GeneralSolBus extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu MRutas;
     private javax.swing.JDesktopPane dpEscritorio;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenu mColectivos;
-    private javax.swing.JMenu mHorarios;
     private javax.swing.JMenu mPasajeros;
     private javax.swing.JMenu mPasajes;
     private javax.swing.JMenuBar mbEscritorio;
+    private javax.swing.JMenuItem miColectivos;
     private javax.swing.JMenuItem miGestRutHor;
     private javax.swing.JMenuItem miGestionPasajes;
     private javax.swing.JMenuItem miHistorialAnular;

@@ -104,11 +104,9 @@ public class PasajeData {
             ResultSet rs = ps.executeQuery();
             ps.close();
             if (rs.next()) {
-                System.out.println("Funcionaaa");
                 return true;
 
             } else {
-                System.out.println("No funciona");
                 return false;
             }
             

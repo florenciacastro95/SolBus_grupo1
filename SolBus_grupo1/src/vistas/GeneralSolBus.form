@@ -46,22 +46,19 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Colectivos"/>
           </Properties>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="mHorarios">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Horarios"/>
-          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="miColectivos">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Gesti&#xf3;n de colectivos"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="MRutas">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Rutas"/>
+            <Property name="text" type="java.lang.String" value="Rutas y horarios"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Gestion de rutas"/>
-              </Properties>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miGestRutHor">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Gestion de rutas y horarios"/>

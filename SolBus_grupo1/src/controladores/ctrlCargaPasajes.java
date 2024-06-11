@@ -41,6 +41,9 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
     private ColectivoData colectivoData;
     private InfGestionPasajes pasajeVista;
     private PasajeroData pasajeroData;
+    private Ruta r;
+    private double precio;
+    private int multiplicador = 40;
 
     /*
      *********************
@@ -55,11 +58,9 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         pasajeData = new PasajeData();
         pasajeroData = new PasajeroData();
         pasajeVista.btnVenderPasaje.addActionListener(this);
-        pasajeVista.btnEmitirRecibo.addActionListener(this);
         pasajeVista.cbRuta.addItemListener(this);
         pasajeVista.cbColectivos.addItemListener(this);
         pasajeVista.cbHorario.addItemListener(this);
-        pasajeVista.cbPrecios.addItemListener(this);
         pasajeVista.rbRegistrado.addActionListener(this);
         pasajeVista.rbNoRegistrado.addActionListener(this);
         pasajeVista.btnAnularPasaje.addActionListener(this);
@@ -74,7 +75,14 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                 }
             }
         });
-    }
+
+        if (pasajeVista.cbRuta != null) {
+            r = (Ruta) pasajeVista.cbRuta.getSelectedItem();
+            precio = r.getDuracion().getMinute();
+
+        }
+        calcularPrecio();
+        }
 
     @Override
 
@@ -98,34 +106,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             boolean bandera = true;
             LocalDate fechaDtch;
             int asiento = 0;
-
-            Colectivo colectivo = (Colectivo) pasajeVista.cbColectivos.getSelectedItem();
-            String nombre = "", apellido = "", dni = "";
-
-            if (validarString(pasajeVista.txtApellido.getText())) {
-                apellido = pasajeVista.txtApellido.getText();
-            } else {
-                bandera = false;
-                JOptionPane.showMessageDialog(null, "Apellido inválido");
-            }
-            if (validarString(pasajeVista.txtNombre.getText())) {
-                nombre = pasajeVista.txtNombre.getText();
-            } else {
-                bandera = false;
-                JOptionPane.showMessageDialog(null, "Nombre inválido");
-            }
-            if (validarEnteros(pasajeVista.txtDni.getText()) && validarDniTam(pasajeVista.txtDni.getText().length())) {
-                dni = pasajeVista.txtDni.getText();
-            } else if (validarEnteros(pasajeVista.txtDni.getText()) && !validarDniTam(pasajeVista.txtDni.getText().length())) {
-                bandera = false;
-                JOptionPane.showMessageDialog(null, "El DNI debe contener 7 u 8 dígitos");
-            } else if (!validarEnteros(pasajeVista.txtDni.getText())) {
-                bandera = false;
-                JOptionPane.showMessageDialog(null, "El DNI solo debe contener números");
-            } else {
-                bandera = false;
-                JOptionPane.showMessageDialog(null, "El DNI solo debe contener 7 u 8 dígitos. No se admiten letras");
-            }
+            String dni = "";
             if (pasajeVista.cbHorario.getSelectedItem() != null) {
                 horita = ((Horario) pasajeVista.cbHorario.getSelectedItem()).getHoraSalida();
             } else {
@@ -153,20 +134,79 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                 bandera = false;
                 JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún asiento.");
             }
+            Colectivo colectivo = (Colectivo) pasajeVista.cbColectivos.getSelectedItem();
 
-            if (bandera && horita != null && asiento != 0) {
-                pasajero = new Pasajero(nombre, apellido, dni, null, null);
-                pasajeroData.guardarPasajero(pasajero);
-                pasaje = new Pasaje(pasajero, colectivo, (Ruta) pasajeVista.cbRuta.getSelectedItem(),
-                        fechaDtch, horita, asiento, 0);
-                colectivoData.actualizarAsientos(colectivo, -1);
-                pasajeData.venderPasaje(pasaje);
-                cargarTblAsientos();
-                limpiarCampos();
-            } else {
-                JOptionPane.showMessageDialog(null, "No se pudo vender pasaje");
+            if (pasajeVista.rbNoRegistrado.isSelected()) {
 
+                String nombre = "", apellido = "";
+
+                if (validarString(pasajeVista.txtApellido.getText())) {
+                    apellido = pasajeVista.txtApellido.getText();
+                } else {
+                    bandera = false;
+                    JOptionPane.showMessageDialog(null, "Apellido inválido");
+                }
+                if (validarString(pasajeVista.txtNombre.getText())) {
+                    nombre = pasajeVista.txtNombre.getText();
+                } else {
+                    bandera = false;
+                    JOptionPane.showMessageDialog(null, "Nombre inválido");
+                }
+                if (validarEnteros(pasajeVista.txtDni.getText()) && validarDniTam(pasajeVista.txtDni.getText().length())) {
+                    dni = pasajeVista.txtDni.getText();
+                } else if (validarEnteros(pasajeVista.txtDni.getText()) && !validarDniTam(pasajeVista.txtDni.getText().length())) {
+                    bandera = false;
+                    JOptionPane.showMessageDialog(null, "El DNI debe contener 7 u 8 dígitos");
+                } else if (!validarEnteros(pasajeVista.txtDni.getText())) {
+                    bandera = false;
+                    JOptionPane.showMessageDialog(null, "El DNI solo debe contener números");
+                } else {
+                    bandera = false;
+                    JOptionPane.showMessageDialog(null, "El DNI solo debe contener 7 u 8 dígitos. No se admiten letras");
+                }
+                if (bandera && horita != null && asiento != 0) {
+                    pasajero = new Pasajero(nombre, apellido, dni, null, null);
+                    pasajeroData.guardarPasajero(pasajero);
+                    pasaje = new Pasaje(pasajero, colectivo, (Ruta) pasajeVista.cbRuta.getSelectedItem(),
+                            fechaDtch, horita, asiento, Double.valueOf(pasajeVista.lblPrecioCalculado.getText()));
+                    colectivoData.actualizarAsientos(colectivo, -1);
+                    pasajeData.venderPasaje(pasaje);
+                    cargarTblAsientos();
+                    limpiarCampos();
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se pudo vender pasaje");
+
+                }
+
+            } else if (pasajeVista.rbRegistrado.isSelected()) {
+
+                if (validarEnteros(pasajeVista.txtDniRegistrado.getText()) && validarDniTam(pasajeVista.txtDniRegistrado.getText().length())) {
+                    dni = pasajeVista.txtDniRegistrado.getText();
+                } else if (validarEnteros(pasajeVista.txtDni.getText()) && !validarDniTam(pasajeVista.txtDniRegistrado.getText().length())) {
+                    bandera = false;
+                    JOptionPane.showMessageDialog(null, "El DNI debe contener 7 u 8 dígitos");
+                } else if (!validarEnteros(pasajeVista.txtDniRegistrado.getText())) {
+                    bandera = false;
+                    JOptionPane.showMessageDialog(null, "El DNI solo debe contener números");
+                } else {
+                    bandera = false;
+                    JOptionPane.showMessageDialog(null, "El DNI solo debe contener 7 u 8 dígitos. No se admiten letras");
+                }
+                pasajero = pasajeroData.buscarPasajeroPorDni(dni);
+                if (bandera && horita != null && asiento != 0 && pasajero != null) {
+                    pasaje = new Pasaje(pasajero, colectivo, (Ruta) pasajeVista.cbRuta.getSelectedItem(),
+                            fechaDtch, horita, asiento, Double.valueOf(pasajeVista.lblPrecioCalculado.getText()));
+                    colectivoData.actualizarAsientos(colectivo, -1);
+                    pasajeData.venderPasaje(pasaje);
+                    JOptionPane.showMessageDialog(null, "Pasaje vendido a " + pasajero.toString());
+                    cargarTblAsientos();
+                    limpiarCampos();
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se pudo vender pasaje");
+
+                }
             }
+
         }
 
         /*
@@ -174,7 +214,8 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
          *****ANULAR PASAJE*****
          ***********************
          */
-        if (e.getSource() == pasajeVista.btnAnularPasaje) {
+        if (e.getSource()
+                == pasajeVista.btnAnularPasaje) {
 
             int asiento = 0;
             LocalDate fechita = null;
@@ -217,7 +258,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                             );
 
                             if (response == JOptionPane.YES_OPTION) {
-                                
+
                                 pasajeData.eliminarPasajePorViaje(asiento, ruta, colectivo, fechita, horita);
                                 colectivoData.actualizarAsientos(colectivo, 1);
                                 cargarTblAsientos();
@@ -240,16 +281,19 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
         /**
          *******************************
-         *****PASAJERO REG/O NO REG***** ******************************
+         *****PASAJERO REG/O NO REG
          */
-        if (e.getSource() == pasajeVista.rbNoRegistrado) {
-
+        if (e.getSource()
+                == pasajeVista.rbNoRegistrado) {
+            calcularPrecio();
             pasajeVista.txtDni.setEnabled(true);
             pasajeVista.txtApellido.setEnabled(true);
             pasajeVista.txtNombre.setEnabled(true);
             pasajeVista.txtDniRegistrado.setEnabled(false);
 
-        } else if (e.getSource() == pasajeVista.rbRegistrado) {
+        } else if (e.getSource()
+                == pasajeVista.rbRegistrado) {
+            calcularPrecio();
             pasajeVista.txtDni.setEnabled(false);
             pasajeVista.txtApellido.setEnabled(false);
             pasajeVista.txtNombre.setEnabled(false);
@@ -269,6 +313,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
         if (ie.getStateChange() == ItemEvent.SELECTED) {
             if (ie.getSource() == pasajeVista.cbRuta) {
+                calcularPrecio();
                 pasajeVista.cbHorario.removeAllItems();
                 HorarioData hd = new HorarioData();
                 Ruta itemSeleccionado = (Ruta) pasajeVista.cbRuta.getSelectedItem();
@@ -281,21 +326,44 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
                 }
                 cargarTblAsientos();
+                
                 if (horarios.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "No hay horarios activos para esta ruta. Agregue horarios");
                 }
             }
             if (ie.getSource() == pasajeVista.cbHorario
-                    || ie.getSource() == pasajeVista.cbColectivos
-                    || ie.getSource() == pasajeVista.cbPrecios) {
-                System.out.println("A ver si esto funca");
-                cargarTblAsientos();
-            }
-            if (ie.getSource() == pasajeVista.cbHorario) {
+                    || ie.getSource() == pasajeVista.cbColectivos) {
 
+                cargarTblAsientos();
+                
             }
 
         }
+
+    }
+    /*
+     **************************
+     *****CALCULARPRECIO()*****
+     **************************
+     */
+    public void calcularPrecio() {
+
+        precio=0;
+         if (pasajeVista.cbRuta != null) {
+            r = (Ruta) pasajeVista.cbRuta.getSelectedItem();
+            precio = (r.getDuracion().getHour()*60)+(r.getDuracion().getMinute());
+
+        }
+        precio = precio * multiplicador;
+        if (pasajeVista.rbRegistrado.isSelected()) {
+            precio = precio - (precio * 0.15);
+            pasajeVista.lblPromo.setText("Tiene un 15% de descuento");
+        }
+        else{
+            pasajeVista.lblPromo.setText("");
+        }
+
+        pasajeVista.lblPrecioCalculado.setText("$" + precio + "");
 
     }
 
@@ -422,111 +490,112 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
     //    #0c2521
     //    #D48931
     //    #6F1C00
-public final void poneteBonito() {
+    public final void poneteBonito() {
 
-    pasajeVista.setSize(new Dimension(570, 620));
+        pasajeVista.setSize(new Dimension(570, 620));
 
-    pasajeVista.setBorder(BorderFactory.createLineBorder(new Color(202, 40, 43), 3));
+        pasajeVista.setBorder(BorderFactory.createLineBorder(new Color(202, 40, 43), 3));
 
-    // FONDITO INTERNAAAAL
-    pasajeVista.getContentPane().setBackground(new Color(240, 240, 240)); // Gris claro
+        // FONDITO INTERNAAAAL
+        pasajeVista.getContentPane().setBackground(new Color(240, 240, 240)); // Gris claro
 
-    // MIRA ESOS BUTTONS PAPA
-    pasajeVista.btnVenderPasaje.setBackground(new Color(202, 40, 43)); // Color acento
-    pasajeVista.btnEmitirRecibo.setBackground(new Color(202, 40, 43)); // Color acento
-    pasajeVista.btnAnularPasaje.setBackground(new Color(202, 40, 43)); // Color acento
-    pasajeVista.btnVenderPasaje.setForeground(Color.white);
-    pasajeVista.btnEmitirRecibo.setForeground(Color.white);
-    pasajeVista.btnAnularPasaje.setForeground(Color.white);
+        // MIRA ESOS BUTTONS PAPA
+        pasajeVista.btnVenderPasaje.setBackground(new Color(202, 40, 43)); // Color acento
+        pasajeVista.btnAnularPasaje.setBackground(new Color(202, 40, 43)); // Color acento
+        pasajeVista.btnVenderPasaje.setForeground(Color.white);
+        pasajeVista.btnAnularPasaje.setForeground(Color.white);
 
-    // TITULO
-    pasajeVista.lblTitulo.setForeground(new Color(41, 37, 28));
+        // TITULO
+        pasajeVista.lblTitulo.setForeground(new Color(41, 37, 28));
 
-    // TABLITA BACK
-    pasajeVista.spTabla.setBackground(new Color(240, 240, 240)); // Gris claro
-    pasajeVista.tblAsientos.setBackground(new Color(220, 220, 220)); // Gris medio
+        // TABLITA BACK
+        pasajeVista.spTabla.setBackground(new Color(240, 240, 240)); // Gris claro
+        pasajeVista.tblAsientos.setBackground(new Color(220, 220, 220)); // Gris medio
 
-    // LABELS
-    pasajeVista.lblRuta.setForeground(new Color(41, 37, 28));
-    pasajeVista.lblHorario.setForeground(new Color(41, 37, 28));
-    pasajeVista.lblNombreNoR.setForeground(new Color(41, 37, 28));
-    pasajeVista.lblApellidoNoR.setForeground(new Color(41, 37, 28));
-    pasajeVista.lblDniNoR.setForeground(new Color(41, 37, 28));
-    pasajeVista.lblDNIRegistrado.setForeground(new Color(41, 37, 28));
-    pasajeVista.lblPrecio.setForeground(new Color(41, 37, 28));
-    pasajeVista.lblFecha.setForeground(new Color(41, 37, 28));
-    pasajeVista.lblColectivo.setForeground(new Color(41, 37, 28));
+        // LABELS
+        pasajeVista.lblRuta.setForeground(new Color(41, 37, 28));
+        pasajeVista.lblHorario.setForeground(new Color(41, 37, 28));
+        pasajeVista.lblNombreNoR.setForeground(new Color(41, 37, 28));
+        pasajeVista.lblApellidoNoR.setForeground(new Color(41, 37, 28));
+        pasajeVista.lblDniNoR.setForeground(new Color(41, 37, 28));
+        pasajeVista.lblDNIRegistrado.setForeground(new Color(41, 37, 28));
+        pasajeVista.lblPrecio.setForeground(new Color(41, 37, 28));
+        pasajeVista.lblFecha.setForeground(new Color(41, 37, 28));
+        pasajeVista.lblColectivo.setForeground(new Color(41, 37, 28));
+        pasajeVista.lblPrecioCalculado.setForeground(new Color(41, 37, 28));
+        pasajeVista.lblPromo.setForeground(new Color(41, 37, 28));
+        // PANELS
+        pasajeVista.pnlNoRegistrado.setBackground(new Color(240, 240, 240)); // Gris claro
+        pasajeVista.pnlRegistrado.setBackground(new Color(240, 240, 240)); // Gris claro
 
-    // PANELS
-    pasajeVista.pnlNoRegistrado.setBackground(new Color(240, 240, 240)); // Gris claro
-    pasajeVista.pnlRegistrado.setBackground(new Color(240, 240, 240)); // Gris claro
+        // TEXTFIELDS
+        pasajeVista.txtNombre.setBackground(new Color(220, 220, 220)); // Gris medio
+        pasajeVista.txtApellido.setBackground(new Color(220, 220, 220)); // Gris medio
+        pasajeVista.txtDni.setBackground(new Color(220, 220, 220)); // Gris medio
+        pasajeVista.txtDniRegistrado.setBackground(new Color(220, 220, 220)); // Gris medio
 
-    // TEXTFIELDS
-    pasajeVista.txtNombre.setBackground(new Color(220, 220, 220)); // Gris medio
-    pasajeVista.txtApellido.setBackground(new Color(220, 220, 220)); // Gris medio
-    pasajeVista.txtDni.setBackground(new Color(220, 220, 220)); // Gris medio
-    pasajeVista.txtDniRegistrado.setBackground(new Color(220, 220, 220)); // Gris medio
+        // COMBOBOXES
+        pasajeVista.cbRuta.setBackground(new Color(240, 240, 240)); // Gris claro
+        pasajeVista.cbHorario.setBackground(new Color(240, 240, 240)); // Gris claro
+        pasajeVista.cbColectivos.setBackground(new Color(240, 240, 240)); // Gris claro
 
-    // COMBOBOXES
-    pasajeVista.cbRuta.setBackground(new Color(240, 240, 240)); // Gris claro
-    pasajeVista.cbHorario.setBackground(new Color(240, 240, 240)); // Gris claro
-    pasajeVista.cbColectivos.setBackground(new Color(240, 240, 240)); // Gris claro
-    pasajeVista.cbPrecios.setBackground(new Color(240, 240, 240)); // Gris claro
+        // RADIOBUTTONS
+        pasajeVista.rbRegistrado.setForeground(new Color(41, 37, 28));
+        pasajeVista.rbNoRegistrado.setForeground(new Color(41, 37, 28));
 
-    // RADIOBUTTONS
-    pasajeVista.rbRegistrado.setForeground(new Color(41, 37, 28));
-    pasajeVista.rbNoRegistrado.setForeground(new Color(41, 37, 28));
+        // text field del JDATE
+        JTextField dateTextField = ((JTextField) pasajeVista.dateChooser.getDateEditor().getUiComponent());
+        dateTextField.setForeground(new Color(41, 37, 28));
+        dateTextField.setBackground(new Color(220, 220, 220)); // Gris medio
 
-    // text field del JDATE
-    JTextField dateTextField = ((JTextField) pasajeVista.dateChooser.getDateEditor().getUiComponent());
-    dateTextField.setForeground(new Color(41, 37, 28));
-    dateTextField.setBackground(new Color(220, 220, 220)); // Gris medio
+        // el render de la tabla
+        ArrayList<Integer> asientosOcupados = null;
+        pasajeVista.tblAsientos.setDefaultRenderer(Object.class,
+                new PoneteBonitaTablita(asientosOcupados));
 
-    // el render de la tabla
-    ArrayList<Integer> asientosOcupados = null;
-    pasajeVista.tblAsientos.setDefaultRenderer(Object.class,
-    new PoneteBonitaTablita(asientosOcupados));
+        // CENTREMOS EL TITULO
+        pasajeVista.lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 
-    // CENTREMOS EL TITULO
-    pasajeVista.lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+        // LA FONT MAS LINDA
+        try {
+            Font montserratFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.PLAIN, 14);
+            Font montserratFontTitulo = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.BOLD, 18);
 
-    // LA FONT MAS LINDA
-    try {
-        Font montserratFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.PLAIN, 14);
-        Font montserratFontTitulo = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.BOLD, 18);
+            pasajeVista.lblTitulo.setFont(montserratFontTitulo);
+            pasajeVista.lblRuta.setFont(montserratFont);
+            pasajeVista.lblHorario.setFont(montserratFont);
+            pasajeVista.lblNombreNoR.setFont(montserratFont);
+            pasajeVista.lblApellidoNoR.setFont(montserratFont);
+            pasajeVista.lblDniNoR.setFont(montserratFont);
+            pasajeVista.lblDNIRegistrado.setFont(montserratFont);
+            pasajeVista.lblPrecio.setFont(montserratFont);
+            pasajeVista.lblFecha.setFont(montserratFont);
+            pasajeVista.lblPromo.setFont(montserratFont);
+            pasajeVista.lblColectivo.setFont(montserratFont);
+            pasajeVista.btnVenderPasaje.setFont(montserratFont);
+            pasajeVista.btnAnularPasaje.setFont(montserratFont);
+            pasajeVista.txtNombre.setFont(montserratFont);
+            pasajeVista.txtApellido.setFont(montserratFont);
+            pasajeVista.txtDni.setFont(montserratFont);
+            pasajeVista.txtDniRegistrado.setFont(montserratFont);
+            pasajeVista.cbRuta.setFont(montserratFont);
+            pasajeVista.cbHorario.setFont(montserratFont);
+            pasajeVista.cbColectivos.setFont(montserratFont);
+            pasajeVista.lblPrecioCalculado.setFont(montserratFont);
+            pasajeVista.rbRegistrado.setFont(montserratFont);
+            pasajeVista.rbNoRegistrado.setFont(montserratFont);
 
-        pasajeVista.lblTitulo.setFont(montserratFontTitulo);
-        pasajeVista.lblRuta.setFont(montserratFont);
-        pasajeVista.lblHorario.setFont(montserratFont);
-        pasajeVista.lblNombreNoR.setFont(montserratFont);
-        pasajeVista.lblApellidoNoR.setFont(montserratFont);
-        pasajeVista.lblDniNoR.setFont(montserratFont);
-        pasajeVista.lblDNIRegistrado.setFont(montserratFont);
-        pasajeVista.lblPrecio.setFont(montserratFont);
-        pasajeVista.lblFecha.setFont(montserratFont);
-        pasajeVista.lblColectivo.setFont(montserratFont);
-        pasajeVista.btnVenderPasaje.setFont(montserratFont);
-        pasajeVista.btnEmitirRecibo.setFont(montserratFont);
-        pasajeVista.btnAnularPasaje.setFont(montserratFont);
-        pasajeVista.txtNombre.setFont(montserratFont);
-        pasajeVista.txtApellido.setFont(montserratFont);
-        pasajeVista.txtDni.setFont(montserratFont);
-        pasajeVista.txtDniRegistrado.setFont(montserratFont);
-        pasajeVista.cbRuta.setFont(montserratFont);
-        pasajeVista.cbHorario.setFont(montserratFont);
-        pasajeVista.cbColectivos.setFont(montserratFont);
-        pasajeVista.cbPrecios.setFont(montserratFont);
-        pasajeVista.rbRegistrado.setFont(montserratFont);
-        pasajeVista.rbNoRegistrado.setFont(montserratFont);
-        
-        dateTextField.setFont(montserratFont);
+            dateTextField.setFont(montserratFont);
 
-    } catch (FontFormatException | IOException e) {
-        e.printStackTrace();
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+
+        }
     }
-}
 
+    class modeloComboColes extends DefaultComboBoxModel {
 
+    }
 
     /*
      *************************************
@@ -536,10 +605,6 @@ public final void poneteBonito() {
      *****DefaultTableCellRenderer *******
      *************************************
      */
-    class modeloComboColes extends DefaultComboBoxModel {
-
-    }
-
     class PoneteBonitaTablita extends DefaultTableCellRenderer {
 
         private ArrayList<Integer> asientosOcupados;

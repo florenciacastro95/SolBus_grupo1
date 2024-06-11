@@ -82,7 +82,6 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
         cbRuta = new javax.swing.JComboBox<>();
         cbHorario = new javax.swing.JComboBox<>();
         btnVenderPasaje = new javax.swing.JButton();
-        btnEmitirRecibo = new javax.swing.JButton();
         pnlRegistrado = new javax.swing.JPanel();
         lblDNIRegistrado = new javax.swing.JLabel();
         txtDniRegistrado = new javax.swing.JTextField();
@@ -97,13 +96,14 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
         rbNoRegistrado = new javax.swing.JRadioButton();
         lblColectivo = new javax.swing.JLabel();
         cbColectivos = new javax.swing.JComboBox<>();
-        cbPrecios = new javax.swing.JComboBox<>();
         spTabla = new javax.swing.JScrollPane();
         tblAsientos = new javax.swing.JTable();
         dateChooser = new com.toedter.calendar.JDateChooser();
         lblPrecio = new javax.swing.JLabel();
         lblFecha = new javax.swing.JLabel();
         btnAnularPasaje = new javax.swing.JButton();
+        lblPrecioCalculado = new javax.swing.JLabel();
+        lblPromo = new javax.swing.JLabel();
 
         lblTitulo.setFont(new java.awt.Font("Gill Sans MT", 1, 24)); // NOI18N
         lblTitulo.setText("GESTION DE VENTA DE PASAJES");
@@ -118,9 +118,11 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
 
         btnVenderPasaje.setFont(new java.awt.Font("Gill Sans MT", 0, 14)); // NOI18N
         btnVenderPasaje.setText("VENDER PASAJE");
-
-        btnEmitirRecibo.setFont(new java.awt.Font("Gill Sans MT", 0, 14)); // NOI18N
-        btnEmitirRecibo.setText("EMITIR RECIBO");
+        btnVenderPasaje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVenderPasajeActionPerformed(evt);
+            }
+        });
 
         lblDNIRegistrado.setFont(new java.awt.Font("Gill Sans MT", 1, 14)); // NOI18N
         lblDNIRegistrado.setText("DNI");
@@ -208,8 +210,6 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
         lblColectivo.setFont(new java.awt.Font("Gill Sans MT", 1, 14)); // NOI18N
         lblColectivo.setText("Colectivo");
 
-        cbPrecios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         tblAsientos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -231,6 +231,8 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
 
         btnAnularPasaje.setFont(new java.awt.Font("Gill Sans MT", 0, 14)); // NOI18N
         btnAnularPasaje.setText("ANULAR PASAJE");
+
+        lblPrecioCalculado.setText("$");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -258,8 +260,11 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(cbPrecios, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(12, 12, 12)
+                        .addComponent(lblPrecioCalculado, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(lblPromo))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
@@ -267,13 +272,12 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
                     .addComponent(spTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rbRegistrado)
                     .addComponent(pnlRegistrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rbRegistrado)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
+                        .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnVenderPasaje, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEmitirRecibo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAnularPasaje, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         layout.setVerticalGroup(
@@ -303,25 +307,12 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
                         .addComponent(pnlNoRegistrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rbRegistrado)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(pnlRegistrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnVenderPasaje, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAnularPasaje, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEmitirRecibo, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(13, 13, 13))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(cbPrecios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(12, 12, 12)
+                                .addComponent(lblPrecioCalculado)))
+                        .addComponent(lblPromo)
                         .addGap(19, 19, 19)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -329,22 +320,34 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
                                 .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(dateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(10, 10, 10)
-                        .addComponent(spTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(12, Short.MAX_VALUE))))
+                        .addComponent(spTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(pnlRegistrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(rbRegistrado))
+                        .addGap(20, 20, 20)
+                        .addComponent(btnVenderPasaje, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(43, 43, 43)
+                        .addComponent(btnAnularPasaje, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnVenderPasajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderPasajeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVenderPasajeActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnAnularPasaje;
-    public javax.swing.JButton btnEmitirRecibo;
     public javax.swing.JButton btnVenderPasaje;
     private javax.swing.ButtonGroup buttonGroup1;
     public javax.swing.JComboBox<Colectivo> cbColectivos;
     public javax.swing.JComboBox<Horario> cbHorario;
-    public javax.swing.JComboBox<String> cbPrecios;
     public javax.swing.JComboBox<Ruta> cbRuta;
     public com.toedter.calendar.JDateChooser dateChooser;
     public javax.swing.JLabel lblApellidoNoR;
@@ -355,6 +358,8 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
     public javax.swing.JLabel lblHorario;
     public javax.swing.JLabel lblNombreNoR;
     public javax.swing.JLabel lblPrecio;
+    public javax.swing.JLabel lblPrecioCalculado;
+    public javax.swing.JLabel lblPromo;
     public javax.swing.JLabel lblRuta;
     public javax.swing.JLabel lblTitulo;
     public javax.swing.JPanel pnlNoRegistrado;

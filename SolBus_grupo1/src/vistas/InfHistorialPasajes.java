@@ -45,6 +45,8 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
         rbHorario = new javax.swing.JRadioButton();
         cbHorarios = new javax.swing.JComboBox<>();
         jlPasajesT = new javax.swing.JLabel();
+        btnActualizar = new javax.swing.JButton();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
 
         tblHistPasajes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -125,10 +127,10 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
             .addGroup(pnlHorarioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbHorarios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pnlHorarioLayout.createSequentialGroup()
                         .addComponent(rbHorario)
-                        .addGap(0, 67, Short.MAX_VALUE))
-                    .addComponent(cbHorarios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 112, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pnlHorarioLayout.setVerticalGroup(
@@ -137,10 +139,12 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
                 .addComponent(rbHorario)
                 .addGap(18, 18, 18)
                 .addComponent(cbHorarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(99, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jlPasajesT.setText("Pasajes de hoy!");
+
+        btnActualizar.setText("Actualizar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -151,12 +155,14 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
                 .addComponent(pnlPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
                         .addComponent(pnlRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(95, 95, 95))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(139, 139, 139)
+                        .addGap(41, 41, 41)
                         .addComponent(jlPasajesT)
+                        .addGap(56, 56, 56)
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(pnlHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -168,6 +174,10 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(spnHistPasajes)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(318, 318, 318)
+                .addComponent(btnActualizar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,11 +190,18 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
                     .addComponent(pnlPasajero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pnlRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jlPasajesT)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addComponent(jlPasajesT))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(spnHistPasajes, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(132, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(btnActualizar)
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         pack();
@@ -192,8 +209,10 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizar;
     public javax.swing.JComboBox<Horario> cbHorarios;
     public javax.swing.JComboBox<Ruta> cbRutas;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     public javax.swing.JLabel jlPasajesT;
     public javax.swing.JLabel lblTituloHistPasajes;
     public javax.swing.JPanel pnlHorario;
