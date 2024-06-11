@@ -12,30 +12,27 @@ import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GeneralSolBus extends javax.swing.JFrame {
     private Image imagenFondo;
     
+    private JLabel backgroundLabel;
+    
     public GeneralSolBus() {
         initComponents();
         cargarImagenFondo();
-        
     }
+
     private void cargarImagenFondo() {
-        imagenFondo = new ImageIcon(getClass().getResource("/imagenes/bg.jpg")).getImage();
+        ImageIcon icon = new ImageIcon(getClass().getResource("/imagenes/bg.jpg"));
+        Image image = icon.getImage().getScaledInstance(dpEscritorio.getWidth(), dpEscritorio.getHeight(), Image.SCALE_SMOOTH);
+        backgroundLabel = new JLabel(new ImageIcon(image));
+        backgroundLabel.setSize(dpEscritorio.getWidth(), dpEscritorio.getHeight());
+        dpEscritorio.add(backgroundLabel, new Integer(Integer.MIN_VALUE));
     }
-
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        g.drawImage(imagenFondo, 0, 0, getWidth(), getHeight(), this);
-        mbEscritorio.setVisible(true); // Dibujar el menú sobre la imagen de fondo
-    }
-
-
-
-    
+  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -54,16 +51,20 @@ public class GeneralSolBus extends javax.swing.JFrame {
         miGestRutHor = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1042, 674));
+        setResizable(false);
+
+        dpEscritorio.setPreferredSize(new java.awt.Dimension(1040, 640));
 
         javax.swing.GroupLayout dpEscritorioLayout = new javax.swing.GroupLayout(dpEscritorio);
         dpEscritorio.setLayout(dpEscritorioLayout);
         dpEscritorioLayout.setHorizontalGroup(
             dpEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 999, Short.MAX_VALUE)
+            .addGap(0, 1040, Short.MAX_VALUE)
         );
         dpEscritorioLayout.setVerticalGroup(
             dpEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
+            .addGap(0, 640, Short.MAX_VALUE)
         );
 
         mPasajes.setText("Pasajes");
@@ -125,11 +126,11 @@ public class GeneralSolBus extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(dpEscritorio)
+            .addComponent(dpEscritorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(dpEscritorio, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(dpEscritorio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -145,8 +146,10 @@ public class GeneralSolBus extends javax.swing.JFrame {
         ctrlCargaPasajes cp = new ctrlCargaPasajes(p, pd, ip);
         dpEscritorio.removeAll();
         dpEscritorio.repaint();
+        dpEscritorio.add(backgroundLabel, new Integer(Integer.MIN_VALUE));
         ip.setVisible(true);
         ip.setLocation(00, 00);
+        
         dpEscritorio.add(ip);
         dpEscritorio.moveToFront(ip);
         
@@ -166,6 +169,7 @@ public class GeneralSolBus extends javax.swing.JFrame {
         ctrlGestionRutaHorario cgrh = new ctrlGestionRutaHorario(rR, rH, h, rd, hd, igrh);
         dpEscritorio.removeAll();
         dpEscritorio.repaint();
+        dpEscritorio.add(backgroundLabel, new Integer(Integer.MIN_VALUE));
         igrh.setVisible(true);
         igrh.setLocation(00, 00);
         dpEscritorio.add(igrh);
@@ -179,6 +183,7 @@ public class GeneralSolBus extends javax.swing.JFrame {
         ctrlListarPasajeros clp = new ctrlListarPasajeros(pasajero, pasajeroData, ibp);
         dpEscritorio.removeAll();
         dpEscritorio.repaint();
+        dpEscritorio.add(backgroundLabel, new Integer(Integer.MIN_VALUE));
         ibp.setVisible(true);
         ibp.setLocation(00, 00);
         dpEscritorio.add(ibp);
@@ -200,6 +205,7 @@ public class GeneralSolBus extends javax.swing.JFrame {
         }
        dpEscritorio.removeAll();
        dpEscritorio.repaint();
+       dpEscritorio.add(backgroundLabel, new Integer(Integer.MIN_VALUE));
        ihp.setVisible(true);
        ihp.setLocation(00, 00);
        dpEscritorio.add(ihp);

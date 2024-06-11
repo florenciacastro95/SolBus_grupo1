@@ -1,9 +1,9 @@
-
 package controladores;
 
 import accesoDatos.*;
 import entidades.*;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -14,9 +14,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import vistas.*;
 
@@ -260,89 +262,108 @@ public class ctrlListarPasajeros implements ActionListener {
             });
         }
     }
-    
-public final void poneteBonito() {
 
-    pasajeroVista.setSize(new Dimension(570, 620));
+    public final void poneteBonito() {
 
-    pasajeroVista.setBorder(BorderFactory.createLineBorder(new Color(202, 40, 43), 3));
+        pasajeroVista.setSize(new Dimension(650, 420));
 
-    // FONDITO INTERNAAAAL
-    pasajeroVista.getContentPane().setBackground(new Color(240, 240, 240)); // Gris claro
+        pasajeroVista.setBorder(BorderFactory.createLineBorder(new Color(202, 40, 43), 3));
 
-    // MIRA ESOS BUTTONS PAPA
-    pasajeroVista.btnActualizar1.setBackground(new Color(202, 40, 43)); // Color acento
-    pasajeroVista.btnBorrar.setBackground(new Color(202, 40, 43)); // Color acento
-    pasajeroVista.btnRegistrar.setBackground(new Color(202, 40, 43)); // Color acento
-    pasajeroVista.btnActualizar1.setForeground(Color.white);
-    pasajeroVista.btnBorrar.setForeground(Color.white);
-    pasajeroVista.btnRegistrar.setForeground(Color.white);
+        // FONDITO INTERNAAAAL
+        pasajeroVista.getContentPane().setBackground(new Color(240, 240, 240)); // Gris claro
 
-    // TITULO
-    pasajeroVista.lblTituloListarPasajeros.setForeground(new Color(41, 37, 28));
+        // MIRA ESOS BUTTONS PAPA
+        pasajeroVista.btnActualizar1.setBackground(new Color(202, 40, 43)); // Color acento
+        pasajeroVista.btnBorrar.setBackground(new Color(202, 40, 43)); // Color acento
+        pasajeroVista.btnRegistrar.setBackground(new Color(202, 40, 43)); // Color acento
+        pasajeroVista.btnActualizar1.setForeground(Color.white);
+        pasajeroVista.btnBorrar.setForeground(Color.white);
+        pasajeroVista.btnRegistrar.setForeground(Color.white);
 
-    // TABLITA BACK
-    pasajeroVista.spListarPasajeros.setBackground(new Color(240, 240, 240)); // Gris claro
-    pasajeroVista.jtListarPasajeros.setBackground(new Color(220, 220, 220)); // Gris medio
+        // TITULO
+        pasajeroVista.lblTituloListarPasajeros.setForeground(new Color(41, 37, 28));
 
-    // LABELS
-    pasajeroVista.lblApellido.setForeground(new Color(41, 37, 28));
-    pasajeroVista.lblCorreo.setForeground(new Color(41, 37, 28));
-    pasajeroVista.lblDni.setForeground(new Color(41, 37, 28));
-    pasajeroVista.lblNombre.setForeground(new Color(41, 37, 28));
-    pasajeroVista.lblTelefono.setForeground(new Color(41, 37, 28));
+        // TABLITA BACK
+        pasajeroVista.spListarPasajeros.setBackground(new Color(240, 240, 240)); // Gris claro
+        pasajeroVista.jtListarPasajeros.setBackground(new Color(220, 220, 220)); // Gris medio
 
-    // PANELS
-    pasajeroVista.jPanel1.setBackground(new Color(240, 240, 240)); // Gris claro
-    pasajeroVista.jPanel3.setBackground(new Color(240, 240, 240)); // Gris claro
-    pasajeroVista.pnlDniNombre.setBackground(new Color(240, 240, 240)); // Gris claro
+        // LABELS
+        pasajeroVista.lblApellido.setForeground(new Color(41, 37, 28));
+        pasajeroVista.lblCorreo.setForeground(new Color(41, 37, 28));
+        pasajeroVista.lblDni.setForeground(new Color(41, 37, 28));
+        pasajeroVista.lblNombre.setForeground(new Color(41, 37, 28));
+        pasajeroVista.lblTelefono.setForeground(new Color(41, 37, 28));
 
-    // TEXTFIELDS
-    pasajeroVista.txtNombre.setBackground(new Color(220, 220, 220)); // Gris medio
-    pasajeroVista.txtApellido.setBackground(new Color(220, 220, 220)); // Gris medio
-    pasajeroVista.txtDni.setBackground(new Color(220, 220, 220)); // Gris medio
-    pasajeroVista.jtDni.setBackground(new Color(220, 220, 220)); // Gris medio
-    pasajeroVista.jtNombre.setBackground(new Color(220, 220, 220)); // Gris medio
-    pasajeroVista.txtCorreo.setBackground(new Color(220, 220, 220)); // Gris medio
-    pasajeroVista.jTextField5.setBackground(new Color(220, 220, 220)); // Gris medio
+        // PANELS
+        pasajeroVista.jPanel1.setBackground(new Color(240, 240, 240)); // Gris claro
+        pasajeroVista.jPanel3.setBackground(new Color(240, 240, 240)); // Gris claro
+        pasajeroVista.pnlDniNombre.setBackground(new Color(240, 240, 240)); // Gris claro
 
-    // RADIOBUTTONS
-    pasajeroVista.rbDni.setForeground(new Color(41, 37, 28));
-    pasajeroVista.rbNombreApellido.setForeground(new Color(41, 37, 28));
-    pasajeroVista.rbVerTodo.setForeground(new Color(41, 37, 28));
+        // TEXTFIELDS
+        pasajeroVista.txtNombre.setBackground(new Color(220, 220, 220)); // Gris medio
+        pasajeroVista.txtApellido.setBackground(new Color(220, 220, 220)); // Gris medio
+        pasajeroVista.txtDni.setBackground(new Color(220, 220, 220)); // Gris medio
+        pasajeroVista.jtDni.setBackground(new Color(220, 220, 220)); // Gris medio
+        pasajeroVista.jtNombre.setBackground(new Color(220, 220, 220)); // Gris medio
+        pasajeroVista.txtCorreo.setBackground(new Color(220, 220, 220)); // Gris medio
+        pasajeroVista.jTextField5.setBackground(new Color(220, 220, 220)); // Gris medio
 
-    // Centramos los títulos
-    pasajeroVista.lblTituloListarPasajeros.setHorizontalAlignment(SwingConstants.CENTER);
+        // RADIOBUTTONS
+        pasajeroVista.rbDni.setForeground(new Color(41, 37, 28));
+        pasajeroVista.rbNombreApellido.setForeground(new Color(41, 37, 28));
+        pasajeroVista.rbVerTodo.setForeground(new Color(41, 37, 28));
 
-    // Aplicamos la fuente personalizada
-    try {
-        Font montserratFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.PLAIN, 14);
-        Font montserratFontTitulo = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.BOLD, 18);
+        // Centramos los títulos
+        pasajeroVista.lblTituloListarPasajeros.setHorizontalAlignment(SwingConstants.CENTER);
 
-        pasajeroVista.lblTituloListarPasajeros.setFont(montserratFontTitulo);
+        //TABLA
+        pasajeroVista.jtListarPasajeros.setDefaultRenderer(Object.class, new PoneteBonitaTablita());
+        try {
+            Font montserratFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.PLAIN, 14);
+            Font montserratFontTitulo = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.BOLD, 18);
 
-        pasajeroVista.lblApellido.setFont(montserratFont);
-        pasajeroVista.lblCorreo.setFont(montserratFont);
-        pasajeroVista.lblDni.setFont(montserratFont);
-        pasajeroVista.lblNombre.setFont(montserratFont);
-        pasajeroVista.lblTelefono.setFont(montserratFont);
-        pasajeroVista.btnActualizar1.setFont(montserratFont);
-        pasajeroVista.btnBorrar.setFont(montserratFont);
-        pasajeroVista.btnRegistrar.setFont(montserratFont);
-        pasajeroVista.txtNombre.setFont(montserratFont);
-        pasajeroVista.txtApellido.setFont(montserratFont);
-        pasajeroVista.txtDni.setFont(montserratFont);
-        pasajeroVista.jtDni.setFont(montserratFont);
-        pasajeroVista.jtNombre.setFont(montserratFont);
-        pasajeroVista.txtCorreo.setFont(montserratFont);
-        pasajeroVista.jTextField5.setFont(montserratFont);
-        pasajeroVista.rbDni.setFont(montserratFont);
-        pasajeroVista.rbNombreApellido.setFont(montserratFont);
-        pasajeroVista.rbVerTodo.setFont(montserratFont);
+            pasajeroVista.lblTituloListarPasajeros.setFont(montserratFontTitulo);
 
-    } catch (FontFormatException | IOException e) {
-        e.printStackTrace();
+            pasajeroVista.lblTituloRegistroPasajero.setFont(montserratFontTitulo);
+            pasajeroVista.lblApellido.setFont(montserratFont);
+            pasajeroVista.lblCorreo.setFont(montserratFont);
+            pasajeroVista.lblDni.setFont(montserratFont);
+            pasajeroVista.lblNombre.setFont(montserratFont);
+            pasajeroVista.lblTelefono.setFont(montserratFont);
+            pasajeroVista.btnActualizar1.setFont(montserratFont);
+            pasajeroVista.btnBorrar.setFont(montserratFont);
+            pasajeroVista.btnRegistrar.setFont(montserratFont);
+            pasajeroVista.txtNombre.setFont(montserratFont);
+            pasajeroVista.txtApellido.setFont(montserratFont);
+            pasajeroVista.txtDni.setFont(montserratFont);
+            pasajeroVista.jtDni.setFont(montserratFont);
+            pasajeroVista.jtNombre.setFont(montserratFont);
+            pasajeroVista.txtCorreo.setFont(montserratFont);
+            pasajeroVista.jTextField5.setFont(montserratFont);
+            pasajeroVista.rbDni.setFont(montserratFont);
+            pasajeroVista.rbNombreApellido.setFont(montserratFont);
+            pasajeroVista.rbVerTodo.setFont(montserratFont);
+
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+        }
     }
-}
+    class PoneteBonitaTablita extends DefaultTableCellRenderer {
+
+        public PoneteBonitaTablita() {
+   
+        }
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                boolean hasFocus, int row, int column) {
+            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            setBorder(noFocusBorder);
+            setFont(new java.awt.Font("Montserrat", 0, 12)); 
+            setHorizontalAlignment(SwingConstants.CENTER);
+            table.setRowHeight(28);
+
+            return this;
+        }
+    }
 
 }
