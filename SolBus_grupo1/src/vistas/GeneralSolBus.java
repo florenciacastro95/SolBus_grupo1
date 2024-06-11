@@ -12,11 +12,13 @@ import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
+import javax.swing.JPanel;
 
 public class GeneralSolBus extends javax.swing.JFrame {
-
+//    Fondo fondo = new Fondo();   
     
     public GeneralSolBus() {
+//        this.setContentPane(fondo);
         initComponents();
         
     }
@@ -245,3 +247,20 @@ public class GeneralSolBus extends javax.swing.JFrame {
     private javax.swing.JMenuItem miHistorialAnular;
     // End of variables declaration//GEN-END:variables
 }
+//
+//class Fondo extends JPanel {
+//
+//    private Image imagen;
+//
+//    @Override
+//    public void paint(Graphics g) {
+//
+//        imagen = new ImageIcon(getClass().getResource("/imagenes/sol-bus-1.jpg")).getImage();
+//
+//        g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
+//
+//        setOpaque(false);
+//        super.paint(g);
+//    }
+//}
+

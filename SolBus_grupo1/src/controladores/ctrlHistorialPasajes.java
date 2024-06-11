@@ -116,7 +116,9 @@ public class ctrlHistorialPasajes implements ActionListener {
         }
     }
     
-    public final void poneteBonito() throws IOException {
+
+
+public final void poneteBonito() throws IOException {
 
         pasajeVista.setSize(new Dimension(770, 620));
         pasajeVista.setBorder(BorderFactory.createLineBorder(new Color(41, 37, 28), 3));
@@ -171,4 +173,5 @@ public class ctrlHistorialPasajes implements ActionListener {
             e.printStackTrace();
         }
     }
+
 }
