@@ -157,12 +157,13 @@ public class GeneralSolBus extends javax.swing.JFrame {
 
     private void miGestRutHorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGestRutHorActionPerformed
         // TODO add your handling code here:
-        Ruta r = new Ruta();
+        Ruta rR = new Ruta();
+        Ruta rH = new Ruta();
         Horario h = new Horario();
         RutaData rd = new RutaData();
         HorarioData hd = new HorarioData();
         vistas.infGestionRutaHorario igrh = new vistas.infGestionRutaHorario();
-        ctrlGestionRutaHorario cgrh = new ctrlGestionRutaHorario(r, h, rd, hd, igrh);
+        ctrlGestionRutaHorario cgrh = new ctrlGestionRutaHorario(rR, rH, h, rd, hd, igrh);
         dpEscritorio.removeAll();
         dpEscritorio.repaint();
         igrh.setVisible(true);

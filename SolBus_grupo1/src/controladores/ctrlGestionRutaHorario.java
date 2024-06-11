@@ -24,16 +24,18 @@ import vistas.infGestionRutaHorario;
 
 public class ctrlGestionRutaHorario implements ActionListener, ItemListener {
     
-    private Ruta ruta;
+    private Ruta rutaR;
+    private Ruta rutaH;
     private Horario horario;
     private RutaData rD;
     private HorarioData hD;
     private infGestionRutaHorario gRutHorVista;
-    private DefaultTableModel model1 = new DefaultTableModel();
-    private DefaultTableModel model2 = new DefaultTableModel();
+    private TableModelIdBloqueado model1 =  new TableModelIdBloqueado();
+    private TableModelIdBloqueado model2 =  new TableModelIdBloqueado();
     
-    public ctrlGestionRutaHorario(Ruta ruta, Horario horario, RutaData rD, HorarioData hD, infGestionRutaHorario gRutHorVista) {
-        this.ruta = ruta;
+    public ctrlGestionRutaHorario(Ruta rutaR, Ruta rutaH, Horario horario, RutaData rD, HorarioData hD, infGestionRutaHorario gRutHorVista) {
+        this.rutaR = rutaR;
+        this.rutaH = rutaH;
         this.horario = horario;
         this.rD = rD;
         this.hD = hD;
@@ -50,7 +52,10 @@ public class ctrlGestionRutaHorario implements ActionListener, ItemListener {
         gRutHorVista.btnBajaRuta.addActionListener(this);
         gRutHorVista.btnActRuta.addActionListener(this);
         gRutHorVista.btnAgregarF.addActionListener(this);
-        
+        gRutHorVista.btnActHor.addActionListener(this);
+        gRutHorVista.btnAgregarHor.addActionListener(this);
+        gRutHorVista.btnBajaHor.addActionListener(this);
+                
         gRutHorVista.cbRuta.addItemListener(this);
     }
 
@@ -63,24 +68,24 @@ public class ctrlGestionRutaHorario implements ActionListener, ItemListener {
         if (ae.getSource() == gRutHorVista.btnAgregar) {
             
             if (validarString(gRutHorVista.jtfOrigen.getText())) {
-                ruta.setOrigen(gRutHorVista.jtfOrigen.getText());
+                rutaR.setOrigen(gRutHorVista.jtfOrigen.getText());
             } else {
                 JOptionPane.showMessageDialog(null, "Campo inválido de Origen");
             }
 
             if (validarString(gRutHorVista.jtfDestino.getText())) {
-                ruta.setDestino(gRutHorVista.jtfDestino.getText());
+                rutaR.setDestino(gRutHorVista.jtfDestino.getText());
             } else {
                 JOptionPane.showMessageDialog(null, "Campo inválido de Destino");
             }
 
             if (validarTiempo(gRutHorVista.jtfDuracion.getText())) {
-                ruta.setDuracion(LocalTime.parse(gRutHorVista.jtfDuracion.getText()));
+                rutaR.setDuracion(LocalTime.parse(gRutHorVista.jtfDuracion.getText()));
             } else {
                 JOptionPane.showMessageDialog(null, "Campo inválido de Duración");
             }
-            ruta.setEstado(true);
-            rD.guardarRuta(ruta);
+            rutaR.setEstado(true);
+            rD.guardarRuta(rutaR);
             limpiarTFRuta();
             limpiarTablaRuta();
             cargarTablaRuta((ArrayList) rD.listarRutasDisponibles());
@@ -92,7 +97,6 @@ public class ctrlGestionRutaHorario implements ActionListener, ItemListener {
                 cargarTablaRuta((ArrayList) rD.listarRutasPorOrigen(gRutHorVista.jtfOrigen.getText()));
 
             } else if (validarString(gRutHorVista.jtfDestino.getText())) {
-                //Acá listar por destino
                 cargarTablaRuta((ArrayList) rD.listarRutasPorDestino(gRutHorVista.jtfDestino.getText()));
             } else {
                 JOptionPane.showMessageDialog(null, "Busqueda inválida. Para poder efectuar esta búsqueda debe ingresar un "
@@ -100,7 +104,7 @@ public class ctrlGestionRutaHorario implements ActionListener, ItemListener {
                 cargarTablaRuta((ArrayList) rD.listarRutasDisponibles());
             }
             if(tablaRutaVacia()){
-                JOptionPane.showMessageDialog(null, "Ese origen o destino no se encuentra entre nuestras rutas aún :'(");
+                JOptionPane.showMessageDialog(null, "Ese origen o destino no se encuentra entre nuestras rutas aún");
             }
             limpiarTFRuta();
         }
@@ -131,21 +135,27 @@ public class ctrlGestionRutaHorario implements ActionListener, ItemListener {
             int filaSelect = gRutHorVista.tblListarRutas.getSelectedRow();
             if (filaSelect != -1) {
                 int idRuta = (int) gRutHorVista.tblListarRutas.getValueAt(filaSelect, 0);
-                ruta = rD.buscarRutaPorID(idRuta);
+                rutaR = rD.buscarRutaPorID(idRuta);
                 if(validarString((String) gRutHorVista.tblListarRutas.getValueAt(filaSelect, 1))){
-                    ruta.setOrigen((String) gRutHorVista.tblListarRutas.getValueAt(filaSelect, 1));
+                    rutaR.setOrigen((String) gRutHorVista.tblListarRutas.getValueAt(filaSelect, 1));
+                } else {
+                    JOptionPane.showMessageDialog(null, "Ingrese un origen valido");
                 }
                 if(validarString((String) gRutHorVista.tblListarRutas.getValueAt(filaSelect, 2))){
-                    ruta.setDestino((String) gRutHorVista.tblListarRutas.getValueAt(filaSelect, 2));
+                    rutaR.setDestino((String) gRutHorVista.tblListarRutas.getValueAt(filaSelect, 2));
+                } else {
+                    JOptionPane.showMessageDialog(null, "Ingrese un destino valido");
                 }
-                if(validarTiempo((String) gRutHorVista.tblListarRutas.getValueAt(filaSelect, 3))){
-                    ruta.setDuracion(LocalTime.parse((String) gRutHorVista.tblListarRutas.getValueAt(filaSelect, 3)));
+                if(validarTiempo(gRutHorVista.tblListarRutas.getValueAt(filaSelect, 3).toString())){
+                    rutaR.setDuracion(LocalTime.parse(gRutHorVista.tblListarRutas.getValueAt(filaSelect, 3).toString()));
+                } else {
+                    JOptionPane.showMessageDialog(null, "Ingrese una duración válida");
                 }
                 
                 String mensaje = "¿Está seguro que desea actualizar la ruta?";
                 int respuesta = JOptionPane.showConfirmDialog(null, mensaje, "Confirmación", JOptionPane.YES_NO_OPTION);
                 if (respuesta == JOptionPane.YES_OPTION){
-                    rD.actualizarRuta(ruta);
+                    rD.actualizarRuta(rutaR);
                     limpiarTablaRuta();
                     cargarTablaRuta((ArrayList) rD.listarRutasDisponibles());
                 }
@@ -159,14 +169,79 @@ public class ctrlGestionRutaHorario implements ActionListener, ItemListener {
  
             model2.addRow(new Object[] {"", "Salida", "Llegada"});
         }
-        //Falta agregar funcionalidad 
+        
         if(ae.getSource() == gRutHorVista.btnAgregarHor){
             ArrayList<Horario> hor = new ArrayList<Horario>();
+            for (int i = 0; i < gRutHorVista.tblHorarios.getRowCount(); i++) {
+                if(gRutHorVista.tblHorarios.getValueAt(i, 0).equals("")){
+                    if(validarTiempo(gRutHorVista.tblHorarios.getValueAt(i, 1).toString()) &&  validarTiempo(gRutHorVista.tblHorarios.getValueAt(i, 2).toString())){
+                        Horario h = new Horario();
+                        h.setHoraSalida(LocalTime.parse(gRutHorVista.tblHorarios.getValueAt(i, 1).toString()));
+                        h.setHoraLlegada(LocalTime.parse(gRutHorVista.tblHorarios.getValueAt(i, 2).toString()));
+                        h.setRuta(rutaH);
+                        h.setEstado(true);
+                        //voy a moriiir
+                        hor.add(h);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Hora de salida y/o de llegada inválida/s");
+                        //Estoy cansada, Jefe
+                    }
+                    
+                }
+            }
+            
+            for(Horario h : hor){
+                hD.guardarHorario(h);
+            }
             
         }
-        /*
-        Eliminar y actualizar
-        */
+        
+        if(ae.getSource() == gRutHorVista.btnBajaHor){
+            
+            int filaSelect = gRutHorVista.tblHorarios.getSelectedRow();
+            if (filaSelect != -1) {
+                String mensaje = "¿Está seguro que desea eliminar el horario?";
+                int respuesta = JOptionPane.showConfirmDialog(null, mensaje, "Confirmación", JOptionPane.YES_NO_OPTION);
+                if (respuesta == JOptionPane.YES_OPTION) {
+                    int idHorario = (int) gRutHorVista.tblHorarios.getValueAt(filaSelect, 0);
+                    
+                    hD.bajaHorario(idHorario);
+                    limpiarTablaHor();
+                    cargarTablaHor((ArrayList) hD.listarHorariosPorRuta(rutaH));
+                }
+            }
+        }
+        
+        if(ae.getSource() == gRutHorVista.btnActHor){
+            int filaSelect = gRutHorVista.tblHorarios.getSelectedRow();
+            if (filaSelect != -1) {
+                
+                if(validarInt(gRutHorVista.tblHorarios.getValueAt(filaSelect, 0).toString())){
+                    int idHor= (int) gRutHorVista.tblHorarios.getValueAt(filaSelect, 0);
+                    horario = hD.buscarHorarioPorId(idHor);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Ese horario no es parte de nuestro servicio y no puede ser modificado");
+                }
+                
+                if (validarTiempo(gRutHorVista.tblHorarios.getValueAt(filaSelect, 1).toString()) &&  validarTiempo(gRutHorVista.tblHorarios.getValueAt(filaSelect, 2).toString())){
+                    horario.setHoraSalida(LocalTime.parse(gRutHorVista.tblHorarios.getValueAt(filaSelect, 1).toString()));
+                    horario.setHoraLlegada(LocalTime.parse(gRutHorVista.tblHorarios.getValueAt(filaSelect, 2).toString()));
+                } else {
+                    JOptionPane.showMessageDialog(null, "Hora de salida y/o de llegada incorrectas, revise e intente nuevamente");
+                }
+                
+                
+                String mensaje = "¿Está seguro que desea actualizar el horario?";
+                int respuesta = JOptionPane.showConfirmDialog(null, mensaje, "Confirmación", JOptionPane.YES_NO_OPTION);
+                if (respuesta == JOptionPane.YES_OPTION){
+                    hD.actualizarHorario(horario);
+                    limpiarTablaHor();
+                    cargarTablaHor((ArrayList) hD.listarHorariosPorRuta(rutaH));
+                }
+                
+            }
+            
+        }
     }
     
     @Override
@@ -175,8 +250,8 @@ public class ctrlGestionRutaHorario implements ActionListener, ItemListener {
             if(ie.getSource() == gRutHorVista.cbRuta){
                 limpiarTablaHor();
                 ArrayList<Horario> hor = new ArrayList<Horario>();
-                ruta = (Ruta) gRutHorVista.cbRuta.getSelectedItem();
-                hor = (ArrayList<Horario>) hD.listarHorariosPorRuta(ruta);
+                rutaH = (Ruta) gRutHorVista.cbRuta.getSelectedItem();
+                hor = (ArrayList<Horario>) hD.listarHorariosPorRuta(rutaH);
                 cargarTablaHor(hor);
             }         
         }
@@ -214,8 +289,9 @@ public class ctrlGestionRutaHorario implements ActionListener, ItemListener {
         ArrayList<Ruta> comodin = arrayList;
         
         for(Ruta rut : comodin) {
-            model1.addRow(new Object[] {rut.getIdRuta(), rut.getOrigen(), rut.getDestino(), rut.getDuracion()});                    
-        }  
+            model1.addRow(new Object[] {rut.getIdRuta(), rut.getOrigen(), rut.getDestino(), rut.getDuracion()});
+        }
+        
     }
     
     public void cargarTablaHor(ArrayList arrayList){
@@ -224,7 +300,10 @@ public class ctrlGestionRutaHorario implements ActionListener, ItemListener {
         for(Horario hor : comodin) {
             model2.addRow(new Object[] {hor.getIdHorario(), hor.getHoraSalida(), hor.getHoraLlegada()});                    
         }  
+        
     }
+    
+    
     
     public void limpiarTablaRuta(){
         model1.setRowCount(0);
@@ -251,6 +330,11 @@ public class ctrlGestionRutaHorario implements ActionListener, ItemListener {
         //reciclar código está buenísmo =)
     }
     
+    public boolean validarInt(String s) {
+        String regExp = "^\\d+$"; 
+        return s.matches(regExp);
+    }
+    
     public boolean validarTiempo(String s) {
         String regExp = "^([0-1][0-9]|2[0-3]):[0-5][0-9]$";
 
@@ -261,6 +345,15 @@ public class ctrlGestionRutaHorario implements ActionListener, ItemListener {
         gRutHorVista.jtfOrigen.setText("");
         gRutHorVista.jtfDestino.setText("");
         gRutHorVista.jtfDuracion.setText("");
+    }
+    
+    class TableModelIdBloqueado extends DefaultTableModel {
+
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            // Bloquear la primera columna (columna 0)
+            return column != 0;
+        }
     }
     public final void poneteBonito() {
 
@@ -275,8 +368,8 @@ public class ctrlGestionRutaHorario implements ActionListener, ItemListener {
     gRutHorVista.btnBajaRuta.setBackground(new Color(202, 40, 43)); // Color acento
     gRutHorVista.btnFiltrar.setBackground(new Color(202, 40, 43)); // Color acento
     gRutHorVista.btnAgregarHor.setBackground(new Color(202, 40, 43)); // Color acento
-    gRutHorVista.jButton3.setBackground(new Color(202, 40, 43)); // Color acento
-    gRutHorVista.jButton4.setBackground(new Color(202, 40, 43)); // Color acento
+    gRutHorVista.btnBajaHor.setBackground(new Color(202, 40, 43)); // Color acento
+    gRutHorVista.btnActHor.setBackground(new Color(202, 40, 43)); // Color acento
     gRutHorVista.btnVerTodas.setBackground(new Color(202, 40, 43)); // Color acento
     gRutHorVista.btnActRuta.setForeground(Color.white);
     gRutHorVista.btnAgregar.setForeground(Color.white);
@@ -284,8 +377,8 @@ public class ctrlGestionRutaHorario implements ActionListener, ItemListener {
     gRutHorVista.btnBajaRuta.setForeground(Color.white);
     gRutHorVista.btnFiltrar.setForeground(Color.white);
     gRutHorVista.btnAgregarHor.setForeground(Color.white);
-    gRutHorVista.jButton3.setForeground(Color.white);
-    gRutHorVista.jButton4.setForeground(Color.white);
+    gRutHorVista.btnBajaHor.setForeground(Color.white);
+    gRutHorVista.btnActHor.setForeground(Color.white);
     gRutHorVista.btnVerTodas.setForeground(Color.white);
 
     // Labels
@@ -338,8 +431,8 @@ public class ctrlGestionRutaHorario implements ActionListener, ItemListener {
             gRutHorVista.btnBajaRuta.setFont(montserratFont);
             gRutHorVista.btnFiltrar.setFont(montserratFont);
             gRutHorVista.btnAgregarHor.setFont(montserratFont);
-            gRutHorVista.jButton3.setFont(montserratFont);
-            gRutHorVista.jButton4.setFont(montserratFont);
+            gRutHorVista.btnBajaHor.setFont(montserratFont);
+            gRutHorVista.btnActHor.setFont(montserratFont);
             gRutHorVista.btnVerTodas.setFont(montserratFont);
             gRutHorVista.jtfDestino.setFont(montserratFont);
             gRutHorVista.jtfDuracion.setFont(montserratFont);

@@ -33,8 +33,8 @@ public class HorarioData {
             Ruta ruta = horario.getRuta();
             ps.setInt(1, ruta.getIdRuta());
             ps.setTime(2, Time.valueOf(horario.getHoraSalida()));
-            ps.setTime(3, Time.valueOf(horario.getHoraSalida()));
-            ps.setBoolean(4, ruta.isEstado());
+            ps.setTime(3, Time.valueOf(horario.getHoraLlegada()));
+            ps.setBoolean(4, horario.isEstado());
             
             ps.executeUpdate();
             
