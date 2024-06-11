@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.ZoneId;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -158,6 +159,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                 pasajeroData.guardarPasajero(pasajero);
                 pasaje = new Pasaje(pasajero, colectivo, (Ruta) pasajeVista.cbRuta.getSelectedItem(),
                         fechaDtch, horita, asiento, 0);
+                colectivoData.actualizarAsientos(colectivo, -1);
                 pasajeData.venderPasaje(pasaje);
                 cargarTblAsientos();
                 limpiarCampos();
@@ -193,38 +195,38 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             }
 
             if (selectedRow != -1 && selectedColumn != -1) {
-                 Object value = pasajeVista.tblAsientos.getValueAt(selectedRow, selectedColumn);
-                if (value instanceof Integer) {
-                    if (pasajeData.estaElPasaje((Integer)value, ruta, colectivo, fechita, horita)) {
-                    
-                
-                    asiento = (Integer) value;
-                    System.out.println("Asiento seleccionado: " + asiento);
+                Object value = pasajeVista.tblAsientos.getValueAt(selectedRow, selectedColumn);
+                if (pasajeData.estaElPasaje((Integer) value, ruta, colectivo, fechita, horita)) {
+                    if (value instanceof Integer) {
 
-                    Pasaje pasaje = pasajeData.buscarPasajePorViaje(ruta, colectivo, fechita, horita, asiento);
-                    Pasajero pasajero = pasajeroData.buscarPasajeroPorId(pasaje.getPasajero().getIdPasajero());
+                        asiento = (Integer) value;
+                        System.out.println("Asiento seleccionado: " + asiento);
 
-                    System.out.println(pasajero.getIdPasajero());
-                    ///*
-                    if (pasaje != null) {
-                        // Display confirmation dialog
-                        int response = JOptionPane.showConfirmDialog(
-                                null,
-                                "¿Está seguro que desea eliminar el pasaje del pasajero " + pasajero.toString() + "?",
-                                "Confirmar eliminación",
-                                JOptionPane.YES_NO_OPTION
-                        );
+                        Pasaje pasaje = pasajeData.buscarPasajePorViaje(ruta, colectivo, fechita, horita, asiento);
+                        Pasajero pasajero = pasajeroData.buscarPasajeroPorId(pasaje.getPasajero().getIdPasajero());
 
-                        // If the user confirms, proceed with the deletion
-                        if (response == JOptionPane.YES_OPTION) {
-                            pasajeData.eliminarPasajePorViaje(asiento, ruta, colectivo, fechita, horita);
-                            cargarTblAsientos();
-                        }
+                        System.out.println(pasajero.getIdPasajero());
+                        ///*
+                        if (pasaje != null) {
+
+                            int response = JOptionPane.showConfirmDialog(
+                                    null,
+                                    "¿Está seguro que desea eliminar el pasaje del pasajero " + pasajero.toString() + "?",
+                                    "Confirmar eliminación",
+                                    JOptionPane.YES_NO_OPTION
+                            );
+
+                            if (response == JOptionPane.YES_OPTION) {
+                                
+                                pasajeData.eliminarPasajePorViaje(asiento, ruta, colectivo, fechita, horita);
+                                colectivoData.actualizarAsientos(colectivo, 1);
+                                cargarTblAsientos();
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "No se pudo encontrar el pasajero para el asiento seleccionado.");
+                        }//*/
                     } else {
-                        JOptionPane.showMessageDialog(null, "No se pudo encontrar el pasajero para el asiento seleccionado.");
-                    }//*/
-                   }else{
-                    JOptionPane.showMessageDialog(null, "No se puede anular un pasaje con asiento libre");
+                        JOptionPane.showMessageDialog(null, "No se puede anular un pasaje con asiento libre");
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Seleccione un asiento válido.");
@@ -232,7 +234,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             } else {
                 JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún asiento.");
             }
-                
+
             cargarTblAsientos();
         }
 
@@ -289,8 +291,8 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                 System.out.println("A ver si esto funca");
                 cargarTblAsientos();
             }
-            if(ie.getSource() == pasajeVista.cbHorario){
-            
+            if (ie.getSource() == pasajeVista.cbHorario) {
+
             }
 
         }
@@ -529,6 +531,10 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
      *****DefaultTableCellRenderer *******
      *************************************
      */
+    class modeloComboColes extends DefaultComboBoxModel {
+
+    }
+
     class PoneteBonitaTablita extends DefaultTableCellRenderer {
 
         private ArrayList<Integer> asientosOcupados;

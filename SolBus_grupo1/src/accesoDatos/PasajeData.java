@@ -101,9 +101,9 @@ public class PasajeData {
             ps.setDate(3, Date.valueOf(fecha));
             ps.setTime(4, Time.valueOf(hora));
             ps.setInt(5, asiento);
-            int validation = ps.executeUpdate();
+            ResultSet rs = ps.executeQuery();
             ps.close();
-            if (validation == 1) {
+            if (rs.next()) {
                 System.out.println("Funcionaaa");
                 return true;
 
@@ -114,8 +114,8 @@ public class PasajeData {
             
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error en el metodo eliminarPasajePorViaje, no se pudo acceder a los pasajes ." + e);
-            
+            JOptionPane.showMessageDialog(null, "Error en el metodo estaElPasaje, no se pudo acceder a los pasajes ." + e);
+            System.out.println(e);
         }    
         return false;
 
