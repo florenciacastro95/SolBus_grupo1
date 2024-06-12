@@ -1,4 +1,5 @@
 🚌 ¡Bienvenido a SOL BUS Línea La Punta! 🚌
+
 ¡Descubre la forma más fácil y eficiente de administrar la venta de pasajes de colectivos con nuestra aplicación Java de escritorio! 🎉
 
 Creadores:
