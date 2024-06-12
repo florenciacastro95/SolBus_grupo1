@@ -418,6 +418,86 @@ public class PasajeData {
 
         return asientosOcupados;
     }
+    
+    public boolean pasajePasajero(Pasajero pasajero) {
+        String sql = "SELECT COUNT(*) FROM `pasaje` WHERE `id_Pasajero` = ? AND `fechaViaje` = CURRENT_DATE;";
 
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, pasajero.getIdPasajero());
+            ResultSet rs = ps.executeQuery();
+            ps.close();
+
+            if (rs.next()) {
+                int cantidadPasajes = rs.getInt(1);
+
+                if (cantidadPasajes > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en el metodo pasajePasajero (boolean)." + e);
+            System.out.println(e);
+        }
+        return false;
+    }
+    
+    public boolean pasajeRuta(Ruta ruta){
+        String sql = "SELECT COUNT(*) FROM `pasaje` WHERE `id_Ruta` = ? AND `fechaViaje` = CURRENT_DATE;";
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, ruta.getIdRuta());
+            ResultSet rs = ps.executeQuery();
+            ps.close();
+
+            if (rs.next()) {
+                int cantidadPasajes = rs.getInt(1);
+
+                if (cantidadPasajes > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en el metodo pasajeRuta (boolean)." + e);
+            System.out.println(e);
+        }
+        return false;
+    }
+    
+    public boolean pasajeColectivo(Colectivo colectivo){
+        String sql = "SELECT COUNT(*) FROM `pasaje` WHERE `id_Colectivo` = ? AND `fechaViaje` = CURRENT_DATE;";
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, colectivo.getIdColectivo());
+            ResultSet rs = ps.executeQuery();
+            ps.close();
+
+            if (rs.next()) {
+                int cantidadPasajes = rs.getInt(1);
+
+                if (cantidadPasajes > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en el metodo pasajeRuta (boolean)." + e);
+            System.out.println(e);
+        }
+        return false;
+    }
     
 }

@@ -50,7 +50,6 @@ public class GeneralSolBus extends javax.swing.JFrame {
         miGestRutHor = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1042, 674));
         setResizable(false);
 
         dpEscritorio.setPreferredSize(new java.awt.Dimension(1040, 640));
@@ -101,6 +100,11 @@ public class GeneralSolBus extends javax.swing.JFrame {
         mColectivos.setText("Colectivos");
 
         miColectivos.setText("Gestión de colectivos");
+        miColectivos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miColectivosActionPerformed(evt);
+            }
+        });
         mColectivos.add(miColectivos);
 
         mbEscritorio.add(mColectivos);
@@ -208,6 +212,20 @@ public class GeneralSolBus extends javax.swing.JFrame {
        dpEscritorio.add(ihp);
        dpEscritorio.moveToFront(ihp);
     }//GEN-LAST:event_miHistorialAnularActionPerformed
+
+    private void miColectivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miColectivosActionPerformed
+        // TODO add your handling code here:
+        Colectivo c = new Colectivo();
+        ColectivoData cD = new ColectivoData();
+        infGestionColectivo cV = new infGestionColectivo();
+        ctrlGestionColectivos cGC = new ctrlGestionColectivos(c, cD, cV);
+        dpEscritorio.removeAll();
+        dpEscritorio.repaint();
+        cV.setVisible(true);
+        cV.setLocation(00, 00);
+        dpEscritorio.add(cV);
+        dpEscritorio.moveToFront(cV);
+    }//GEN-LAST:event_miColectivosActionPerformed
 
     /**
      * @param args the command line arguments
