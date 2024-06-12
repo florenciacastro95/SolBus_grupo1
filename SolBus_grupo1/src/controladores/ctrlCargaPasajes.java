@@ -620,7 +620,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
             ArrayList<Integer> asientosOcupados = (ArrayList<Integer>) pasajeData.listarAsientosOcupadosPorViaje((Ruta) pasajeVista.cbRuta.getSelectedItem(), (Colectivo) pasajeVista.cbColectivos.getSelectedItem(),
                     fechaDtch, ((Horario) pasajeVista.cbHorario.getSelectedItem()).getHoraSalida());
-            // Convertir la lista a un conjunto para un acceso más rápido
+
             ArrayList<Integer> asientosOcupadosSet = new ArrayList<>(asientosOcupados);
 
             // aca llamamos al renderer personalizado y se lo asignamos a cada columna
@@ -650,11 +650,11 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         pasajeVista.setBorder(BorderFactory.createLineBorder(new Color(202, 40, 43), 3));
 
         // FONDITO INTERNAAAAL
-        pasajeVista.getContentPane().setBackground(new Color(240, 240, 240)); // Gris claro
+        pasajeVista.getContentPane().setBackground(new Color(240, 240, 240));
 
         // MIRA ESOS BUTTONS PAPA
-        pasajeVista.btnVenderPasaje.setBackground(new Color(202, 40, 43)); // Color acento
-        pasajeVista.btnAnularPasaje.setBackground(new Color(202, 40, 43)); // Color acento
+        pasajeVista.btnVenderPasaje.setBackground(new Color(202, 40, 43)); 
+        pasajeVista.btnAnularPasaje.setBackground(new Color(202, 40, 43)); 
         pasajeVista.btnVenderPasaje.setForeground(Color.white);
         pasajeVista.btnAnularPasaje.setForeground(Color.white);
 
@@ -662,8 +662,8 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         pasajeVista.lblTitulo.setForeground(new Color(41, 37, 28));
 
         // TABLITA BACK
-        pasajeVista.spTabla.setBackground(new Color(240, 240, 240)); // Gris claro
-        pasajeVista.tblAsientos.setBackground(new Color(220, 220, 220)); // Gris medio
+        pasajeVista.spTabla.setBackground(new Color(240, 240, 240)); 
+        pasajeVista.tblAsientos.setBackground(new Color(220, 220, 220)); 
 
         // LABELS
         pasajeVista.lblRuta.setForeground(new Color(41, 37, 28));
@@ -678,19 +678,19 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         pasajeVista.lblPrecioCalculado.setForeground(new Color(41, 37, 28));
         pasajeVista.lblPromo.setForeground(new Color(41, 37, 28));
         // PANELS
-        pasajeVista.pnlNoRegistrado.setBackground(new Color(240, 240, 240)); // Gris claro
-        pasajeVista.pnlRegistrado.setBackground(new Color(240, 240, 240)); // Gris claro
+        pasajeVista.pnlNoRegistrado.setBackground(new Color(240, 240, 240)); 
+        pasajeVista.pnlRegistrado.setBackground(new Color(240, 240, 240));
 
         // TEXTFIELDS
-        pasajeVista.txtNombre.setBackground(new Color(220, 220, 220)); // Gris medio
-        pasajeVista.txtApellido.setBackground(new Color(220, 220, 220)); // Gris medio
-        pasajeVista.txtDni.setBackground(new Color(220, 220, 220)); // Gris medio
-        pasajeVista.txtDniRegistrado.setBackground(new Color(220, 220, 220)); // Gris medio
+        pasajeVista.txtNombre.setBackground(new Color(220, 220, 220));
+        pasajeVista.txtApellido.setBackground(new Color(220, 220, 220)); 
+        pasajeVista.txtDni.setBackground(new Color(220, 220, 220));
+        pasajeVista.txtDniRegistrado.setBackground(new Color(220, 220, 220)); 
 
         // COMBOBOXES
-        pasajeVista.cbRuta.setBackground(new Color(240, 240, 240)); // Gris claro
-        pasajeVista.cbHorario.setBackground(new Color(240, 240, 240)); // Gris claro
-        pasajeVista.cbColectivos.setBackground(new Color(240, 240, 240)); // Gris claro
+        pasajeVista.cbRuta.setBackground(new Color(240, 240, 240)); 
+        pasajeVista.cbHorario.setBackground(new Color(240, 240, 240));
+        pasajeVista.cbColectivos.setBackground(new Color(240, 240, 240)); 
 
         // RADIOBUTTONS
         pasajeVista.rbRegistrado.setForeground(new Color(41, 37, 28));
@@ -699,7 +699,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         // text field del JDATE
         JTextField dateTextField = ((JTextField) pasajeVista.dateChooser.getDateEditor().getUiComponent());
         dateTextField.setForeground(new Color(41, 37, 28));
-        dateTextField.setBackground(new Color(220, 220, 220)); // Gris medio
+        dateTextField.setBackground(new Color(220, 220, 220)); 
 
         // el render de la tabla
         ArrayList<Integer> asientosOcupados = null;
@@ -746,6 +746,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         }
     }
 
+    //APLICAR PARA CUANDO SE HAGA EL COMBOBOX DE COLES DISPOS
     class modeloComboColes extends DefaultComboBoxModel {
 
     }
@@ -771,19 +772,19 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                 boolean hasFocus, int row, int column) {
             super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             setBorder(noFocusBorder);
-            setFont(new java.awt.Font("Montserrat", 0, 18));  // Cambia la fuente a Montserrat
+            setFont(new java.awt.Font("Montserrat", 0, 18));  //MONSEEE
             setHorizontalAlignment(SwingConstants.CENTER);
             table.setRowHeight(28);
 
             if (isSelected) {
-                setBackground(new Color(202, 40, 43));  // Color de acento cuando está seleccionado
-                setForeground(Color.white);  // Texto blanco cuando está seleccionado
+                setBackground(new Color(202, 40, 43)); 
+                setForeground(Color.white); 
             } else if (asientosOcupados != null && asientosOcupados.contains(value)) {
                 setBackground(Color.RED);
                 setForeground(Color.WHITE);
             } else {
-                setBackground(new Color(240, 240, 240));  // Fondo gris claro
-                setForeground(new Color(41, 37, 28));  // Texto color oscuro
+                setBackground(new Color(240, 240, 240));  
+                setForeground(new Color(41, 37, 28));  
             }
 
             return this;

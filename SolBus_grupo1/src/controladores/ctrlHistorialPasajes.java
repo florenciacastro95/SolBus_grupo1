@@ -26,8 +26,16 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.Component;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.FileOutputStream;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 
 public class ctrlHistorialPasajes implements ActionListener {
 
@@ -39,7 +47,9 @@ public class ctrlHistorialPasajes implements ActionListener {
     private ColectivoData colectivoData;
     private InfHistorialPasajes pasajeVista;
     private PasajeroData pasajeroData;
-    private DefaultTableModel model = new DefaultTableModel();
+    //clase para que no se editen las celdas de las columnas de los id
+    //está abajo :B pero es un defaulttablemodel, no se asusten
+    private NoMeLaEdite model = new NoMeLaEdite();
 
     public ctrlHistorialPasajes(Pasaje pasaje, PasajeData pasajeData, RutaData rutaData, HorarioData horarioData, ColectivoData colectivoData, InfHistorialPasajes pasajeVista, PasajeroData pasajeroData) throws IOException {
         this.pasaje = pasaje;
@@ -59,6 +69,14 @@ public class ctrlHistorialPasajes implements ActionListener {
         pasajeVista.rbPasajero.addActionListener(this);
         pasajeVista.rbRuta.addActionListener(this);
         pasajeVista.btnVerHistorial.addActionListener(this);
+         pasajeVista.dateChooser.addPropertyChangeListener("date", new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if ("date".equals(evt.getPropertyName())) {
+                    cargarPasajesDeHoy();
+                }
+            }
+        });
 
     }
 
@@ -143,12 +161,12 @@ public class ctrlHistorialPasajes implements ActionListener {
 
     private void armarCabecera() {
         ArrayList<Object> filaCabecera = new ArrayList<>();
-        filaCabecera.add("Id pasaje");
-        filaCabecera.add("Id pasajero");
-        filaCabecera.add("id colectivo");
-        filaCabecera.add("id ruta");
-        filaCabecera.add("Fecha viaje");
-        filaCabecera.add("Hora viaje");
+        filaCabecera.add("ID Pasaje");
+        filaCabecera.add("ID Pasajero");
+        filaCabecera.add("ID Colectivo");
+        filaCabecera.add("ID Ruta");
+        filaCabecera.add("Fecha");
+        filaCabecera.add("Hora");
         filaCabecera.add("Asiento");
         filaCabecera.add("Precio");
 
@@ -156,6 +174,25 @@ public class ctrlHistorialPasajes implements ActionListener {
             model.addColumn(i);
         }
         pasajeVista.tblHistPasajes.setModel(model);
+        //vamo a darle estilo a esa cabecera ewe
+
+        try {
+            JTableHeader header = pasajeVista.tblHistPasajes.getTableHeader();
+            Font montserratFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.BOLD, 14);
+
+            header.setFont(montserratFont);
+            header.setForeground(new Color(41, 37, 28));
+            header.setBackground(new Color(231, 221, 211));
+
+            header.setOpaque(true);
+            header.setBackground(new Color(192, 153, 139));
+
+            Dimension headerSize = header.getPreferredSize();
+            headerSize.height = 36;
+            header.setPreferredSize(headerSize);
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean validarDniTam(int tam) {
@@ -170,8 +207,14 @@ public class ctrlHistorialPasajes implements ActionListener {
     }
 
     private void cargarPasajesDeHoy() {
-        LocalDate hoy = LocalDate.now();
-        ArrayList<Pasaje> listaPasajes = (ArrayList<Pasaje>) pasajeData.listarPasajesVendidosPorFecha(hoy);
+        model.setRowCount(0);
+        LocalDate fechaDtch;
+            if (pasajeVista.dateChooser.getDate() != null) {
+                fechaDtch = pasajeVista.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            } else {
+                fechaDtch = LocalDate.now();
+            }
+        ArrayList<Pasaje> listaPasajes = (ArrayList<Pasaje>) pasajeData.listarPasajesVendidosPorFecha(fechaDtch);
         for (Pasaje p : listaPasajes) {
             model.addRow(new Object[]{
                 p.getIdPasaje(),
@@ -206,6 +249,12 @@ public class ctrlHistorialPasajes implements ActionListener {
         pasajeVista.setBorder(BorderFactory.createLineBorder(new Color(202, 40, 43), 3));
         pasajeVista.getContentPane().setBackground(new Color(240, 240, 240)); // Gris claro
 
+        // MIRA ESOS BUTTONS PAPA
+        pasajeVista.btnVerHistorial.setBackground(new Color(202, 40, 43));
+        pasajeVista.btnVerHistorial.setForeground(Color.white);
+        pasajeVista.btnActualizar.setBackground(new Color(202, 40, 43));
+        pasajeVista.btnActualizar.setForeground(Color.white);
+
         // Combobox
         pasajeVista.cbHorarios.setBackground(new Color(240, 240, 240)); // Gris claro
         pasajeVista.cbRutas.setBackground(new Color(240, 240, 240)); // Gris claro
@@ -236,6 +285,15 @@ public class ctrlHistorialPasajes implements ActionListener {
         pasajeVista.lblTituloHistPasajes.setHorizontalAlignment(SwingConstants.CENTER);
 
         // Aplicamos la fuente personalizada
+        //vamo a darle estilo a esa tabla
+        pasajeVista.tblHistPasajes.setDefaultRenderer(Object.class, new PoneteBonitaTablita());
+
+        //la wasada de darle formato a un dchooser jaasdasdj estoy esquizofrenicaaaa
+         // text field del JDATE
+        JTextField dateTextField = ((JTextField) pasajeVista.dateChooser.getDateEditor().getUiComponent());
+        dateTextField.setForeground(new Color(41, 37, 28));
+        dateTextField.setBackground(new Color(220, 220, 220)); 
+
         try {
             Font montserratFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.PLAIN, 14);
             Font montserratFontTitulo = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.BOLD, 18);
@@ -249,10 +307,48 @@ public class ctrlHistorialPasajes implements ActionListener {
             pasajeVista.rbRuta.setFont(montserratFont);
             pasajeVista.txtApellido.setFont(montserratFont);
             pasajeVista.txtDNI.setFont(montserratFont);
+            pasajeVista.btnActualizar.setFont(montserratFont);
+            pasajeVista.btnVerHistorial.setFont(montserratFont);
+            dateTextField.setFont(montserratFont);//FUNCIONA DALE LPM
 
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
     }
 
+    class PoneteBonitaTablita extends DefaultTableCellRenderer {
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                boolean hasFocus, int row, int column) {
+            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            setBorder(noFocusBorder);
+            setFont(new java.awt.Font("Montserrat", 0, 18));  //MONSEEE
+            setHorizontalAlignment(SwingConstants.CENTER);
+            table.setRowHeight(28);
+
+            if (isSelected) {
+                setBackground(new Color(202, 40, 43));
+                setForeground(Color.white);
+            } else {
+                setBackground(new Color(240, 240, 240));
+                setForeground(new Color(41, 37, 28));
+            }
+
+            return this;
+        }
+    }
+
+    class NoMeLaEdite extends DefaultTableModel {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            int[] nonEditableColumns = {0, 1, 2, 3}; 
+            for (int col : nonEditableColumns) {
+                if (column == col) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
 }
