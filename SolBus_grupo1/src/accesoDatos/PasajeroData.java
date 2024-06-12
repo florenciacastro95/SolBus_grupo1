@@ -14,7 +14,7 @@ public class PasajeroData {
 
     public PasajeroData() {
         c = Conexion.getConexion();
-        
+
     }
 
     public void guardarPasajero(Pasajero pasajero) {
@@ -233,15 +233,14 @@ public class PasajeroData {
     public List<Pasajero> listarPasajerosPorPrefijoDni(String dniABuscar) {
 
         String sql = "SELECT `id_Pasajero`, `nombre`, `apellido`, `dni`, `estado`, `correo`, `telefono` "
-            + "FROM pasajero WHERE dni LIKE ?";
-          
+                + "FROM pasajero WHERE dni LIKE ?";
+
         ArrayList<Pasajero> pasajeros = new ArrayList<>();
 
         try {
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setString(1, dniABuscar + "%");
             ResultSet rs = ps.executeQuery();
-            
 
             while (rs.next()) {
                 Pasajero pasajero = new Pasajero();
@@ -264,6 +263,7 @@ public class PasajeroData {
 
         return pasajeros;
     }
+
     public List<Pasajero> listarPasajerosPorPrefijoApellido(String apellidoABuscar) {
 
         String sql = "SELECT `id_Pasajero`, `nombre`, `apellido`, `dni`, `estado`, `correo`, `telefono` "
@@ -275,7 +275,6 @@ public class PasajeroData {
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setString(1, apellidoABuscar + "%");
             ResultSet rs = ps.executeQuery();
-            
 
             while (rs.next()) {
                 Pasajero pasajero = new Pasajero();
@@ -298,6 +297,32 @@ public class PasajeroData {
         }
 
         return pasajeros;
+    }
+
+    public List<Pasajero> listarPasajerosRegistrados() {
+        List<Pasajero> pasajerosRegistrados = new ArrayList<>();
+        String sql = "SELECT * FROM pasajero WHERE estado = 1 AND telefono IS NOT NULL AND correo IS NOT NULL";
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Pasajero pasajero = new Pasajero();
+                pasajero.setIdPasajero(rs.getInt("id_Pasajero"));
+                pasajero.setNombre(rs.getString("nombre"));
+                pasajero.setApellido(rs.getString("apellido"));
+                pasajero.setDni(rs.getString("dni"));
+                pasajero.setEstado(rs.getBoolean("estado"));
+                pasajero.setCorreo(rs.getString("correo"));
+                pasajero.setTelefono(rs.getString("telefono"));
+                pasajerosRegistrados.add(pasajero);
+            }
+            ps.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en pasajero data, metodo listarPasajerosRegistrados - error SQL." + e);
+        }
+        return pasajerosRegistrados;
     }
 
     public List<Pasajero> obtenerPasajerosActivos() {
@@ -344,4 +369,5 @@ public class PasajeroData {
         }
 
     }
+
 }

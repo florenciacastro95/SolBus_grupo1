@@ -62,6 +62,13 @@ public class ctrlHistorialPasajes implements ActionListener, ItemListener {
     //está abajo :B pero es un defaulttablemodel, no se asusten
     private NoMeLaEdite model = new NoMeLaEdite();
 
+    
+    //mails
+    private String emailFrom="grupo1solbus@gmail.com";
+    private String passwordFrom="bcmjtbkmgtefvbzi";
+    
+    
+    
     public ctrlHistorialPasajes(Pasaje pasaje, PasajeData pasajeData, RutaData rutaData, HorarioData horarioData, ColectivoData colectivoData, InfHistorialPasajes pasajeVista, PasajeroData pasajeroData) throws IOException {
         this.pasaje = pasaje;
         this.pasajeData = pasajeData;
@@ -79,6 +86,8 @@ public class ctrlHistorialPasajes implements ActionListener, ItemListener {
         pasajeVista.rbPasajero.addActionListener(this);
         pasajeVista.rbRuta.addActionListener(this);
         pasajeVista.btnVerHistorial.addActionListener(this);
+        pasajeVista.rbFecha.addActionListener(this);
+        pasajeVista.rbVerTodo.addActionListener(this);
         desactivarComponentesPorTipo();
         pasajeVista.dateChooser.addPropertyChangeListener("date", new PropertyChangeListener() {
             @Override
@@ -132,11 +141,16 @@ public class ctrlHistorialPasajes implements ActionListener, ItemListener {
         if (e.getSource() == pasajeVista.btnVerHistorial) {
             verHistorial();
         }
-if (e.getSource() == pasajeVista.rbPasajero) {
+        if (e.getSource() == pasajeVista.rbPasajero) {
             desactivarComponentesPorTipo();
         } else if (e.getSource() == pasajeVista.rbRuta) {
             desactivarComponentesPorTipo();
 
+        }else if(e.getSource()==pasajeVista.rbFecha){
+         desactivarComponentesPorTipo();
+        }else if(e.getSource()==pasajeVista.rbVerTodo){
+             desactivarComponentesPorTipo();
+             cargarTodosPasajes();
         }
 
     }
@@ -146,6 +160,26 @@ if (e.getSource() == pasajeVista.rbPasajero) {
 
     }
 
+    
+    private void sugerirEnviarMail(){
+        
+        List<Pasajero> todos = pasajeroData.listarPasajerosRegistrados();
+        Pasajero elegido = null;
+        for (Pasajero p : todos) {
+            if(pasajeData.pasajeroHaCompradoNueveOMasPasajes(p.getIdPasajero())){
+            
+                elegido=p;
+                
+            }
+                
+        }
+        if(elegido!=null){
+        
+        //joptionpane de está seguro que quiere enviarle un main
+                //boton de enviar mail
+        }
+    
+    }
     private void verHistorial() {
         LocalDate fechaDtch;
         if (pasajeVista.dateChooser.getDate() != null) {
@@ -267,7 +301,7 @@ private void actualizarPasaje() {
             JOptionPane.showMessageDialog(pasajeVista, "Por favor, seleccione un pasaje de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }
-*/
+     */
     private void cargarDetallesPasajeSeleccionado() {
         int selectedRow = pasajeVista.tblHistPasajes.getSelectedRow();
         if (selectedRow != -1) {
@@ -337,6 +371,11 @@ private void actualizarPasaje() {
         ArrayList<Pasaje> listaPasajes = (ArrayList<Pasaje>) pasajeData.listarPasajesVendidosPorFecha(fecha);
         actualizarTablaConPasajes(listaPasajes);
     }
+    
+    private void cargarTodosPasajes(){
+         ArrayList<Pasaje> listaPasajes = (ArrayList<Pasaje>) pasajeData.listarPasajesVendidos();
+        actualizarTablaConPasajes(listaPasajes);
+    }
 
     private void cargarRutas() {
         ArrayList<Ruta> rutas = (ArrayList<Ruta>) rutaData.listarRutasDisponibles();
@@ -353,12 +392,11 @@ private void actualizarPasaje() {
         model.setRowCount(0);
         for (Pasaje p : listaPasajes) {
             model.addRow(new Object[]{p.getIdPasaje(), p.getPasajero().toString(), p.getColectivo().getMatricula(),
-                 p.getRuta().toString(), p.getHoraViaje().toString(), p.getHoraViaje().toString(),
+                p.getRuta().toString(), p.getHoraViaje().toString(), p.getFechaViaje().toString(),
                 p.getAsiento(), p.getPrecio()});
         }
     }
 
- 
     private void filtrarPorPasajero() {
         if (pasajeVista.rbPasajero.isSelected()) {
             String ape = pasajeVista.txtApellido.getText();
@@ -393,14 +431,24 @@ private void actualizarPasaje() {
             pasajeVista.cbRutas2.setEnabled(false);
             pasajeVista.txtApellido.setEnabled(true);
             pasajeVista.txtDNI.setEnabled(true);
+            pasajeVista.dateChooser.setEnabled(false);
         } else if (pasajeVista.rbRuta.isSelected()) {
             pasajeVista.cbRutas2.setEnabled(true);
             pasajeVista.txtApellido.setEnabled(false);
             pasajeVista.txtDNI.setEnabled(false);
-        } else { 
+            pasajeVista.dateChooser.setEnabled(false);
+        } else if(pasajeVista.rbFecha.isSelected()){
+            pasajeVista.dateChooser.setEnabled(true);
             pasajeVista.cbRutas2.setEnabled(false);
             pasajeVista.txtApellido.setEnabled(false);
             pasajeVista.txtDNI.setEnabled(false);
+            
+        }else if(pasajeVista.rbVerTodo.isSelected()){
+            
+        pasajeVista.cbRutas2.setEnabled(false);
+            pasajeVista.txtApellido.setEnabled(false);
+            pasajeVista.txtDNI.setEnabled(false);
+            pasajeVista.dateChooser.setEnabled(false);
         }
     }
 
@@ -413,12 +461,11 @@ private void actualizarPasaje() {
         // MIRA ESOS BUTTONS PAPA
         pasajeVista.btnVerHistorial.setBackground(new Color(202, 40, 43));
         pasajeVista.btnVerHistorial.setForeground(Color.white);
-        
+
         // Combobox
         pasajeVista.cbRutas2.setBackground(new Color(240, 240, 240));
 
         // Labels
-        pasajeVista.lblTitutloPasaje.setForeground(new Color(41, 37, 28));
         pasajeVista.lblTituloGestion.setForeground(new Color(41, 37, 28));
         pasajeVista.lblTituloFiltrar.setForeground(new Color(41, 37, 28));
         // Panels
@@ -428,6 +475,8 @@ private void actualizarPasaje() {
         // RadioButtons
         pasajeVista.rbPasajero.setForeground(new Color(41, 37, 28));
         pasajeVista.rbRuta.setForeground(new Color(41, 37, 28));
+        pasajeVista.rbFecha.setForeground(new Color(41, 37, 28));
+        pasajeVista.rbVerTodo.setForeground(new Color(41, 37, 28));
 
         // TextFields
         pasajeVista.txtApellido.setBackground(new Color(220, 220, 220));
@@ -454,13 +503,13 @@ private void actualizarPasaje() {
             Font montserratFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.PLAIN, 14);
             Font montserratFontTitulo = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.BOLD, 18);
 
-
             pasajeVista.lblTituloGestion.setFont(montserratFontTitulo);
-            pasajeVista.lblTitutloPasaje.setFont(montserratFont);
             pasajeVista.lblTituloFiltrar.setFont(montserratFont);
             pasajeVista.cbRutas2.setFont(montserratFont);
             pasajeVista.rbPasajero.setFont(montserratFont);
             pasajeVista.rbRuta.setFont(montserratFont);
+            pasajeVista.rbFecha.setFont(montserratFont);
+            pasajeVista.rbVerTodo.setFont(montserratFont);
             pasajeVista.txtApellido.setFont(montserratFont);
             pasajeVista.txtDNI.setFont(montserratFont);
             pasajeVista.btnVerHistorial.setFont(montserratFont);

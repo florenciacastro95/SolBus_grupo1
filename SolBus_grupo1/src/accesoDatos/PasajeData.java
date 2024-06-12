@@ -89,10 +89,10 @@ public class PasajeData {
             JOptionPane.showMessageDialog(null, "Error SQL en pasaje data (metodo borrar pasaje)." + e);
         }
     }
-    
+
     public boolean estaElPasaje(int asiento, Ruta rutaBuscada,
-            Colectivo colectivo, LocalDate fecha, LocalTime hora){
-    String sql = "SELECT * FROM pasaje WHERE id_Ruta = ? AND id_Colectivo = ? AND "
+            Colectivo colectivo, LocalDate fecha, LocalTime hora) {
+        String sql = "SELECT * FROM pasaje WHERE id_Ruta = ? AND id_Colectivo = ? AND "
                 + "fechaViaje = ? AND horaViaje = ? AND asiento = ?";
         try {
             PreparedStatement ps = c.prepareStatement(sql);
@@ -109,16 +109,14 @@ public class PasajeData {
             } else {
                 return false;
             }
-            
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error en el metodo estaElPasaje, no se pudo acceder a los pasajes ." + e);
             System.out.println(e);
-        }    
+        }
         return false;
 
     }
-    
 
     //flor ta out chicos
     public boolean eliminarPasajePorViaje(int asiento, Ruta rutaBuscada,
@@ -127,7 +125,7 @@ public class PasajeData {
         String sql = "DELETE from pasaje WHERE id_Ruta = ? AND id_Colectivo = ? AND "
                 + "fechaViaje = ? AND horaViaje = ? AND asiento = ?";
 
-        Colectivo idC=cd.buscarColectivoPorId(buscarPasajePorViaje(rutaBuscada, colectivo, fecha, hora, asiento).getColectivo().getIdColectivo());
+        Colectivo idC = cd.buscarColectivoPorId(buscarPasajePorViaje(rutaBuscada, colectivo, fecha, hora, asiento).getColectivo().getIdColectivo());
         try {
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setInt(1, rutaBuscada.getIdRuta());
@@ -162,7 +160,7 @@ public class PasajeData {
                 + "fechaViaje = ? AND horaViaje = ? AND asiento = ?";
 
         try {
-            PreparedStatement ps =c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, rutaBuscada.getIdRuta());
             ps.setInt(2, colectivo.getIdColectivo());
             ps.setDate(3, Date.valueOf(fecha));
@@ -228,13 +226,12 @@ public class PasajeData {
     //ACA VER SI SE PUEDE HACER UN "ACTUALIZAR PASAJE" no tendria mucho sentido pero no sé
     //este comentario lo puse hace 2 semanas y hoy 12/06 estoy pensando que porque
     //mierda flor del pasado no hiciste el fuckin actualizar pasaje 
-
-     public void actualizarPasaje(Pasaje pasaje) {
+    public void actualizarPasaje(Pasaje pasaje) {
         String sql = "UPDATE pasaje SET id_Pasajero=?, id_Colectivo=?,"
                 + " id_Ruta=?, fechaViaje=?, horaViaje=?, asiento=?, precio=? WHERE id_Pasaje=?";
-        
+
         try {
-            
+
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setInt(1, pasaje.getPasajero().getIdPasajero());
             ps.setInt(2, pasaje.getColectivo().getIdColectivo());
@@ -246,20 +243,17 @@ public class PasajeData {
             ps.setInt(8, pasaje.getIdPasaje());
             ps.executeUpdate();
             ps.close();
-            
-            
+
             Pasajero pasajero = pasaje.getPasajero();
             if (pasajero.getNombre() != null && !pasajero.getNombre().isEmpty()) {
                 pd.actualizarPasajero(pasajero);
             }
-            
-            
+
             Colectivo colectivo = pasaje.getColectivo();
             if (colectivo != null) {
                 cd.actualizarColectivo(colectivo);
             }
-            
-            
+
             Ruta ruta = pasaje.getRuta();
             if (ruta != null) {
                 rd.actualizarRuta(ruta);
@@ -273,10 +267,8 @@ public class PasajeData {
         }
     }
 
-
-    
 //Listar pasajes por pasajero
-     public List<Pasaje> listarPasajesVendidos() {
+    public List<Pasaje> listarPasajesVendidos() {
 
         String sql = "SELECT * FROM pasaje";
         ArrayList<Pasaje> pasajes = new ArrayList<>();
@@ -306,6 +298,7 @@ public class PasajeData {
 
         return pasajes;
     }
+
     public List<Pasaje> listarPasajesPorPasajero(int idPasajero) {
 
         String sql = "SELECT * FROM pasaje WHERE id_Pasajero =?";
@@ -497,7 +490,7 @@ public class PasajeData {
 
         return asientosOcupados;
     }
-    
+
     public boolean pasajePasajero(Pasajero pasajero) {
         String sql = "SELECT COUNT(*) FROM `pasaje` WHERE `id_Pasajero` = ? AND `fechaViaje` = CURRENT_DATE;";
 
@@ -524,8 +517,8 @@ public class PasajeData {
         }
         return false;
     }
-    
-    public boolean pasajeRuta(Ruta ruta){
+
+    public boolean pasajeRuta(Ruta ruta) {
         String sql = "SELECT COUNT(*) FROM `pasaje` WHERE `id_Ruta` = ? AND `fechaViaje` = CURRENT_DATE;";
 
         try {
@@ -551,8 +544,8 @@ public class PasajeData {
         }
         return false;
     }
-    
-    public boolean pasajeColectivo(Colectivo colectivo){
+
+    public boolean pasajeColectivo(Colectivo colectivo) {
         String sql = "SELECT COUNT(*) FROM `pasaje` WHERE `id_Colectivo` = ? AND `fechaViaje` = CURRENT_DATE;";
 
         try {
@@ -578,7 +571,7 @@ public class PasajeData {
         }
         return false;
     }
-    
+
     public List<Pasaje> listarPasajesPorPasajeroYDNI(String nombreApellido, String dni) {
         String sql = "SELECT * FROM pasaje WHERE id_Pasajero IN (SELECT id_Pasajero FROM pasajero WHERE nombre LIKE ? OR apellido LIKE ?) AND id_Pasajero IN (SELECT id_Pasajero FROM pasajero WHERE dni LIKE ?)";
         ArrayList<Pasaje> pasajes = new ArrayList<>();
@@ -662,5 +655,23 @@ public class PasajeData {
         }
         return pasajes;
     }
-    
+
+    public boolean pasajeroHaCompradoNueveOMasPasajes(int idPasajero) {
+        String sql = "SELECT COUNT(*) FROM pasaje WHERE id_Pasajero = ?";
+        int cantidadPasajes = 0;
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, idPasajero);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                cantidadPasajes = rs.getInt(1);
+            }
+            ps.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al contar pasajes del pasajero: " + e);
+        }
+
+        return cantidadPasajes >= 9;
+    }
 }
