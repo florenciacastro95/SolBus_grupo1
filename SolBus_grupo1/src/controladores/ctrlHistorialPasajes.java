@@ -42,12 +42,15 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -222,34 +225,59 @@ public class ctrlHistorialPasajes implements ActionListener, ItemListener {
     }
 
     private void prepararMail(Pasajero p) {
-        emailTo = p.getCorreo();
-        subject = "FELICIDADES " + p.toString().toUpperCase() + " HAS GANADO UN PASAJE GRATIS";
-        content = "Querido/a " + p.toString() + ":\n Gracias por elegirnos, tu décimo pasaje es gratis.\n Atte. SolBus";
+    emailTo = p.getCorreo();
+    subject = "FELICIDADES " + p.toString().toUpperCase() + " HAS GANADO UN PASAJE GRATIS";
 
-        //
-        mProperties.put("mail.smtp.host", "smtp.gmail.com"); // Cambia esto al servidor SMTP que uses
-        mProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+    // Contenido del correo en HTML
+    content = "<html><body>"
+            + "<p>Querido/a " + p.toString() + ":<br>"
+            + "Gracias por elegirnos, tu <b>décimo pasaje es gratis</b>.<br>"
+            + "Atte. <span style='color:#CB2B32;'>SolBus</span></p>"
+            + "</body></html>";
 
-        mProperties.setProperty("mail.smtp.starttls.enable", "true");
-        mProperties.setProperty("mail.smtp.port", "587"); // Puerto para TLS
-        mProperties.setProperty("mail.smtp.user", emailFrom);
-        mProperties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
-        mProperties.setProperty("mail.smtp.auth", "true");
+    mProperties.put("mail.smtp.host", "smtp.gmail.com"); // Cambia esto al servidor SMTP que uses
+    mProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
 
-        mSession = Session.getInstance(mProperties);
-        mCorreo = new MimeMessage(mSession);
-        try {
-            mCorreo.setFrom(new InternetAddress(emailFrom)); // Email del remitente
-            mCorreo.addRecipient(Message.RecipientType.TO, new InternetAddress(emailTo)); // Email del destinatario
-            mCorreo.setSubject(subject);
-            mCorreo.setText(content, "ISO-8859-1", "html");
+    mProperties.setProperty("mail.smtp.starttls.enable", "true");
+    mProperties.setProperty("mail.smtp.port", "587"); // Puerto para TLS
+    mProperties.setProperty("mail.smtp.user", emailFrom);
+    mProperties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
+    mProperties.setProperty("mail.smtp.auth", "true");
 
-        } catch (AddressException e) {
-            e.printStackTrace();
-        } catch (MessagingException e) {
-            e.printStackTrace();
+    mSession = Session.getInstance(mProperties);
+    mCorreo = new MimeMessage(mSession);
+    try {
+        mCorreo.setFrom(new InternetAddress(emailFrom)); // Email del remitente
+        mCorreo.addRecipient(Message.RecipientType.TO, new InternetAddress(emailTo)); // Email del destinatario
+        mCorreo.setSubject(subject);
+
+        // Crear el cuerpo del mensaje
+        MimeBodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setContent(content, "text/html; charset=UTF-8");
+
+        // Crear el contenido multipart
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(messageBodyPart);
+
+        // Adjuntar el PDF
+        String rutaPdf = generarComprobante(p);
+        if (!rutaPdf.isEmpty()) {
+            MimeBodyPart attachPart = new MimeBodyPart();
+            attachPart.attachFile(rutaPdf);
+            multipart.addBodyPart(attachPart);
         }
+
+        // Configurar el contenido del mensaje
+        mCorreo.setContent(multipart);
+
+    } catch (AddressException e) {
+        e.printStackTrace();
+    } catch (MessagingException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+}
 
     private void enviarMail() {
 
@@ -267,6 +295,68 @@ public class ctrlHistorialPasajes implements ActionListener, ItemListener {
             System.out.println("Mensaje no enviado " + ex);
         }
 
+    }
+    public static String generarComprobante(Pasajero p) {
+        Document documento = new Document();
+        String ruta = "";
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            String fechaHoy = formatter.format(LocalDate.now());
+
+            ruta = System.getProperty("user.home") + "/Desktop/DocumentosSolBus/Comprobantes/" + p.getIdPasajero() + "_Comprobante.pdf";
+            Path path = Paths.get(ruta);
+
+            if (!Files.exists(path.getParent())) {
+                Files.createDirectories(path.getParent());
+            }
+
+            PdfWriter.getInstance(documento, new FileOutputStream(ruta));
+            documento.open();
+
+            Paragraph encabezado = new Paragraph("Sol Bus", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 24, new BaseColor(203, 43, 50))); // Color #CB2B32
+            encabezado.setAlignment(Element.ALIGN_CENTER);
+            documento.add(encabezado);
+
+            Paragraph titulo = new Paragraph("Comprobante de Pasaje Gratis", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.DARK_GRAY));
+            titulo.setAlignment(Element.ALIGN_CENTER);
+            documento.add(titulo);
+
+            Paragraph fechaActual = new Paragraph("Fecha: " + fechaHoy, FontFactory.getFont(FontFactory.HELVETICA, 12, new BaseColor(203, 43, 50))); // Color #CB2B32
+            fechaActual.setAlignment(Element.ALIGN_CENTER);
+            documento.add(fechaActual);
+
+            documento.add(new Paragraph("\n"));
+
+            PdfPTable tabla = new PdfPTable(2);
+            tabla.setWidthPercentage(100);
+
+            PdfPCell cellTitulo = new PdfPCell(new Phrase("Detalle", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.WHITE)));
+            cellTitulo.setBackgroundColor(new BaseColor(203, 43, 50)); // Color #CB2B32
+            cellTitulo.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tabla.addCell(cellTitulo);
+
+            PdfPCell cellContenido = new PdfPCell(new Phrase("Información", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.WHITE)));
+            cellContenido.setBackgroundColor(new BaseColor(203, 43, 50)); // Color #CB2B32
+            cellContenido.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tabla.addCell(cellContenido);
+
+            tabla.addCell("Nombre y Apellido:");
+            tabla.addCell(p.getNombre() + " " + p.getApellido());
+
+            tabla.addCell("DNI:");
+            tabla.addCell(p.getDni());
+
+            documento.add(tabla);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (documento != null && documento.isOpen()) {
+                documento.close();
+            }
+        }
+
+        return ruta;
     }
 
     private void verHistorial() {
@@ -651,3 +741,4 @@ private void actualizarPasaje() {
         }
     }
 }
+
