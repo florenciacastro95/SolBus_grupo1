@@ -19,7 +19,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miHistorialAnular">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Historial de pasajes y anular ventas"/>
+                <Property name="text" type="java.lang.String" value="Historial de pasajes"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miHistorialAnularActionPerformed"/>
@@ -34,7 +34,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="miListarPasajeros">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Listar Pasajeros"/>
+                <Property name="text" type="java.lang.String" value="Gestion Pasajeros"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miListarPasajerosActionPerformed"/>

@@ -59,6 +59,14 @@ public class ctrlGestionRutaHorario implements ActionListener, ItemListener {
         gRutHorVista.btnBajaHor.addActionListener(this);
                 
         gRutHorVista.cbRuta.addItemListener(this);
+        if (gRutHorVista.cbRuta.getSelectedItem() != null) {
+            Ruta rh = (Ruta) gRutHorVista.cbRuta.getSelectedItem();
+            cargarTablaHor((ArrayList) hD.listarHorariosPorRuta(rh));
+        }
+        
+        
+        
+        
     }
 
     
@@ -196,7 +204,7 @@ public class ctrlGestionRutaHorario implements ActionListener, ItemListener {
         
         if(ae.getSource() == gRutHorVista.btnAgregarHor){
             if (gRutHorVista.tblHorarios.getRowCount() > 0) {
-
+                rutaH = (Ruta) gRutHorVista.cbRuta.getSelectedItem();
                 ArrayList<Horario> hor = new ArrayList<Horario>();
                 Boolean bandera = true;
                 for (int i = 0; i < gRutHorVista.tblHorarios.getRowCount(); i++) {

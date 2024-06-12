@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -107,47 +109,57 @@ public class ctrlListarPasajeros implements ActionListener {
         }
 
         if (e.getSource() == pasajeroVista.btnRegistrar) {
+            boolean aux = true;
             String nombre = pasajeroVista.txtNombre.getText();
             String apellido = pasajeroVista.txtApellido.getText();
             String dniText = pasajeroVista.txtDni.getText();
             String correo = pasajeroVista.txtCorreo.getText();
-            String telefono = pasajeroVista.jTextField5.getText();
+            String telefono = pasajeroVista.txtTelefono.getText();
 
             if (!validarString(nombre)) {
                 JOptionPane.showMessageDialog(pasajeroVista, "Nombre inválido.");
-
+                aux = false;
             }
 
             if (!validarString(apellido)) {
                 JOptionPane.showMessageDialog(pasajeroVista, "Apellido inválido.");
-
+                aux = false;
             }
 
             if (!dniText.matches("\\d+") || !validarDniTam(dniText.length())) {
                 JOptionPane.showMessageDialog(pasajeroVista, "DNI inválido.");
-
+                aux = false;
+            }
+            if (correo.isEmpty() || !validarCorreo(correo)) {
+                JOptionPane.showMessageDialog(pasajeroVista, "correo invalido");
+                aux = false;
+            }
+            if (telefono.isEmpty() || validarEnteros(telefono)) {
+                JOptionPane.showMessageDialog(pasajeroVista, "Telefono invalido");
+                aux = false;
             }
 
-            Pasajero nuevoPasajero = new Pasajero();
-            nuevoPasajero.setNombre(nombre);
-            nuevoPasajero.setApellido(apellido);
-            nuevoPasajero.setDni(dniText);
-            nuevoPasajero.setEstado(true);
-            if (!correo.isEmpty()) {
-                nuevoPasajero.setCorreo(correo);
-            }
-            if (!telefono.isEmpty()) {
-                nuevoPasajero.setTelefono(telefono);
-            }
+            if (aux) {
 
-            pasajeroData.guardarPasajero(nuevoPasajero);
-            actualizarTablaConPasajeros((ArrayList<Pasajero>) pasajeroData.listarPasajeros());
+                Pasajero nuevoPasajero = new Pasajero();
+                nuevoPasajero.setNombre(pasajeroVista.txtNombre.getText());
+                nuevoPasajero.setApellido(pasajeroVista.txtApellido.getText());
+                nuevoPasajero.setDni(pasajeroVista.txtDni.getText());
+                nuevoPasajero.setEstado(true);
+                nuevoPasajero.setCorreo(pasajeroVista.txtCorreo.getText());
+                nuevoPasajero.setTelefono(pasajeroVista.txtTelefono.getText());
+
+                pasajeroData.guardarPasajero(nuevoPasajero);
+                actualizarTablaConPasajeros((ArrayList<Pasajero>) pasajeroData.listarPasajeros());
+            }else{
+                pasajeroVista.txtNombre.requestFocus();
+            }
 
             pasajeroVista.txtNombre.setText("");
             pasajeroVista.txtApellido.setText("");
             pasajeroVista.txtDni.setText("");
             pasajeroVista.txtCorreo.setText("");
-            pasajeroVista.jTextField5.setText("");
+            pasajeroVista.txtTelefono.setText("");
         }
 
         if (e.getSource() == pasajeroVista.btnActualizar1) {
@@ -186,9 +198,24 @@ public class ctrlListarPasajeros implements ActionListener {
     public boolean validarDniTam(int tam) {
         return tam == 8 || tam == 7;
     }
+    public boolean validarEnteros(String s) {
+
+        String regExp = "^-?\\d+$";
+
+        Pattern p = Pattern.compile(regExp);
+        Matcher m = p.matcher(s);
+
+        return m.matches();
+    }
 
     public boolean validarString(String s) {
         String regExp = "^[\\p{L}\\p{M} .'-]+$";
+
+        return s.matches(regExp);
+        //estoy perdiendo salud mental con este paquete de control
+    }
+    public boolean validarCorreo(String s) {
+        String regExp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
 
         return s.matches(regExp);
         //estoy perdiendo salud mental con este paquete de control
@@ -272,7 +299,7 @@ public class ctrlListarPasajeros implements ActionListener {
 
     public final void poneteBonito() {
 
-        pasajeroVista.setSize(new Dimension(650, 420));
+        pasajeroVista.setSize(new Dimension(700, 470));
 
         pasajeroVista.setBorder(BorderFactory.createLineBorder(new Color(202, 40, 43), 3));
 
@@ -313,7 +340,7 @@ public class ctrlListarPasajeros implements ActionListener {
         pasajeroVista.jtDni.setBackground(new Color(220, 220, 220)); // Gris medio
         pasajeroVista.jtNombre.setBackground(new Color(220, 220, 220)); // Gris medio
         pasajeroVista.txtCorreo.setBackground(new Color(220, 220, 220)); // Gris medio
-        pasajeroVista.jTextField5.setBackground(new Color(220, 220, 220)); // Gris medio
+        pasajeroVista.txtTelefono.setBackground(new Color(220, 220, 220)); // Gris medio
 
         // RADIOBUTTONS
         pasajeroVista.rbDni.setForeground(new Color(41, 37, 28));
@@ -346,7 +373,7 @@ public class ctrlListarPasajeros implements ActionListener {
             pasajeroVista.jtDni.setFont(montserratFont);
             pasajeroVista.jtNombre.setFont(montserratFont);
             pasajeroVista.txtCorreo.setFont(montserratFont);
-            pasajeroVista.jTextField5.setFont(montserratFont);
+            pasajeroVista.txtTelefono.setFont(montserratFont);
             pasajeroVista.rbDni.setFont(montserratFont);
             pasajeroVista.rbNombreApellido.setFont(montserratFont);
             pasajeroVista.rbVerTodo.setFont(montserratFont);

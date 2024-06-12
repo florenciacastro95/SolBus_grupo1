@@ -121,7 +121,7 @@ public class GeneralSolBus extends javax.swing.JFrame {
         });
         mPasajes.add(miGestionPasajes);
 
-        miHistorialAnular.setText("Historial de pasajes y anular ventas");
+        miHistorialAnular.setText("Historial de pasajes");
         miHistorialAnular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 miHistorialAnularActionPerformed(evt);
@@ -133,7 +133,7 @@ public class GeneralSolBus extends javax.swing.JFrame {
 
         mPasajeros.setText("Pasajeros");
 
-        miListarPasajeros.setText("Listar Pasajeros");
+        miListarPasajeros.setText("Gestion Pasajeros");
         miListarPasajeros.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 miListarPasajerosActionPerformed(evt);
