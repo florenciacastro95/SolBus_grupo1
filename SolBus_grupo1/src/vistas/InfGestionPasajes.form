@@ -70,9 +70,9 @@
                   <Component id="rbRegistrado" min="-2" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <EmptySpace min="30" pref="30" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnVenderPasaje" min="-2" pref="150" max="-2" attributes="0"/>
-                          <Component id="btnAnularPasaje" min="-2" pref="150" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="btnVenderPasaje" max="32767" attributes="0"/>
+                          <Component id="btnAnularPasaje" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -212,11 +212,11 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Gill Sans MT" size="14" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="VENDER PASAJE"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/imagenes/logos/logos32/003-ticket.png"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value=" VENDER PASAJE"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVenderPasajeActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
@@ -486,6 +486,9 @@
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Gill Sans MT" size="14" style="0"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/imagenes/logos/logos32/006-cancel.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="ANULAR PASAJE"/>
       </Properties>

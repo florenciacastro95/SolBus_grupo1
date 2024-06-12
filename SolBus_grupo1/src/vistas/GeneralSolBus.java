@@ -4,12 +4,16 @@ import entidades.*;
 import accesoDatos.*;
 import controladores.*;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UnsupportedLookAndFeelException;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
@@ -23,6 +27,27 @@ public class GeneralSolBus extends javax.swing.JFrame {
     public GeneralSolBus() {
         initComponents();
         cargarImagenFondo();
+                try {
+            Font montserratFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.PLAIN, 18);
+            Font montserratFont1 = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.BOLD, 14);
+            Font montserratFontTitulo = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.BOLD, 28);
+            this.jLabel1.setFont(montserratFontTitulo);
+            this.jLabel2.setFont(montserratFont);
+            this.jLabel1.setForeground(Color.WHITE);
+            this.jLabel2.setForeground(Color.WHITE);
+            this.mColectivos.setFont(montserratFont1);
+            this.MRutas.setFont(montserratFont1);
+            this.mPasajeros.setFont(montserratFont1);
+            this.mPasajes.setFont(montserratFont1);
+            this.miColectivos.setFont(montserratFont1);
+            this.miGestRutHor.setFont(montserratFont1);
+            this.miGestionPasajes.setFont(montserratFont1);
+            this.miHistorialAnular.setFont(montserratFont1);
+            this.miListarPasajeros.setFont(montserratFont1);
+            
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void cargarImagenFondo() {
@@ -38,12 +63,14 @@ public class GeneralSolBus extends javax.swing.JFrame {
     private void initComponents() {
 
         dpEscritorio = new javax.swing.JDesktopPane();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         mbEscritorio = new javax.swing.JMenuBar();
         mPasajes = new javax.swing.JMenu();
         miGestionPasajes = new javax.swing.JMenuItem();
         miHistorialAnular = new javax.swing.JMenuItem();
         mPasajeros = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        miListarPasajeros = new javax.swing.JMenuItem();
         mColectivos = new javax.swing.JMenu();
         miColectivos = new javax.swing.JMenuItem();
         MRutas = new javax.swing.JMenu();
@@ -54,15 +81,34 @@ public class GeneralSolBus extends javax.swing.JFrame {
 
         dpEscritorio.setPreferredSize(new java.awt.Dimension(1040, 640));
 
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel2.setText("El placer de viajar con nosotros");
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        jLabel1.setText("Sol Bus");
+
+        dpEscritorio.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        dpEscritorio.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout dpEscritorioLayout = new javax.swing.GroupLayout(dpEscritorio);
         dpEscritorio.setLayout(dpEscritorioLayout);
         dpEscritorioLayout.setHorizontalGroup(
             dpEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1040, Short.MAX_VALUE)
+            .addGroup(dpEscritorioLayout.createSequentialGroup()
+                .addGap(58, 58, 58)
+                .addGroup(dpEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(731, Short.MAX_VALUE))
         );
         dpEscritorioLayout.setVerticalGroup(
             dpEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 640, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dpEscritorioLayout.createSequentialGroup()
+                .addGap(393, 393, 393)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(174, 174, 174))
         );
 
         mPasajes.setText("Pasajes");
@@ -87,13 +133,13 @@ public class GeneralSolBus extends javax.swing.JFrame {
 
         mPasajeros.setText("Pasajeros");
 
-        jMenuItem2.setText("Listar Pasajeros");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        miListarPasajeros.setText("Listar Pasajeros");
+        miListarPasajeros.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                miListarPasajerosActionPerformed(evt);
             }
         });
-        mPasajeros.add(jMenuItem2);
+        mPasajeros.add(miListarPasajeros);
 
         mbEscritorio.add(mPasajeros);
 
@@ -149,7 +195,10 @@ public class GeneralSolBus extends javax.swing.JFrame {
         dpEscritorio.repaint();
         dpEscritorio.add(backgroundLabel, new Integer(Integer.MIN_VALUE));
         ip.setVisible(true);
-        ip.setLocation(00, 00);
+        int x = (dpEscritorio.getWidth() - ip.getWidth()) / 2;
+        int y = (dpEscritorio.getHeight() - ip.getHeight()) / 2;
+
+        ip.setLocation(x, y);
         
         dpEscritorio.add(ip);
         dpEscritorio.moveToFront(ip);
@@ -172,12 +221,15 @@ public class GeneralSolBus extends javax.swing.JFrame {
         dpEscritorio.repaint();
         dpEscritorio.add(backgroundLabel, new Integer(Integer.MIN_VALUE));
         igrh.setVisible(true);
-        igrh.setLocation(00, 00);
+        int x = (dpEscritorio.getWidth() - igrh.getWidth()) / 2;
+        int y = (dpEscritorio.getHeight() - igrh.getHeight()) / 2;
+
+        igrh.setLocation(x, y);
         dpEscritorio.add(igrh);
         dpEscritorio.moveToFront(igrh);
     }//GEN-LAST:event_miGestRutHorActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void miListarPasajerosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miListarPasajerosActionPerformed
         Pasajero pasajero = new Pasajero();
         PasajeroData pasajeroData = new PasajeroData();
         vistas.InfListaBajaPasajeros ibp = new vistas.InfListaBajaPasajeros();
@@ -186,10 +238,13 @@ public class GeneralSolBus extends javax.swing.JFrame {
         dpEscritorio.repaint();
         dpEscritorio.add(backgroundLabel, new Integer(Integer.MIN_VALUE));
         ibp.setVisible(true);
-        ibp.setLocation(00, 00);
+        int x = (dpEscritorio.getWidth() - ibp.getWidth()) / 2;
+        int y = (dpEscritorio.getHeight() - ibp.getHeight()) / 2;
+
+        ibp.setLocation(x, y);
         dpEscritorio.add(ibp);
         dpEscritorio.moveToFront(ibp);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_miListarPasajerosActionPerformed
 
     private void miHistorialAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miHistorialAnularActionPerformed
        PasajeData pd = new PasajeData();
@@ -208,7 +263,10 @@ public class GeneralSolBus extends javax.swing.JFrame {
        dpEscritorio.repaint();
        dpEscritorio.add(backgroundLabel, new Integer(Integer.MIN_VALUE));
        ihp.setVisible(true);
-       ihp.setLocation(00, 00);
+       int x = (dpEscritorio.getWidth() - ihp.getWidth()) / 2;
+        int y = (dpEscritorio.getHeight() - ihp.getHeight()) / 2;
+
+        ihp.setLocation(x, y);
        dpEscritorio.add(ihp);
        dpEscritorio.moveToFront(ihp);
     }//GEN-LAST:event_miHistorialAnularActionPerformed
@@ -221,8 +279,12 @@ public class GeneralSolBus extends javax.swing.JFrame {
         ctrlGestionColectivos cGC = new ctrlGestionColectivos(c, cD, cV);
         dpEscritorio.removeAll();
         dpEscritorio.repaint();
+        dpEscritorio.add(backgroundLabel, new Integer(Integer.MIN_VALUE));
         cV.setVisible(true);
-        cV.setLocation(00, 00);
+        int x = (dpEscritorio.getWidth() - cV.getWidth()) / 2;
+        int y = (dpEscritorio.getHeight() - cV.getHeight()) / 2;
+
+        cV.setLocation(x, y);
         dpEscritorio.add(cV);
         dpEscritorio.moveToFront(cV);
     }//GEN-LAST:event_miColectivosActionPerformed
@@ -269,7 +331,8 @@ public class GeneralSolBus extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu MRutas;
     private javax.swing.JDesktopPane dpEscritorio;
-    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu mColectivos;
     private javax.swing.JMenu mPasajeros;
     private javax.swing.JMenu mPasajes;
@@ -278,6 +341,7 @@ public class GeneralSolBus extends javax.swing.JFrame {
     private javax.swing.JMenuItem miGestRutHor;
     private javax.swing.JMenuItem miGestionPasajes;
     private javax.swing.JMenuItem miHistorialAnular;
+    private javax.swing.JMenuItem miListarPasajeros;
     // End of variables declaration//GEN-END:variables
 }
 //

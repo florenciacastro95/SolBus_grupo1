@@ -67,16 +67,25 @@ public class infGestionRutaHorario extends javax.swing.JInternalFrame {
         btnActHor = new javax.swing.JButton();
 
         pnlRuta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pnlRuta.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Origen");
+        pnlRuta.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
 
         jLabel2.setText("Destino");
+        pnlRuta.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, -1));
 
         jLabel3.setText("Duracion ");
+        pnlRuta.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, -1, 20));
+        pnlRuta.add(jtfOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 146, -1));
+        pnlRuta.add(jtfDestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, 146, -1));
+        pnlRuta.add(jtfDuracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 170, 146, -1));
 
         btnAgregar.setText("Agregar");
+        pnlRuta.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 90, 110, 30));
 
         btnFiltrar.setText("Filtrar");
+        pnlRuta.add(btnFiltrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 170, 110, 30));
 
         tblListarRutas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -91,83 +100,23 @@ public class infGestionRutaHorario extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(tblListarRutas);
 
+        pnlRuta.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 216, 410, 155));
+
         btnBajaRuta.setText("Eliminar");
+        pnlRuta.add(btnBajaRuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 380, 100, 40));
 
         btnActRuta.setText("Actualizar");
+        pnlRuta.add(btnActRuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 380, 100, 40));
 
         btnVerTodas.setText("Ver todas");
+        pnlRuta.add(btnVerTodas, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 130, 110, 30));
 
-        jLabel4.setText("Rutas");
-
-        javax.swing.GroupLayout pnlRutaLayout = new javax.swing.GroupLayout(pnlRuta);
-        pnlRuta.setLayout(pnlRutaLayout);
-        pnlRutaLayout.setHorizontalGroup(
-            pnlRutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlRutaLayout.createSequentialGroup()
-                .addGap(179, 179, 179)
-                .addComponent(jLabel4))
-            .addGroup(pnlRutaLayout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(jLabel1)
-                .addGap(118, 118, 118)
-                .addComponent(jtfOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(pnlRutaLayout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(jLabel2)
-                .addGap(113, 113, 113)
-                .addComponent(jtfDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnVerTodas))
-            .addGroup(pnlRutaLayout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(jLabel3)
-                .addGap(102, 102, 102)
-                .addComponent(jtfDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(pnlRutaLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(pnlRutaLayout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addComponent(btnBajaRuta)
-                .addGap(114, 114, 114)
-                .addComponent(btnActRuta))
-        );
-        pnlRutaLayout.setVerticalGroup(
-            pnlRutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlRutaLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel4)
-                .addGap(34, 34, 34)
-                .addGroup(pnlRutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addGroup(pnlRutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jtfOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(10, 10, 10)
-                .addGroup(pnlRutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addGroup(pnlRutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnVerTodas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jtfDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(10, 10, 10)
-                .addGroup(pnlRutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnlRutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jtfDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
-                .addGroup(pnlRutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnBajaRuta)
-                    .addComponent(btnActRuta)))
-        );
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/logos/logos32/002-motorway.png"))); // NOI18N
+        jLabel4.setText(" RUTAS");
+        pnlRuta.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 19, -1, -1));
 
         pnlHorario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pnlHorario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tblHorarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -182,7 +131,13 @@ public class infGestionRutaHorario extends javax.swing.JInternalFrame {
         ));
         jScrollPane2.setViewportView(tblHorarios);
 
-        jLabel5.setText("Horarios");
+        pnlHorario.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 163, 320, 209));
+
+        pnlHorario.add(cbRuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 233, -1));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/logos/logos32/001-bus-schedule.png"))); // NOI18N
+        jLabel5.setText(" HORARIOS");
+        pnlHorario.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, -1, -1));
 
         btnAgregarF.setText("Agregar Fila");
         btnAgregarF.addActionListener(new java.awt.event.ActionListener() {
@@ -190,63 +145,24 @@ public class infGestionRutaHorario extends javax.swing.JInternalFrame {
                 btnAgregarFActionPerformed(evt);
             }
         });
+        pnlHorario.add(btnAgregarF, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, -1, 30));
 
         jLabel6.setText("Ruta");
+        pnlHorario.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
 
         btnAgregarHor.setText("Agregar");
+        pnlHorario.add(btnAgregarHor, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 380, -1, -1));
 
         btnBajaHor.setText("Eliminar");
+        pnlHorario.add(btnBajaHor, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 380, -1, -1));
 
         btnActHor.setText("Actualizar");
-
-        javax.swing.GroupLayout pnlHorarioLayout = new javax.swing.GroupLayout(pnlHorario);
-        pnlHorario.setLayout(pnlHorarioLayout);
-        pnlHorarioLayout.setHorizontalGroup(
-            pnlHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlHorarioLayout.createSequentialGroup()
-                .addGap(194, 194, 194)
-                .addComponent(jLabel5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlHorarioLayout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(jLabel6)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(pnlHorarioLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pnlHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cbRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(pnlHorarioLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(btnAgregarF)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAgregarHor)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnBajaHor)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnActHor)
-                .addContainerGap(53, Short.MAX_VALUE))
-        );
-        pnlHorarioLayout.setVerticalGroup(
-            pnlHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlHorarioLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jLabel5)
-                .addGap(42, 42, 42)
-                .addGroup(pnlHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(cbRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(45, 45, 45)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(pnlHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregarF)
-                    .addComponent(btnAgregarHor)
-                    .addComponent(btnBajaHor)
-                    .addComponent(btnActHor))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        btnActHor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActHorActionPerformed(evt);
+            }
+        });
+        pnlHorario.add(btnActHor, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 380, 100, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -255,18 +171,18 @@ public class infGestionRutaHorario extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pnlRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addComponent(pnlHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pnlHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pnlRuta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlHorario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 77, Short.MAX_VALUE))
+                    .addComponent(pnlHorario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlRuta, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         pack();
@@ -275,6 +191,10 @@ public class infGestionRutaHorario extends javax.swing.JInternalFrame {
     private void btnAgregarFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarFActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAgregarFActionPerformed
+
+    private void btnActHorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActHorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnActHorActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

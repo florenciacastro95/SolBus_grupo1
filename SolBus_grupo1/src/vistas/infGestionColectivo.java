@@ -55,7 +55,8 @@ public class infGestionColectivo extends javax.swing.JInternalFrame {
         ));
         jScrollPane2.setViewportView(tblColes);
 
-        lblTitulo.setText("GESTIÓN COLECTIVOS");
+        lblTitulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/logos/logos32/004-transport.png"))); // NOI18N
+        lblTitulo.setText(" GESTIÓN COLECTIVOS");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -76,7 +77,7 @@ public class infGestionColectivo extends javax.swing.JInternalFrame {
                                 .addComponent(btnAgregarCole, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(160, 160, 160)
+                        .addGap(99, 99, 99)
                         .addComponent(lblTitulo)))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
@@ -95,7 +96,7 @@ public class infGestionColectivo extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEliminarColes)
                     .addComponent(btnActualizarColes))
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         pack();

@@ -38,8 +38,6 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
         lblTituloGestion = new javax.swing.JLabel();
         lblTituloFiltrar = new javax.swing.JLabel();
 
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
         tblHistPasajes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -52,8 +50,6 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
             }
         ));
         spnHistPasajes.setViewportView(tblHistPasajes);
-
-        getContentPane().add(spnHistPasajes, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 700, 200));
 
         rbgPasRutaHor.add(rbPasajero);
         rbPasajero.setText("PASAJERO");
@@ -96,8 +92,6 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
                     .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        getContentPane().add(pnlPasajero, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
-
         rbgPasRutaHor.add(rbRuta);
         rbRuta.setText("RUTA");
 
@@ -120,20 +114,61 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        getContentPane().add(pnlRuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 80, -1, 80));
-        getContentPane().add(dateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 120, 190, -1));
-
-        btnVerHistorial.setText("Imprimir historial ");
-        getContentPane().add(btnVerHistorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 510, -1, 50));
+        btnVerHistorial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/logos/logos32/005-transaction-history.png"))); // NOI18N
+        btnVerHistorial.setText(" IMPRIMIR HISTORIAL ");
 
         lblTitutloPasaje.setText("Pasajes por fecha");
-        getContentPane().add(lblTitutloPasaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 80, -1, 30));
 
         lblTituloGestion.setText("GESTIÓN DE PASAJES");
-        getContentPane().add(lblTituloGestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, -1, -1));
 
         lblTituloFiltrar.setText("Filtrar pasajes");
-        getContentPane().add(lblTituloFiltrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 50, -1, -1));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(310, 310, 310)
+                .addComponent(lblTituloGestion))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(180, 180, 180)
+                .addComponent(lblTituloFiltrar))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(pnlPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addComponent(pnlRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTitutloPasaje)
+                    .addComponent(dateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(spnHistPasajes, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(300, 300, 300)
+                .addComponent(btnVerHistorial))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(lblTituloGestion)
+                .addGap(24, 24, 24)
+                .addComponent(lblTituloFiltrar)
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnlRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblTitutloPasaje, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(dateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(54, 54, 54)
+                .addComponent(spnHistPasajes, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(70, 70, 70)
+                .addComponent(btnVerHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -144,7 +179,7 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
     public javax.swing.JComboBox<Ruta> cbRutas2;
     public com.toedter.calendar.JDateChooser dateChooser;
     public javax.swing.JLabel lblApellido;
-    private javax.swing.JLabel lblDni;
+    public javax.swing.JLabel lblDni;
     public javax.swing.JLabel lblTituloFiltrar;
     public javax.swing.JLabel lblTituloGestion;
     public javax.swing.JLabel lblTitutloPasaje;

@@ -237,33 +237,30 @@ public class ctrlGestionColectivos implements ActionListener {
         }
     }
     public final void poneteBonito() {
-
-        colectivoVista.setSize(new Dimension(570, 620));
-        colectivoVista.setBorder(BorderFactory.createLineBorder(new Color(41, 37, 28), 3));
-        colectivoVista.getContentPane().setBackground(new Color(231, 221, 211));
+        colectivoVista.setSize(new Dimension(450, 520));
+        colectivoVista.setBorder(BorderFactory.createLineBorder(new Color(202, 40, 43), 3));
+        colectivoVista.getContentPane().setBackground(new Color(240, 240, 240)); // Gris claro
 
         // Botones
-        colectivoVista.btnActualizarColes.setBackground(new Color(41, 37, 28));
-        colectivoVista.btnAgregarCole.setBackground(new Color(41, 37, 28));
-        colectivoVista.btnEliminarColes.setBackground(new Color(41, 37, 28));
-        colectivoVista.btnAgregarFila.setBackground(new Color(41, 37, 28));
+        colectivoVista.btnActualizarColes.setBackground(new Color(202, 40, 43)); // Color acento
+        colectivoVista.btnAgregarCole.setBackground(new Color(202, 40, 43)); // Color acento
+        colectivoVista.btnEliminarColes.setBackground(new Color(202, 40, 43)); // Color acento
+        colectivoVista.btnAgregarFila.setBackground(new Color(202, 40, 43)); // Color acento
 
         colectivoVista.btnActualizarColes.setForeground(Color.white);
         colectivoVista.btnAgregarCole.setForeground(Color.white);
         colectivoVista.btnEliminarColes.setForeground(Color.white);
         colectivoVista.btnAgregarFila.setForeground(Color.white);
 
-        
-
         // Label
         colectivoVista.lblTitulo.setForeground(new Color(41, 37, 28));
         colectivoVista.lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 
         // JScrollPane
-        colectivoVista.jScrollPane2.setBackground(new Color(231, 221, 211));
-        
-         // Table
-        colectivoVista.tblColes.setBackground(new Color(192, 153, 139));
+        colectivoVista.jScrollPane2.setBackground(new Color(240, 240, 240)); // Gris claro
+
+        // Table
+        colectivoVista.tblColes.setBackground(new Color(220, 220, 220)); // Gris medio
 
         // Aplicamos la fuente personalizada
         try {
@@ -276,13 +273,15 @@ public class ctrlGestionColectivos implements ActionListener {
             colectivoVista.btnAgregarCole.setFont(montserratFont);
             colectivoVista.btnEliminarColes.setFont(montserratFont);
             colectivoVista.btnAgregarFila.setFont(montserratFont);
-            
+
             colectivoVista.tblColes.setFont(montserratFont);
 
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
     }
+
+
 
     
 }

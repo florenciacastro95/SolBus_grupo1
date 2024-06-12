@@ -117,12 +117,8 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
         cbRuta.setForeground(new java.awt.Color(255, 255, 255));
 
         btnVenderPasaje.setFont(new java.awt.Font("Gill Sans MT", 0, 14)); // NOI18N
-        btnVenderPasaje.setText("VENDER PASAJE");
-        btnVenderPasaje.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVenderPasajeActionPerformed(evt);
-            }
-        });
+        btnVenderPasaje.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/logos/logos32/003-ticket.png"))); // NOI18N
+        btnVenderPasaje.setText(" VENDER PASAJE");
 
         lblDNIRegistrado.setFont(new java.awt.Font("Gill Sans MT", 1, 14)); // NOI18N
         lblDNIRegistrado.setText("DNI");
@@ -230,6 +226,7 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
         lblFecha.setText("Fecha");
 
         btnAnularPasaje.setFont(new java.awt.Font("Gill Sans MT", 0, 14)); // NOI18N
+        btnAnularPasaje.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/logos/logos32/006-cancel.png"))); // NOI18N
         btnAnularPasaje.setText("ANULAR PASAJE");
 
         lblPrecioCalculado.setText("$");
@@ -276,9 +273,9 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
                     .addComponent(rbRegistrado)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnVenderPasaje, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAnularPasaje, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnVenderPasaje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnAnularPasaje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -336,10 +333,6 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnVenderPasajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderPasajeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnVenderPasajeActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
