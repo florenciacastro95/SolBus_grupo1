@@ -57,60 +57,78 @@ public class ctrlGestionColectivos implements ActionListener {
         }
         //Agregar Colectivo
         if (ae.getSource() == colectivoVista.btnAgregarCole) {
+            
             ArrayList<Colectivo> cols = new ArrayList<>();
-            for (int i = 0; i < colectivoVista.tblColes.getRowCount(); i++) {
-                if (colectivoVista.tblColes.getValueAt(i, 0).equals("")) {
-                    Colectivo c = new Colectivo();
-                    if (validarMatricula((String) colectivoVista.tblColes.getValueAt(i, 1))) {
-                        c.setMatricula((String) colectivoVista.tblColes.getValueAt(i, 1));
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Matrícula inválida");
+            
+            
+            if (colectivoVista.tblColes.getRowCount() > 0){
+                for (int i = 0; i < colectivoVista.tblColes.getRowCount(); i++) {
+                    Boolean bandera = true;
+                    if (colectivoVista.tblColes.getValueAt(i, 0).equals("")) {
+                        Colectivo c = new Colectivo();
+                        if (validarMatricula((String) colectivoVista.tblColes.getValueAt(i, 1))) {
+                            c.setMatricula((String) colectivoVista.tblColes.getValueAt(i, 1));
+                        } else {
+                            bandera = false;
+                            JOptionPane.showMessageDialog(null, "Matrícula inválida");
+                        }
+
+                        if (validarString((String) colectivoVista.tblColes.getValueAt(i, 2))) {
+                            c.setMarca((String) colectivoVista.tblColes.getValueAt(i, 2));
+                        } else {
+                            bandera = false;
+                            JOptionPane.showMessageDialog(null, "Marca inválida");
+                        }
+
+                        if (validarString((String) colectivoVista.tblColes.getValueAt(i, 3))) {
+                            c.setModelo((String) colectivoVista.tblColes.getValueAt(i, 3));
+                        } else {
+                            bandera = false;
+                            JOptionPane.showMessageDialog(null, "Modelo inválido");
+                        }
+
+                        if (validarInt(colectivoVista.tblColes.getValueAt(i, 4).toString())) {
+                            String capacidadStr = colectivoVista.tblColes.getValueAt(i, 4).toString();
+                            int capacidad = Integer.parseInt(capacidadStr);
+                            c.setCapacidad(capacidad);
+                        } else {
+                            bandera = false;
+                            JOptionPane.showMessageDialog(null, "Capacidad invalida, ingrese un numero entero");
+                        }
+
+                        if (colectivoVista.tblColes.getValueAt(i, 5).equals("Disponible")) {
+                            c.setEstado(true);
+                        } else if (colectivoVista.tblColes.getValueAt(i, 5).equals("No disponible")) {
+                            c.setEstado(false);
+                        } else {
+                            bandera = false;
+                            JOptionPane.showMessageDialog(null, "Estado incorrecto, ingrese Disponible o No disponible");
+                        }
+
+                        if(bandera){
+                            cols.add(c);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "No se pudo agregar el colectivo. Datos inválidos");
+                        }
+                        
                     }
 
-                    if (validarString((String) colectivoVista.tblColes.getValueAt(i, 2))) {
-                        c.setMarca((String) colectivoVista.tblColes.getValueAt(i, 2));
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Marca inválida");
-                    }
-
-                    if (validarString((String) colectivoVista.tblColes.getValueAt(i, 3))) {
-                        c.setModelo((String) colectivoVista.tblColes.getValueAt(i, 3));
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Modelo inválido");
-                    }
-
-                    if (validarInt(colectivoVista.tblColes.getValueAt(i, 4).toString())) {
-                        String capacidadStr = colectivoVista.tblColes.getValueAt(i, 4).toString();
-                        int capacidad = Integer.parseInt(capacidadStr);
-                        c.setCapacidad(capacidad);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Capacidad invalida, ingrese un numero entero");
-                    }
-
-                    if (colectivoVista.tblColes.getValueAt(i, 5).equals("Disponible")) {
-                        c.setEstado(true);
-                    } else if (colectivoVista.tblColes.getValueAt(i, 5).equals("No disponible")) {
-                        c.setEstado(false);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Estado incorrecto, ingrese Disponible o No disponible");
-                    }
-
-                    //muchísimo estrés
-                    cols.add(c);
-                    
+                }
+            }
+            if (!cols.isEmpty()) {
+                for (Colectivo cole : cols) {
+                    colectivoData.guardarColectivo(cole);
                 }
                 
             }
-            for (Colectivo cole : cols) {
-                colectivoData.guardarColectivo(cole);
-            }
-
             limpiarTablaColes();
             cargarTablaColes();
+         
         }
         //Actualizar Colectivo
         if (ae.getSource() == colectivoVista.btnActualizarColes) {
             int filaSelect = colectivoVista.tblColes.getSelectedRow();
+            Boolean bandera = true;
             if (filaSelect != -1) {
 
                 int idCol = (int) colectivoVista.tblColes.getValueAt(filaSelect, 0);
@@ -119,38 +137,43 @@ public class ctrlGestionColectivos implements ActionListener {
                 if (validarMatricula((String) colectivoVista.tblColes.getValueAt(filaSelect, 1))) {
                     colectivo.setMatricula((String) colectivoVista.tblColes.getValueAt(filaSelect, 1));
                 } else {
+                    bandera = false;
                     JOptionPane.showMessageDialog(null, "Matricula invalida");
                 }
 
                 if (validarString((String) colectivoVista.tblColes.getValueAt(filaSelect, 2))) {
                     colectivo.setMarca((String) colectivoVista.tblColes.getValueAt(filaSelect, 2));
                 } else {
+                    bandera = false;
                     JOptionPane.showMessageDialog(null, "Marca invalido");
                 }
 
                 if (validarString((String) colectivoVista.tblColes.getValueAt(filaSelect, 3))) {
                     colectivo.setModelo((String) colectivoVista.tblColes.getValueAt(filaSelect, 3));
                 } else {
+                    bandera = false;
                     JOptionPane.showMessageDialog(null, "Modelo invalido");
                 }
                 if (validarInt(colectivoVista.tblColes.getValueAt(filaSelect, 4).toString())) {
                     colectivo.setCapacidad((int) colectivoVista.tblColes.getValueAt(filaSelect, 4));
                 } else {
+                    bandera = false;
                     JOptionPane.showMessageDialog(null, "Capacidad invalida, ingrese un numero entero");
                 }
             }
             
             if (colectivoVista.tblColes.getValueAt(filaSelect, 5).equals("Disponible")) {
-                        colectivo.setEstado(true);
-                    } else if (colectivoVista.tblColes.getValueAt(filaSelect, 5).equals("No disponible")) {
-                        colectivo.setEstado(false);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Estado incorrecto, ingrese Disponible o No disponible");
-                    }
+                colectivo.setEstado(true);
+            } else if (colectivoVista.tblColes.getValueAt(filaSelect, 5).equals("No disponible")) {
+                colectivo.setEstado(false);
+            } else {
+                bandera = false;
+                JOptionPane.showMessageDialog(null, "Estado incorrecto, ingrese Disponible o No disponible");
+            }
 
             String mensaje = "¿Está seguro que desea actualizar el colectivo?";
             int respuesta = JOptionPane.showConfirmDialog(null, mensaje, "Confirmación", JOptionPane.YES_NO_OPTION);
-            if (respuesta == JOptionPane.YES_OPTION) {
+            if (bandera && respuesta == JOptionPane.YES_OPTION) {
                 colectivoData.actualizarColectivo(colectivo);
                 
                 limpiarTablaColes();
@@ -160,24 +183,23 @@ public class ctrlGestionColectivos implements ActionListener {
 
         //Borrar Colectivo
         if (ae.getSource() == colectivoVista.btnEliminarColes) {
-            if (!pD.pasajeColectivo(colectivo)) {
-                int filaSelect = colectivoVista.tblColes.getSelectedRow();
-                if (filaSelect != -1) {
+            int filaSelect = colectivoVista.tblColes.getSelectedRow();
+            if (filaSelect != -1) {
+                int idHorario = (int) colectivoVista.tblColes.getValueAt(filaSelect, 0);
+                colectivo = colectivoData.buscarColectivoPorId(idHorario);
+                if (!pD.pasajeColectivo(colectivo)) {
                     String mensaje = "¿Está seguro que desea eliminar el colectivo?";
                     int respuesta = JOptionPane.showConfirmDialog(null, mensaje, "Confirmación", JOptionPane.YES_NO_OPTION);
                     if (respuesta == JOptionPane.YES_OPTION) {
-                        int idHorario = (int) colectivoVista.tblColes.getValueAt(filaSelect, 0);
 
                         colectivoData.borrarColectivo(idHorario);
                         limpiarTablaColes();
                         cargarTablaColes();
                     }
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se puede eliminar el colectivo porque tiene pasajes asociados al día de hoy");
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "No se puede eliminar el colectivo porque tiene pasajes asociados al día de hoy");
             }
-            
-
         }
     }
     

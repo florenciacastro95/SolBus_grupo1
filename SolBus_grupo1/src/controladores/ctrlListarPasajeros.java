@@ -26,6 +26,7 @@ public class ctrlListarPasajeros implements ActionListener {
 
     private Pasajero pasajero;
     private PasajeroData pasajeroData;
+    private PasajeData pD = new PasajeData();
     private InfListaBajaPasajeros pasajeroVista;
     private DefaultTableModel model = new DefaultTableModel();
 
@@ -77,20 +78,25 @@ public class ctrlListarPasajeros implements ActionListener {
         }
         if (e.getSource() == pasajeroVista.btnBorrar) {
             int selectedRow = pasajeroVista.jtListarPasajeros.getSelectedRow();
+            
             if (selectedRow != -1) {
                 String nombre = (String) pasajeroVista.jtListarPasajeros.getValueAt(selectedRow, 0);
                 String apellido = (String) pasajeroVista.jtListarPasajeros.getValueAt(selectedRow, 1);
 
                 Pasajero pasajeroAEliminar = pasajeroData.buscarPasajeroPorApellido(apellido);
                 if (pasajeroAEliminar != null) {
-                    int confirm = JOptionPane.showConfirmDialog(pasajeroVista,
-                            "¿Está seguro que desea borrar al pasajero " + nombre + " " + apellido + "?",
-                            "Confirmar Borrado",
-                            JOptionPane.YES_NO_OPTION);
+                    if (!pD.pasajePasajero(pasajeroAEliminar)) {
+                        int confirm = JOptionPane.showConfirmDialog(pasajeroVista,
+                                "¿Está seguro que desea borrar al pasajero " + nombre + " " + apellido + "?",
+                                "Confirmar Borrado",
+                                JOptionPane.YES_NO_OPTION);
 
-                    if (confirm == JOptionPane.YES_OPTION) {
-                        pasajeroData.borrarPasajero(pasajeroAEliminar.getIdPasajero());
-                        model.removeRow(selectedRow);
+                        if (confirm == JOptionPane.YES_OPTION) {
+                            pasajeroData.borrarPasajero(pasajeroAEliminar.getIdPasajero());
+                            model.removeRow(selectedRow);
+                        }
+                    }else {
+                        JOptionPane.showMessageDialog(pasajeroVista, "El pasajero no se puede eliminar, tiene pasajes asociados al día de hoy");
                     }
                 } else {
                     JOptionPane.showMessageDialog(pasajeroVista, "No se encontró el pasajero.");
