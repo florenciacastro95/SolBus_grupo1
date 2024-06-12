@@ -142,7 +142,7 @@ public class ColectivoData {
             
             int validation = ps.executeUpdate();
             if(validation == 1){
-                JOptionPane.showMessageDialog(null, "Los asientos han sido actualizados");
+                System.out.println("Se actualizaron los asientos del cole");;
             }
             ps.close();
 

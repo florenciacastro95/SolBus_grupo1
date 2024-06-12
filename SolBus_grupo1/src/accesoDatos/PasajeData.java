@@ -53,7 +53,7 @@ public class PasajeData {
 
                 pasaje.setIdPasaje(rs.getInt(1));
                 cd.actualizarAsientos(cd.buscarColectivoPorId(pasaje.getColectivo().getIdColectivo()), -1);
-                JOptionPane.showMessageDialog(null, "Pasaje guardado :)");
+                System.out.println("Se guardó el pasaje");
 
             }
             ps.close();
@@ -77,10 +77,10 @@ public class PasajeData {
             int validation = ps.executeUpdate();
 
             if (validation == 1) {
-                JOptionPane.showMessageDialog(null, "Se elimino ese pasaje!");
+                JOptionPane.showMessageDialog(null, "PASAJE ELIMINADO");
                 cd.actualizarAsientos(cd.buscarColectivoPorId(buscarPasajePorId(id).getColectivo().getIdColectivo()), 1);
             } else {
-                JOptionPane.showMessageDialog(null, "Ese pasaje no existe pa");
+                JOptionPane.showMessageDialog(null, "PASAJE NO EXISTENTE");
             }
 
             ps.close();
@@ -138,10 +138,10 @@ public class PasajeData {
             int validation = ps.executeUpdate();
             if (validation == 1) {
                 cd.actualizarAsientos(idC, 1);
-                JOptionPane.showMessageDialog(null, "Se elimino ese pasaje!");
+                JOptionPane.showMessageDialog(null, "PASAJE ELIMINADO");
 
             } else {
-                JOptionPane.showMessageDialog(null, "Ese pasaje no existe pa");
+                JOptionPane.showMessageDialog(null, "PASAJE NO EXISTENTE");
                 band = false;
             }
             ps.close();
@@ -226,7 +226,56 @@ public class PasajeData {
     }
 
     //ACA VER SI SE PUEDE HACER UN "ACTUALIZAR PASAJE" no tendria mucho sentido pero no sé
-    //Listar pasajes por pasajero
+    //este comentario lo puse hace 2 semanas y hoy 12/06 estoy pensando que porque
+    //mierda flor del pasado no hiciste el fuckin actualizar pasaje 
+
+     public void actualizarPasaje(Pasaje pasaje) {
+        String sql = "UPDATE pasaje SET id_Pasajero=?, id_Colectivo=?,"
+                + " id_Ruta=?, fechaViaje=?, horaViaje=?, asiento=?, precio=? WHERE id_Pasaje=?";
+        
+        try {
+            
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, pasaje.getPasajero().getIdPasajero());
+            ps.setInt(2, pasaje.getColectivo().getIdColectivo());
+            ps.setInt(3, pasaje.getRuta().getIdRuta());
+            ps.setDate(4, Date.valueOf(pasaje.getFechaViaje()));
+            ps.setTime(5, Time.valueOf(pasaje.getHoraViaje()));
+            ps.setInt(6, pasaje.getAsiento());
+            ps.setDouble(7, pasaje.getPrecio());
+            ps.setInt(8, pasaje.getIdPasaje());
+            ps.executeUpdate();
+            ps.close();
+            
+            
+            Pasajero pasajero = pasaje.getPasajero();
+            if (pasajero.getNombre() != null && !pasajero.getNombre().isEmpty()) {
+                pd.actualizarPasajero(pasajero);
+            }
+            
+            
+            Colectivo colectivo = pasaje.getColectivo();
+            if (colectivo != null) {
+                cd.actualizarColectivo(colectivo);
+            }
+            
+            
+            Ruta ruta = pasaje.getRuta();
+            if (ruta != null) {
+                rd.actualizarRuta(ruta);
+            }
+
+            System.out.println("Pasaje actualizado correctamente");
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR EN PASAJE DATA, EN METODO ACTUALIZAR PASAJE. ");
+            System.out.println(e);
+        }
+    }
+
+
+    
+//Listar pasajes por pasajero
     public List<Pasaje> listarPasajesPorPasajero(int idPasajero) {
 
         String sql = "SELECT * FROM pasaje WHERE id_Pasajero =?";

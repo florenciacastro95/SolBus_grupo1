@@ -38,7 +38,7 @@ public class PasajeroData {
             if (rs.next()) {
 
                 pasajero.setIdPasajero(rs.getInt(1));
-                JOptionPane.showMessageDialog(null, "Pasajero guardado :)");
+                System.out.println("Se guardó el pasajero");
 
             }
             ps.close();

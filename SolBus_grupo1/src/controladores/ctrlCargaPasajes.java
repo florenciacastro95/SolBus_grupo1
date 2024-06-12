@@ -26,6 +26,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import java.io.File;
 import java.io.IOException;
+//todo para agregar boludeces de estilos :B
 import java.time.ZoneId;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -34,6 +35,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+//Mira como usamos esos recibos :b
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -43,7 +45,12 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+
 import java.io.FileOutputStream;
+//pa crear carpetas para los recibos :B
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 //HAY QUE AGREGAR VALIDACIÓN DE PASAJES SEGUN CAPCIDAD DE COLECTIVO Y ASIENTOS DISPONIBLES
 public class ctrlCargaPasajes implements ActionListener, ItemListener {
@@ -192,20 +199,27 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                     Document documento = new Document();
 
                     try {
-                        String ruta = System.getProperty("user.home");
-                        PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/Recibo-" + apellido + ".pdf"));
+                        String ruta = System.getProperty("user.home") + "/Desktop/DocumentosSolBus/Recibos/Fecha_" + pasaje.getFechaViaje().toString();
+                        Path path = Paths.get(ruta);
+
+                        if (!Files.exists(path)) {
+                            Files.createDirectories(path);
+                        }
+
+                        PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Recibo-" + apellido + ".pdf"));
                         documento.open();
 
-                        // Encabezado del recibo
+                        Paragraph encabezado1 = new Paragraph("Sol Bus", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 24, new BaseColor(203, 43, 50))); // Color #CB2B32
+                        encabezado1.setAlignment(Element.ALIGN_CENTER);
+                        documento.add(encabezado1);
                         Paragraph encabezado = new Paragraph("Recibo de Pasaje", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.BLACK));
                         encabezado.setAlignment(Element.ALIGN_CENTER);
                         documento.add(encabezado);
 
                         documento.add(Chunk.NEWLINE);
 
-                        // Detalles del pasaje
                         PdfPTable tablita = new PdfPTable(2);
-                        tablita.setWidthPercentage(100);
+                        tablita.setWidthPercentage(70);
 
                         PdfPCell cellTitulo = new PdfPCell(new Phrase("Detalles del Pasaje", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.WHITE)));
                         cellTitulo.setBackgroundColor(new BaseColor(203, 43, 50)); // Color de fondo #CB2B32
@@ -213,11 +227,9 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                         cellTitulo.setColspan(2);
                         tablita.addCell(cellTitulo);
 
-                        // Estilo de celda para título y contenido
                         com.itextpdf.text.Font fontTitulo = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.BLACK);
                         com.itextpdf.text.Font fontContenido = FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK);
 
-                        // Detalles específicos del pasaje
                         tablita.addCell(new Phrase("Id Pasaje:", fontTitulo));
                         tablita.addCell(new Phrase(String.valueOf(pasaje.getIdPasaje()), fontContenido));
 
@@ -243,16 +255,20 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
                         documento.add(Chunk.NEWLINE);
 
-                        // Pie de página
                         Paragraph piePagina = new Paragraph("¡Gracias por viajar con nosotros!", FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK));
                         piePagina.setAlignment(Element.ALIGN_CENTER);
                         documento.add(piePagina);
 
-                        documento.close();
                     } catch (Exception ex) {
                         ex.printStackTrace();
+                    } finally {
+                        if (documento != null && documento.isOpen()) {
+                            JOptionPane.showMessageDialog(null, "Imprimiento recibo en el escritorio...");
+                            documento.close();
+                        }
                     }
 
+                    JOptionPane.showMessageDialog(null, "Pasaje vendido a " + pasajero.toString());
                     cargarTblAsientos();
                     limpiarCampos();
                 } else {
@@ -294,7 +310,9 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                         PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/Recibo-" + pasajero.getApellido() + ".pdf"));
                         documento.open();
 
-                        // Encabezado del recibo
+                        Paragraph encabezado1 = new Paragraph("Sol Bus", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 24, new BaseColor(203, 43, 50))); // Color #CB2B32
+                        encabezado1.setAlignment(Element.ALIGN_CENTER);
+                        documento.add(encabezado1);
                         Paragraph encabezado = new Paragraph("Recibo de Pasaje", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.BLACK));
                         encabezado.setAlignment(Element.ALIGN_CENTER);
                         documento.add(encabezado);
@@ -653,8 +671,8 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         pasajeVista.getContentPane().setBackground(new Color(240, 240, 240));
 
         // MIRA ESOS BUTTONS PAPA
-        pasajeVista.btnVenderPasaje.setBackground(new Color(202, 40, 43)); 
-        pasajeVista.btnAnularPasaje.setBackground(new Color(202, 40, 43)); 
+        pasajeVista.btnVenderPasaje.setBackground(new Color(202, 40, 43));
+        pasajeVista.btnAnularPasaje.setBackground(new Color(202, 40, 43));
         pasajeVista.btnVenderPasaje.setForeground(Color.white);
         pasajeVista.btnAnularPasaje.setForeground(Color.white);
 
@@ -662,8 +680,8 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         pasajeVista.lblTitulo.setForeground(new Color(41, 37, 28));
 
         // TABLITA BACK
-        pasajeVista.spTabla.setBackground(new Color(240, 240, 240)); 
-        pasajeVista.tblAsientos.setBackground(new Color(220, 220, 220)); 
+        pasajeVista.spTabla.setBackground(new Color(240, 240, 240));
+        pasajeVista.tblAsientos.setBackground(new Color(220, 220, 220));
 
         // LABELS
         pasajeVista.lblRuta.setForeground(new Color(41, 37, 28));
@@ -678,19 +696,19 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         pasajeVista.lblPrecioCalculado.setForeground(new Color(41, 37, 28));
         pasajeVista.lblPromo.setForeground(new Color(41, 37, 28));
         // PANELS
-        pasajeVista.pnlNoRegistrado.setBackground(new Color(240, 240, 240)); 
+        pasajeVista.pnlNoRegistrado.setBackground(new Color(240, 240, 240));
         pasajeVista.pnlRegistrado.setBackground(new Color(240, 240, 240));
 
         // TEXTFIELDS
         pasajeVista.txtNombre.setBackground(new Color(220, 220, 220));
-        pasajeVista.txtApellido.setBackground(new Color(220, 220, 220)); 
+        pasajeVista.txtApellido.setBackground(new Color(220, 220, 220));
         pasajeVista.txtDni.setBackground(new Color(220, 220, 220));
-        pasajeVista.txtDniRegistrado.setBackground(new Color(220, 220, 220)); 
+        pasajeVista.txtDniRegistrado.setBackground(new Color(220, 220, 220));
 
         // COMBOBOXES
-        pasajeVista.cbRuta.setBackground(new Color(240, 240, 240)); 
+        pasajeVista.cbRuta.setBackground(new Color(240, 240, 240));
         pasajeVista.cbHorario.setBackground(new Color(240, 240, 240));
-        pasajeVista.cbColectivos.setBackground(new Color(240, 240, 240)); 
+        pasajeVista.cbColectivos.setBackground(new Color(240, 240, 240));
 
         // RADIOBUTTONS
         pasajeVista.rbRegistrado.setForeground(new Color(41, 37, 28));
@@ -699,7 +717,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         // text field del JDATE
         JTextField dateTextField = ((JTextField) pasajeVista.dateChooser.getDateEditor().getUiComponent());
         dateTextField.setForeground(new Color(41, 37, 28));
-        dateTextField.setBackground(new Color(220, 220, 220)); 
+        dateTextField.setBackground(new Color(220, 220, 220));
 
         // el render de la tabla
         ArrayList<Integer> asientosOcupados = null;
@@ -777,14 +795,14 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             table.setRowHeight(28);
 
             if (isSelected) {
-                setBackground(new Color(202, 40, 43)); 
-                setForeground(Color.white); 
+                setBackground(new Color(202, 40, 43));
+                setForeground(Color.white);
             } else if (asientosOcupados != null && asientosOcupados.contains(value)) {
                 setBackground(Color.RED);
                 setForeground(Color.WHITE);
             } else {
-                setBackground(new Color(240, 240, 240));  
-                setForeground(new Color(41, 37, 28));  
+                setBackground(new Color(240, 240, 240));
+                setForeground(new Color(41, 37, 28));
             }
 
             return this;
