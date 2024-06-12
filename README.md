@@ -8,6 +8,8 @@ Creadores:
   
   Ailen Amieva 🌟
   
+  Adan Coronel 🎩
+  
   Tadeo Wotoszyn 🚀
   
   
