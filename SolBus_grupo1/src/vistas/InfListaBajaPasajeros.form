@@ -375,6 +375,9 @@
           <SubComponents>
             <Component class="javax.swing.JRadioButton" name="rbDni">
               <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="grupete"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="DNI"/>
               </Properties>
               <AuxValues>
@@ -383,6 +386,9 @@
             </Component>
             <Component class="javax.swing.JRadioButton" name="rbNombreApellido">
               <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="grupete"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="APELLIDO"/>
               </Properties>
               <AuxValues>
@@ -391,6 +397,9 @@
             </Component>
             <Component class="javax.swing.JRadioButton" name="rbVerTodo">
               <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="grupete"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Ver Todo"/>
               </Properties>
               <AuxValues>

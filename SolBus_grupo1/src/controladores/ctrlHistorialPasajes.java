@@ -38,7 +38,16 @@ import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Collectors;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -62,13 +71,17 @@ public class ctrlHistorialPasajes implements ActionListener, ItemListener {
     //está abajo :B pero es un defaulttablemodel, no se asusten
     private NoMeLaEdite model = new NoMeLaEdite();
 
-    
     //mails
-    private String emailFrom="grupo1solbus@gmail.com";
-    private String passwordFrom="bcmjtbkmgtefvbzi";
-    
-    
-    
+    private static String emailFrom = "grupo1solbus@gmail.com";
+    private static String passwordFrom = "bcmjtbkmgtefvbzi";
+    private String emailTo;
+    private String subject;
+    private String content;
+
+    private Properties mProperties;
+    private Session mSession;
+    private MimeMessage mCorreo;
+
     public ctrlHistorialPasajes(Pasaje pasaje, PasajeData pasajeData, RutaData rutaData, HorarioData horarioData, ColectivoData colectivoData, InfHistorialPasajes pasajeVista, PasajeroData pasajeroData) throws IOException {
         this.pasaje = pasaje;
         this.pasajeData = pasajeData;
@@ -77,6 +90,8 @@ public class ctrlHistorialPasajes implements ActionListener, ItemListener {
         this.colectivoData = colectivoData;
         this.pasajeVista = pasajeVista;
         this.pasajeroData = pasajeroData;
+
+        mProperties = new Properties();
 
         armarCabecera();
         cargarPasajesDeHoy();
@@ -88,7 +103,9 @@ public class ctrlHistorialPasajes implements ActionListener, ItemListener {
         pasajeVista.btnVerHistorial.addActionListener(this);
         pasajeVista.rbFecha.addActionListener(this);
         pasajeVista.rbVerTodo.addActionListener(this);
+        pasajeVista.btnEnviarMail.addActionListener(this);
         desactivarComponentesPorTipo();
+        sugerirEnviarMail();
         pasajeVista.dateChooser.addPropertyChangeListener("date", new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
@@ -133,7 +150,6 @@ public class ctrlHistorialPasajes implements ActionListener, ItemListener {
                 }
             }
         });
-
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -146,13 +162,35 @@ public class ctrlHistorialPasajes implements ActionListener, ItemListener {
         } else if (e.getSource() == pasajeVista.rbRuta) {
             desactivarComponentesPorTipo();
 
-        }else if(e.getSource()==pasajeVista.rbFecha){
-         desactivarComponentesPorTipo();
-        }else if(e.getSource()==pasajeVista.rbVerTodo){
-             desactivarComponentesPorTipo();
-             cargarTodosPasajes();
+        } else if (e.getSource() == pasajeVista.rbFecha) {
+            desactivarComponentesPorTipo();
+        } else if (e.getSource() == pasajeVista.rbVerTodo) {
+            desactivarComponentesPorTipo();
+            cargarTodosPasajes();
         }
 
+        if (e.getSource() == pasajeVista.btnEnviarMail) {
+
+            List<Pasajero> todos = pasajeroData.listarPasajerosRegistrados();
+            Pasajero elegido = null;
+            for (Pasajero p : todos) {
+                if (pasajeData.pasajeroHaCompradoNueveOMasPasajes(p.getIdPasajero())) {
+
+                    elegido = p;
+                    break;
+
+                }
+
+            }
+            if (elegido != null) {
+                int option = JOptionPane.showConfirmDialog(null, "¿Desea enviar un correo electrónico a " + elegido.toString() + " ?", "Confirmación", JOptionPane.YES_NO_OPTION);
+
+                if (option == JOptionPane.YES_OPTION) {
+                    prepararMail(elegido);
+                    enviarMail();
+                }
+            }
+        }
     }
 
     @Override
@@ -160,26 +198,77 @@ public class ctrlHistorialPasajes implements ActionListener, ItemListener {
 
     }
 
-    
-    private void sugerirEnviarMail(){
-        
+    private void sugerirEnviarMail() {
+
         List<Pasajero> todos = pasajeroData.listarPasajerosRegistrados();
         Pasajero elegido = null;
         for (Pasajero p : todos) {
-            if(pasajeData.pasajeroHaCompradoNueveOMasPasajes(p.getIdPasajero())){
-            
-                elegido=p;
-                
+            if (pasajeData.pasajeroHaCompradoNueveOMasPasajes(p.getIdPasajero())) {
+
+                elegido = p;
+                break;
+
             }
-                
+
         }
-        if(elegido!=null){
-        
-        //joptionpane de está seguro que quiere enviarle un main
-                //boton de enviar mail
+        if (elegido != null) {
+            pasajeVista.btnEnviarMail.setVisible(true);
+            pasajeVista.lblGanador1.setText(elegido.toString() + "\n ha ganado un pasaje gratis");
+
+            pasajeVista.lblGanador1.setVisible(true);
+
         }
-    
+
     }
+
+    private void prepararMail(Pasajero p) {
+        emailTo = p.getCorreo();
+        subject = "FELICIDADES " + p.toString().toUpperCase() + " HAS GANADO UN PASAJE GRATIS";
+        content = "Querido/a " + p.toString() + ":\n Gracias por elegirnos, tu décimo pasaje es gratis.\n Atte. SolBus";
+
+        //
+        mProperties.put("mail.smtp.host", "smtp.gmail.com"); // Cambia esto al servidor SMTP que uses
+        mProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
+        mProperties.setProperty("mail.smtp.starttls.enable", "true");
+        mProperties.setProperty("mail.smtp.port", "587"); // Puerto para TLS
+        mProperties.setProperty("mail.smtp.user", emailFrom);
+        mProperties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
+        mProperties.setProperty("mail.smtp.auth", "true");
+
+        mSession = Session.getInstance(mProperties);
+        mCorreo = new MimeMessage(mSession);
+        try {
+            mCorreo.setFrom(new InternetAddress(emailFrom)); // Email del remitente
+            mCorreo.addRecipient(Message.RecipientType.TO, new InternetAddress(emailTo)); // Email del destinatario
+            mCorreo.setSubject(subject);
+            mCorreo.setText(content, "ISO-8859-1", "html");
+
+        } catch (AddressException e) {
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void enviarMail() {
+
+        try {
+            // Enviar el correo
+            Transport transport = mSession.getTransport("smtp");
+            transport.connect(emailFrom, passwordFrom);
+            transport.sendMessage(mCorreo, mCorreo.getAllRecipients());
+            transport.close();
+
+            System.out.println("Correo enviado exitosamente!");
+        } catch (NoSuchProviderException ex) {
+            System.out.println("No existe el servidor " + ex);
+        } catch (MessagingException ex) {
+            System.out.println("Mensaje no enviado " + ex);
+        }
+
+    }
+
     private void verHistorial() {
         LocalDate fechaDtch;
         if (pasajeVista.dateChooser.getDate() != null) {
@@ -371,9 +460,9 @@ private void actualizarPasaje() {
         ArrayList<Pasaje> listaPasajes = (ArrayList<Pasaje>) pasajeData.listarPasajesVendidosPorFecha(fecha);
         actualizarTablaConPasajes(listaPasajes);
     }
-    
-    private void cargarTodosPasajes(){
-         ArrayList<Pasaje> listaPasajes = (ArrayList<Pasaje>) pasajeData.listarPasajesVendidos();
+
+    private void cargarTodosPasajes() {
+        ArrayList<Pasaje> listaPasajes = (ArrayList<Pasaje>) pasajeData.listarPasajesVendidos();
         actualizarTablaConPasajes(listaPasajes);
     }
 
@@ -437,15 +526,15 @@ private void actualizarPasaje() {
             pasajeVista.txtApellido.setEnabled(false);
             pasajeVista.txtDNI.setEnabled(false);
             pasajeVista.dateChooser.setEnabled(false);
-        } else if(pasajeVista.rbFecha.isSelected()){
+        } else if (pasajeVista.rbFecha.isSelected()) {
             pasajeVista.dateChooser.setEnabled(true);
             pasajeVista.cbRutas2.setEnabled(false);
             pasajeVista.txtApellido.setEnabled(false);
             pasajeVista.txtDNI.setEnabled(false);
-            
-        }else if(pasajeVista.rbVerTodo.isSelected()){
-            
-        pasajeVista.cbRutas2.setEnabled(false);
+
+        } else if (pasajeVista.rbVerTodo.isSelected()) {
+
+            pasajeVista.cbRutas2.setEnabled(false);
             pasajeVista.txtApellido.setEnabled(false);
             pasajeVista.txtDNI.setEnabled(false);
             pasajeVista.dateChooser.setEnabled(false);
@@ -454,20 +543,23 @@ private void actualizarPasaje() {
 
     public final void poneteBonito() throws IOException {
 
-        pasajeVista.setSize(new Dimension(770, 620));
+        pasajeVista.setSize(new Dimension(850, 620));
         pasajeVista.setBorder(BorderFactory.createLineBorder(new Color(202, 40, 43), 3));
         pasajeVista.getContentPane().setBackground(new Color(240, 240, 240));
 
         // MIRA ESOS BUTTONS PAPA
         pasajeVista.btnVerHistorial.setBackground(new Color(202, 40, 43));
         pasajeVista.btnVerHistorial.setForeground(Color.white);
-
+        pasajeVista.btnEnviarMail.setBackground(new Color(202, 40, 43));
+        pasajeVista.btnEnviarMail.setForeground(Color.white);
         // Combobox
         pasajeVista.cbRutas2.setBackground(new Color(240, 240, 240));
 
         // Labels
         pasajeVista.lblTituloGestion.setForeground(new Color(41, 37, 28));
         pasajeVista.lblTituloFiltrar.setForeground(new Color(41, 37, 28));
+        pasajeVista.lblSugerencia.setForeground(new Color(41, 37, 28));
+        pasajeVista.lblGanador1.setForeground(new Color(41, 37, 28));
         // Panels
         pasajeVista.pnlPasajero.setBackground(new Color(240, 240, 240));
         pasajeVista.pnlRuta.setBackground(new Color(240, 240, 240));
@@ -505,6 +597,8 @@ private void actualizarPasaje() {
 
             pasajeVista.lblTituloGestion.setFont(montserratFontTitulo);
             pasajeVista.lblTituloFiltrar.setFont(montserratFont);
+            pasajeVista.lblGanador1.setFont(montserratFont);
+            pasajeVista.lblSugerencia.setFont(montserratFont);
             pasajeVista.cbRutas2.setFont(montserratFont);
             pasajeVista.rbPasajero.setFont(montserratFont);
             pasajeVista.rbRuta.setFont(montserratFont);

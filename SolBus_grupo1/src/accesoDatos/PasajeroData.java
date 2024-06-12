@@ -27,7 +27,7 @@ public class PasajeroData {
             ps.setString(1, pasajero.getNombre());
             ps.setString(2, pasajero.getApellido());
             ps.setString(3, pasajero.getDni());
-            ps.setBoolean(4, pasajero.isEstado());
+            ps.setBoolean(4, true);
             ps.setString(5, pasajero.getCorreo());
             ps.setString(6, pasajero.getTelefono());
 

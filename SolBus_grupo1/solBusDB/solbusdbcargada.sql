@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-06-2024 a las 15:39:36
+-- Tiempo de generación: 06-06-2024 a las 17:56:17
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.1.25
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `solbusdbcargada`
 --
-CREATE DATABASE IF NOT EXISTS `solbusdbcargada` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `solbusdbcargada`;
 
 -- --------------------------------------------------------
 
@@ -29,7 +27,6 @@ USE `solbusdbcargada`;
 -- Estructura de tabla para la tabla `colectivo`
 --
 
-DROP TABLE IF EXISTS `colectivo`;
 CREATE TABLE `colectivo` (
   `id_Colectivo` int(11) NOT NULL,
   `matricula` varchar(10) NOT NULL,
@@ -44,8 +41,8 @@ CREATE TABLE `colectivo` (
 --
 
 INSERT INTO `colectivo` (`id_Colectivo`, `matricula`, `estado`, `marca`, `modelo`, `capacidad`) VALUES
-(1, 'ACA420', 1, 'Carmelita descalza', 'Acme', 6),
-(2, 'ICKKCK', 1, 'Poneme un modelo', 'manteca Z', 4);
+(1, 'ACA420', 1, 'Carmelita descalza', 'Acme', 27),
+(2, 'ICKKCK', 1, 'Poneme un modelo', 'manteca Z', 27);
 
 -- --------------------------------------------------------
 
@@ -53,7 +50,6 @@ INSERT INTO `colectivo` (`id_Colectivo`, `matricula`, `estado`, `marca`, `modelo
 -- Estructura de tabla para la tabla `horario`
 --
 
-DROP TABLE IF EXISTS `horario`;
 CREATE TABLE `horario` (
   `id_Horario` int(11) NOT NULL,
   `id_Ruta` int(11) NOT NULL,
@@ -81,7 +77,6 @@ INSERT INTO `horario` (`id_Horario`, `id_Ruta`, `horaSalida`, `horaLlegada`, `es
 -- Estructura de tabla para la tabla `pasaje`
 --
 
-DROP TABLE IF EXISTS `pasaje`;
 CREATE TABLE `pasaje` (
   `id_Pasaje` int(11) NOT NULL,
   `id_Pasajero` int(11) NOT NULL,
@@ -106,7 +101,10 @@ INSERT INTO `pasaje` (`id_Pasaje`, `id_Pasajero`, `id_Colectivo`, `id_Ruta`, `fe
 (7, 7, 1, 3, '2024-06-05', '06:30:00', 7, 1800),
 (8, 8, 2, 4, '2024-06-06', '07:35:00', 8, 1850),
 (9, 9, 1, 1, '2024-06-07', '08:40:00', 9, 1900),
-(10, 10, 2, 2, '2024-06-08', '09:45:00', 10, 1950);
+(10, 10, 2, 2, '2024-06-08', '09:45:00', 10, 1950),
+(12, 11, 1, 1, '2024-06-06', '11:00:00', 1, 0),
+(14, 13, 1, 1, '2024-06-06', '11:00:00', 15, 0),
+(15, 14, 1, 1, '2024-06-06', '11:00:00', 14, 0);
 
 -- --------------------------------------------------------
 
@@ -114,7 +112,6 @@ INSERT INTO `pasaje` (`id_Pasaje`, `id_Pasajero`, `id_Colectivo`, `id_Ruta`, `fe
 -- Estructura de tabla para la tabla `pasajero`
 --
 
-DROP TABLE IF EXISTS `pasajero`;
 CREATE TABLE `pasajero` (
   `id_Pasajero` int(11) NOT NULL,
   `nombre` varchar(30) NOT NULL,
@@ -139,7 +136,11 @@ INSERT INTO `pasajero` (`id_Pasajero`, `nombre`, `apellido`, `dni`, `estado`, `c
 (7, 'Camila', 'Diaz', 12345607, 1, 'camila.diaz@example.com', 1234567896),
 (8, 'Lautaro', 'Fernandez', 12345608, 1, 'lautaro.fernandez@example.com', 1234567897),
 (9, 'Valentina', 'Gonzalez', 12345609, 1, 'valentina.gonzalez@example.com', 1234567898),
-(10, 'Joaquin', 'Garcia', 12345610, 1, 'joaquin.garcia@example.com', 1234567899);
+(10, 'Joaquin', 'Garcia', 12345610, 1, 'joaquin.garcia@example.com', 1234567899),
+(11, 'Magalí', 'Castro', 12312312, 1, NULL, NULL),
+(12, 'Luna', 'Castro', 5658584, 1, NULL, NULL),
+(13, 'Luna', 'Rodriguez', 14565123, 1, NULL, NULL),
+(14, 'Lucas', 'Rodriguez', 23423423, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -147,7 +148,6 @@ INSERT INTO `pasajero` (`id_Pasajero`, `nombre`, `apellido`, `dni`, `estado`, `c
 -- Estructura de tabla para la tabla `ruta`
 --
 
-DROP TABLE IF EXISTS `ruta`;
 CREATE TABLE `ruta` (
   `id_Ruta` int(11) NOT NULL,
   `origen` varchar(30) NOT NULL,
@@ -188,6 +188,7 @@ ALTER TABLE `horario`
 --
 ALTER TABLE `pasaje`
   ADD PRIMARY KEY (`id_Pasaje`),
+  ADD UNIQUE KEY `uk_pasaje_asiento_unico_por_viaje` (`id_Colectivo`,`id_Ruta`,`fechaViaje`,`horaViaje`,`asiento`),
   ADD KEY `id_Colectivo` (`id_Colectivo`),
   ADD KEY `id_Pasajero` (`id_Pasajero`),
   ADD KEY `id_Ruta` (`id_Ruta`);
@@ -197,9 +198,9 @@ ALTER TABLE `pasaje`
 --
 ALTER TABLE `pasajero`
   ADD PRIMARY KEY (`id_Pasajero`),
+  ADD UNIQUE KEY `dni` (`dni`),
   ADD UNIQUE KEY `correo` (`correo`),
-  ADD UNIQUE KEY `telefono` (`telefono`),
-  ADD UNIQUE KEY `dni` (`dni`);
+  ADD UNIQUE KEY `telefono` (`telefono`);
 
 --
 -- Indices de la tabla `ruta`
@@ -227,13 +228,13 @@ ALTER TABLE `horario`
 -- AUTO_INCREMENT de la tabla `pasaje`
 --
 ALTER TABLE `pasaje`
-  MODIFY `id_Pasaje` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_Pasaje` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `pasajero`
 --
 ALTER TABLE `pasajero`
-  MODIFY `id_Pasajero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_Pasajero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `ruta`

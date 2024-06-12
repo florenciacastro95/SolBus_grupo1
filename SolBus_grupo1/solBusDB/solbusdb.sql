@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-06-2024 a las 14:31:24
+-- Tiempo de generación: 06-06-2024 a las 17:55:39
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.1.25
 
@@ -20,18 +20,13 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `solbusdb`
 --
-CREATE DATABASE IF NOT EXISTS `solbusdb` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `solbusdb`;
 
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `colectivo`
 --
--- Creación: 06-06-2024 a las 12:15:55
---
 
-DROP TABLE IF EXISTS `colectivo`;
 CREATE TABLE `colectivo` (
   `id_Colectivo` int(11) NOT NULL,
   `matricula` varchar(10) NOT NULL,
@@ -46,10 +41,7 @@ CREATE TABLE `colectivo` (
 --
 -- Estructura de tabla para la tabla `horario`
 --
--- Creación: 06-06-2024 a las 12:15:55
---
 
-DROP TABLE IF EXISTS `horario`;
 CREATE TABLE `horario` (
   `id_Horario` int(11) NOT NULL,
   `id_Ruta` int(11) NOT NULL,
@@ -63,10 +55,7 @@ CREATE TABLE `horario` (
 --
 -- Estructura de tabla para la tabla `pasaje`
 --
--- Creación: 06-06-2024 a las 12:15:55
---
 
-DROP TABLE IF EXISTS `pasaje`;
 CREATE TABLE `pasaje` (
   `id_Pasaje` int(11) NOT NULL,
   `id_Pasajero` int(11) NOT NULL,
@@ -83,10 +72,7 @@ CREATE TABLE `pasaje` (
 --
 -- Estructura de tabla para la tabla `pasajero`
 --
--- Creación: 06-06-2024 a las 12:26:11
---
 
-DROP TABLE IF EXISTS `pasajero`;
 CREATE TABLE `pasajero` (
   `id_Pasajero` int(11) NOT NULL,
   `nombre` varchar(30) NOT NULL,
@@ -102,10 +88,7 @@ CREATE TABLE `pasajero` (
 --
 -- Estructura de tabla para la tabla `ruta`
 --
--- Creación: 06-06-2024 a las 12:15:55
---
 
-DROP TABLE IF EXISTS `ruta`;
 CREATE TABLE `ruta` (
   `id_Ruta` int(11) NOT NULL,
   `origen` varchar(30) NOT NULL,
@@ -136,6 +119,7 @@ ALTER TABLE `horario`
 --
 ALTER TABLE `pasaje`
   ADD PRIMARY KEY (`id_Pasaje`),
+  ADD UNIQUE KEY `uk_pasaje_asiento_unico_por_viaje` (`id_Colectivo`,`id_Ruta`,`fechaViaje`,`horaViaje`,`asiento`),
   ADD KEY `id_Colectivo` (`id_Colectivo`),
   ADD KEY `id_Pasajero` (`id_Pasajero`),
   ADD KEY `id_Ruta` (`id_Ruta`);

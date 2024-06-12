@@ -160,10 +160,13 @@ public class InfListaBajaPasajeros extends javax.swing.JInternalFrame {
 
         lblTituloListarPasajeros.setText("LISTAR PASAJEROS");
 
+        grupete.add(rbDni);
         rbDni.setText("DNI");
 
+        grupete.add(rbNombreApellido);
         rbNombreApellido.setText("APELLIDO");
 
+        grupete.add(rbVerTodo);
         rbVerTodo.setText("Ver Todo");
 
         javax.swing.GroupLayout pnlDniNombreLayout = new javax.swing.GroupLayout(pnlDniNombre);

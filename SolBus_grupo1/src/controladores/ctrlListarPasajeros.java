@@ -126,6 +126,7 @@ public class ctrlListarPasajeros implements ActionListener {
             nuevoPasajero.setNombre(nombre);
             nuevoPasajero.setApellido(apellido);
             nuevoPasajero.setDni(dniText);
+            nuevoPasajero.setEstado(true);
             if (!correo.isEmpty()) {
                 nuevoPasajero.setCorreo(correo);
             }

@@ -36,10 +36,8 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
         cargarCbRuta(rutas);
         cargarCbHorario();
         cargarCbColectivo(colectivos);
-        
 
     }
-
 
     private void cargarCbColectivo(ArrayList<Colectivo> colectivos) {
 
@@ -57,18 +55,23 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
 
     private void cargarCbHorario() {
         System.out.println(cbRuta.getSelectedItem());
-        cargarCbHorario((Ruta) cbRuta.getSelectedItem());
-
+        if ((Ruta) cbRuta.getSelectedItem() != null) {
+            cargarCbHorario((Ruta) cbRuta.getSelectedItem());
+        }
     }
 
     private void cargarCbHorario(Ruta ruta) {
         ArrayList<Horario> horarios = new ArrayList<>();
 
-        horarios = (ArrayList<Horario>) hd.listarHorariosPorRuta(ruta);
-        for (Horario horario : horarios) {
-            System.out.println(horario.toString());
-            cbHorario.addItem(horario);
+        if (hd.listarHorariosPorRuta(ruta) != null) {
+            horarios = (ArrayList<Horario>) hd.listarHorariosPorRuta(ruta);
+            for (Horario horario : horarios) {
+                System.out.println(horario.toString());
+                cbHorario.addItem(horario);
+            }
+
         }
+
     }
 
     @SuppressWarnings("unchecked")

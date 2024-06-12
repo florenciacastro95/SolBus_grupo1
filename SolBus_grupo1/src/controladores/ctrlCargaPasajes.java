@@ -95,12 +95,12 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             }
         });
 
-        if (pasajeVista.cbRuta != null) {
+        if (pasajeVista.cbRuta != null && (Ruta) pasajeVista.cbRuta.getSelectedItem() != null) {
             r = (Ruta) pasajeVista.cbRuta.getSelectedItem();
             precio = r.getDuracion().getMinute();
-
+            calcularPrecio();
         }
-        calcularPrecio();
+
     }
 
     @Override
@@ -456,7 +456,12 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
          */
         if (e.getSource()
                 == pasajeVista.rbNoRegistrado) {
-            calcularPrecio();
+
+            if (pasajeVista.cbRuta != null && (Ruta) pasajeVista.cbRuta.getSelectedItem() != null) {
+
+                calcularPrecio();
+            }
+
             pasajeVista.txtDni.setEnabled(true);
             pasajeVista.txtApellido.setEnabled(true);
             pasajeVista.txtNombre.setEnabled(true);
@@ -464,7 +469,10 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
         } else if (e.getSource()
                 == pasajeVista.rbRegistrado) {
-            calcularPrecio();
+            if (pasajeVista.cbRuta != null && (Ruta) pasajeVista.cbRuta.getSelectedItem() != null) {
+
+                calcularPrecio();
+            }
             pasajeVista.txtDni.setEnabled(false);
             pasajeVista.txtApellido.setEnabled(false);
             pasajeVista.txtNombre.setEnabled(false);
