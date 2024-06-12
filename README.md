@@ -3,9 +3,13 @@
 ¡Descubre la forma más fácil y eficiente de administrar la venta de pasajes de colectivos con nuestra aplicación Java de escritorio! 🎉
 
 Creadores:
+
   Florencia Castro 🌸
+  
   Ailen Amieva 🌟
+  
   Tadeo Wotoszyn 🚀
+  
   
 Fortalezas de la Aplicación:
 
