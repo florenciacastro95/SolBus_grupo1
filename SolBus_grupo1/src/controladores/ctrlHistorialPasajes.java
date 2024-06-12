@@ -35,7 +35,7 @@ public class ctrlHistorialPasajes implements ActionListener {
     private PasajeData pasajeData;
     private RutaData rutaData;
     private HorarioData horarioData;
-    
+
     private ColectivoData colectivoData;
     private InfHistorialPasajes pasajeVista;
     private PasajeroData pasajeroData;
@@ -49,7 +49,7 @@ public class ctrlHistorialPasajes implements ActionListener {
         this.colectivoData = colectivoData;
         this.pasajeVista = pasajeVista;
         this.pasajeroData = pasajeroData;
-        
+
         armarCabecera();
         cargarPasajesDeHoy();
         cargarRutas();
@@ -59,7 +59,7 @@ public class ctrlHistorialPasajes implements ActionListener {
         pasajeVista.rbPasajero.addActionListener(this);
         pasajeVista.rbRuta.addActionListener(this);
         pasajeVista.btnVerHistorial.addActionListener(this);
-        
+
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -186,76 +186,73 @@ public class ctrlHistorialPasajes implements ActionListener {
         }
     }
 
-  private void cargarHorario(){
-         ArrayList<Horario> listaHorarios = (ArrayList<Horario>) horarioData.listarHorarios();
+    private void cargarHorario() {
+        ArrayList<Horario> listaHorarios = (ArrayList<Horario>) horarioData.listarHorarios();
         for (Horario item : listaHorarios) {
             pasajeVista.cbHorarios.addItem(item);
         }
     }
 
-    private void cargarRutas(){
-         ArrayList<Ruta> listaRutas = (ArrayList<Ruta>) rutaData.listarRutasDisponibles();
+    private void cargarRutas() {
+        ArrayList<Ruta> listaRutas = (ArrayList<Ruta>) rutaData.listarRutasDisponibles();
         for (Ruta item : listaRutas) {
             pasajeVista.cbRutas.addItem(item);
         }
     }
-    
 
+    public final void poneteBonito() throws IOException {
 
-public final void poneteBonito() throws IOException {
+        pasajeVista.setSize(new Dimension(770, 620));
+        pasajeVista.setBorder(BorderFactory.createLineBorder(new Color(202, 40, 43), 3));
+        pasajeVista.getContentPane().setBackground(new Color(240, 240, 240)); // Gris claro
 
-    pasajeVista.setSize(new Dimension(770, 620));
-    pasajeVista.setBorder(BorderFactory.createLineBorder(new Color(202, 40, 43), 3));
-    pasajeVista.getContentPane().setBackground(new Color(240, 240, 240)); // Gris claro
+        // Combobox
+        pasajeVista.cbHorarios.setBackground(new Color(240, 240, 240)); // Gris claro
+        pasajeVista.cbRutas.setBackground(new Color(240, 240, 240)); // Gris claro
 
-    // Combobox
-    pasajeVista.cbHorarios.setBackground(new Color(240, 240, 240)); // Gris claro
-    pasajeVista.cbRutas.setBackground(new Color(240, 240, 240)); // Gris claro
+        // Labels
+        pasajeVista.lblTituloHistPasajes.setForeground(new Color(41, 37, 28));
+        pasajeVista.jlPasajesT.setForeground(new Color(41, 37, 28));
 
-    // Labels
-    pasajeVista.lblTituloHistPasajes.setForeground(new Color(41, 37, 28));
-    pasajeVista.jlPasajesT.setForeground(new Color(41, 37, 28));
+        // Panels
+        pasajeVista.pnlHorario.setBackground(new Color(240, 240, 240)); // Gris claro
+        pasajeVista.pnlPasajero.setBackground(new Color(240, 240, 240)); // Gris claro
+        pasajeVista.pnlRuta.setBackground(new Color(240, 240, 240)); // Gris claro
 
-    // Panels
-    pasajeVista.pnlHorario.setBackground(new Color(240, 240, 240)); // Gris claro
-    pasajeVista.pnlPasajero.setBackground(new Color(240, 240, 240)); // Gris claro
-    pasajeVista.pnlRuta.setBackground(new Color(240, 240, 240)); // Gris claro
+        // RadioButtons
+        pasajeVista.rbHorario.setForeground(new Color(41, 37, 28));
+        pasajeVista.rbPasajero.setForeground(new Color(41, 37, 28));
+        pasajeVista.rbRuta.setForeground(new Color(41, 37, 28));
 
-    // RadioButtons
-    pasajeVista.rbHorario.setForeground(new Color(41, 37, 28));
-    pasajeVista.rbPasajero.setForeground(new Color(41, 37, 28));
-    pasajeVista.rbRuta.setForeground(new Color(41, 37, 28));
+        // TextFields
+        pasajeVista.txtApellido.setBackground(new Color(220, 220, 220)); // Gris medio
+        pasajeVista.txtDNI.setBackground(new Color(220, 220, 220)); // Gris medio
 
-    // TextFields
-    pasajeVista.txtApellido.setBackground(new Color(220, 220, 220)); // Gris medio
-    pasajeVista.txtDNI.setBackground(new Color(220, 220, 220)); // Gris medio
+        // Table
+        pasajeVista.spnHistPasajes.setBackground(new Color(240, 240, 240)); // Gris claro
+        pasajeVista.tblHistPasajes.setBackground(new Color(220, 220, 220)); // Gris medio
 
-    // Table
-    pasajeVista.spnHistPasajes.setBackground(new Color(240, 240, 240)); // Gris claro
-    pasajeVista.tblHistPasajes.setBackground(new Color(220, 220, 220)); // Gris medio
+        // Centramos los títulos
+        pasajeVista.lblTituloHistPasajes.setHorizontalAlignment(SwingConstants.CENTER);
 
-    // Centramos los títulos
-    pasajeVista.lblTituloHistPasajes.setHorizontalAlignment(SwingConstants.CENTER);
+        // Aplicamos la fuente personalizada
+        try {
+            Font montserratFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.PLAIN, 14);
+            Font montserratFontTitulo = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.BOLD, 18);
 
-    // Aplicamos la fuente personalizada
-    try {
-        Font montserratFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.PLAIN, 14);
-        Font montserratFontTitulo = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/font/Montserrat-Regular.ttf")).deriveFont(Font.BOLD, 18);
+            pasajeVista.lblTituloHistPasajes.setFont(montserratFontTitulo);
+            pasajeVista.jlPasajesT.setFont(montserratFontTitulo);
+            pasajeVista.cbHorarios.setFont(montserratFont);
+            pasajeVista.cbRutas.setFont(montserratFont);
+            pasajeVista.rbHorario.setFont(montserratFont);
+            pasajeVista.rbPasajero.setFont(montserratFont);
+            pasajeVista.rbRuta.setFont(montserratFont);
+            pasajeVista.txtApellido.setFont(montserratFont);
+            pasajeVista.txtDNI.setFont(montserratFont);
 
-        pasajeVista.lblTituloHistPasajes.setFont(montserratFontTitulo);
-        pasajeVista.jlPasajesT.setFont(montserratFontTitulo);
-        pasajeVista.cbHorarios.setFont(montserratFont);
-        pasajeVista.cbRutas.setFont(montserratFont);
-        pasajeVista.rbHorario.setFont(montserratFont);
-        pasajeVista.rbPasajero.setFont(montserratFont);
-        pasajeVista.rbRuta.setFont(montserratFont);
-        pasajeVista.txtApellido.setFont(montserratFont);
-        pasajeVista.txtDNI.setFont(montserratFont);
-
-    } catch (FontFormatException | IOException e) {
-        e.printStackTrace();
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+        }
     }
-}
-
 
 }
