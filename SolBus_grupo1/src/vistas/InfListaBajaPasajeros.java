@@ -134,10 +134,7 @@ public class InfListaBajaPasajeros extends javax.swing.JInternalFrame {
                 .addGap(41, 41, 41))
         );
 
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
         btnActualizar1.setText("ACTUALIZAR");
-        jPanel3.add(btnActualizar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 340, -1, -1));
 
         jtListarPasajeros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -152,13 +149,9 @@ public class InfListaBajaPasajeros extends javax.swing.JInternalFrame {
         ));
         spListarPasajeros.setViewportView(jtListarPasajeros);
 
-        jPanel3.add(spListarPasajeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 400, 125));
-
         btnBorrar.setText("BORRAR");
-        jPanel3.add(btnBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, -1, -1));
 
         lblTituloListarPasajeros.setText("LISTAR PASAJEROS");
-        jPanel3.add(lblTituloListarPasajeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, -1, -1));
 
         grupete.add(rbDni);
         rbDni.setText("DNI");
@@ -193,18 +186,56 @@ public class InfListaBajaPasajeros extends javax.swing.JInternalFrame {
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        jPanel3.add(pnlDniNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, 140));
-
         jtDni.setEnabled(false);
         jtDni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtDniActionPerformed(evt);
             }
         });
-        jPanel3.add(jtDni, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 50, 182, -1));
 
         jtNombre.setEnabled(false);
-        jPanel3.add(jtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, 182, -1));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(110, 110, 110)
+                .addComponent(lblTituloListarPasajeros))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(pnlDniNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtDni, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addComponent(spListarPasajeros, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(btnBorrar)
+                .addGap(161, 161, 161)
+                .addComponent(btnActualizar1))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(lblTituloListarPasajeros)
+                .addGap(4, 4, 4)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlDniNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jtDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(jtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(10, 10, 10)
+                .addComponent(spListarPasajeros, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnBorrar)
+                    .addComponent(btnActualizar1)))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

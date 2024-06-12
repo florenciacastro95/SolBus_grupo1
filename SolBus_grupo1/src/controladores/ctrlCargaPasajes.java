@@ -183,7 +183,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                     bandera = false;
                     JOptionPane.showMessageDialog(null, "El DNI solo debe contener 7 u 8 dígitos. No se admiten letras");
                 }
-                if (bandera && horita != null && asiento != 0) {
+                if (bandera && horita != null && asiento != 0 && !pasajeData.estaElPasaje(asiento, r, colectivo, fechaDtch, horita)) {
                     pasajero = new Pasajero(nombre, apellido, dni, null, null);
                     pasajeroData.guardarPasajero(pasajero);
                     String precioSinSimbolo = pasajeVista.lblPrecioCalculado.getText().replaceAll("[^\\d.]", "");
@@ -194,11 +194,12 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                             fechaDtch, horita, asiento, precioLimpio);
                     colectivoData.actualizarAsientos(colectivo, -1);
                     pasajeData.venderPasaje(pasaje);
-                    //usuario no registrado PDF
+                    // Non-registered user PDF
 
-                    Document documento = new Document();
+                    Document documento = null;
 
                     try {
+                        documento = new Document();
                         String ruta = System.getProperty("user.home") + "/Desktop/DocumentosSolBus/Recibos/Fecha_" + pasaje.getFechaViaje().toString();
                         Path path = Paths.get(ruta);
 
@@ -273,7 +274,6 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                     limpiarCampos();
                 } else {
                     JOptionPane.showMessageDialog(null, "No se pudo vender pasaje");
-
                 }
 
             } else if (pasajeVista.rbRegistrado.isSelected()) {
@@ -291,7 +291,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                     JOptionPane.showMessageDialog(null, "El DNI solo debe contener 7 u 8 dígitos. No se admiten letras");
                 }
                 pasajero = pasajeroData.buscarPasajeroPorDni(dni);
-                if (bandera && horita != null && asiento != 0 && pasajero != null) {
+                if (bandera && horita != null && asiento != 0 && pasajero != null && !pasajeData.estaElPasaje(asiento, r, colectivo, fechaDtch, horita)) {
                     String precioSinSimbolo = pasajeVista.lblPrecioCalculado.getText().replaceAll("[^\\d.]", "");
 
                     Double precioLimpio = Double.parseDouble(precioSinSimbolo);
@@ -301,13 +301,19 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
                     colectivoData.actualizarAsientos(colectivo, -1);
                     pasajeData.venderPasaje(pasaje);
-                    //usuario  registrado PDF
 
+                    // Registered user PDF
                     Document documento = new Document();
 
                     try {
-                        String ruta = System.getProperty("user.home");
-                        PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/Recibo-" + pasajero.getApellido() + ".pdf"));
+                        String ruta = System.getProperty("user.home") + "/Desktop/DocumentosSolBus/Recibos/Fecha_" + pasaje.getFechaViaje().toString();
+                        Path path = Paths.get(ruta);
+
+                        if (!Files.exists(path)) {
+                            Files.createDirectories(path);
+                        }
+
+                        PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Recibo-" + pasajero.getApellido() + pasaje.getIdPasaje() + ".pdf"));
                         documento.open();
 
                         Paragraph encabezado1 = new Paragraph("Sol Bus", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 24, new BaseColor(203, 43, 50))); // Color #CB2B32
@@ -319,9 +325,8 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
                         documento.add(Chunk.NEWLINE);
 
-                        // Detalles del pasaje
                         PdfPTable tablita = new PdfPTable(2);
-                        tablita.setWidthPercentage(100);
+                        tablita.setWidthPercentage(70);
 
                         PdfPCell cellTitulo = new PdfPCell(new Phrase("Detalles del Pasaje", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.WHITE)));
                         cellTitulo.setBackgroundColor(new BaseColor(203, 43, 50)); // Color de fondo #CB2B32
@@ -329,11 +334,9 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                         cellTitulo.setColspan(2);
                         tablita.addCell(cellTitulo);
 
-                        // Estilo de celda para título y contenido
                         com.itextpdf.text.Font fontTitulo = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.BLACK);
                         com.itextpdf.text.Font fontContenido = FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK);
 
-                        // Detalles específicos del pasaje
                         tablita.addCell(new Phrase("Id Pasaje:", fontTitulo));
                         tablita.addCell(new Phrase(String.valueOf(pasaje.getIdPasaje()), fontContenido));
 
@@ -359,14 +362,17 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
                         documento.add(Chunk.NEWLINE);
 
-                        // Pie de página
                         Paragraph piePagina = new Paragraph("¡Gracias por viajar con nosotros!", FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK));
                         piePagina.setAlignment(Element.ALIGN_CENTER);
                         documento.add(piePagina);
 
-                        documento.close();
                     } catch (Exception ex) {
                         ex.printStackTrace();
+                    } finally {
+                        if (documento != null && documento.isOpen()) {
+                            JOptionPane.showMessageDialog(null, "Imprimiendo recibo en el escritorio...");
+                            documento.close();
+                        }
                     }
 
                     JOptionPane.showMessageDialog(null, "Pasaje vendido a " + pasajero.toString());
@@ -374,11 +380,10 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                     limpiarCampos();
                 } else {
                     JOptionPane.showMessageDialog(null, "No se pudo vender pasaje");
-
                 }
             }
-
         }
+
 
         /*
          ***********************
@@ -730,7 +735,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         // el render de la tabla
         ArrayList<Integer> asientosOcupados = null;
         pasajeVista.tblAsientos.setDefaultRenderer(Object.class,
-                new PoneteBonitaTablita(asientosOcupados));
+                 new PoneteBonitaTablita(asientosOcupados));
 
         // CENTREMOS EL TITULO
         pasajeVista.lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
