@@ -49,6 +49,8 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         btnVerHistorial = new javax.swing.JButton();
 
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         tblHistPasajes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -62,154 +64,51 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
         ));
         spnHistPasajes.setViewportView(tblHistPasajes);
 
+        getContentPane().add(spnHistPasajes, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 749, 155));
+
         lblTituloHistPasajes.setText("FILTRAR PASAJES");
+        getContentPane().add(lblTituloHistPasajes, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, -1, -1));
+
+        pnlPasajero.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         rbgPasRutaHor.add(rbPasajero);
-        rbPasajero.setText("pasajero");
+        rbPasajero.setText("PASAJERO");
+        pnlPasajero.add(rbPasajero, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, -1));
+        pnlPasajero.add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 46, 135, -1));
+        pnlPasajero.add(txtDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 82, 135, -1));
 
-        javax.swing.GroupLayout pnlPasajeroLayout = new javax.swing.GroupLayout(pnlPasajero);
-        pnlPasajero.setLayout(pnlPasajeroLayout);
-        pnlPasajeroLayout.setHorizontalGroup(
-            pnlPasajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlPasajeroLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(pnlPasajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtApellido)
-                    .addGroup(pnlPasajeroLayout.createSequentialGroup()
-                        .addComponent(rbPasajero)
-                        .addGap(0, 53, Short.MAX_VALUE))
-                    .addComponent(txtDNI))
-                .addContainerGap())
-        );
-        pnlPasajeroLayout.setVerticalGroup(
-            pnlPasajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlPasajeroLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(rbPasajero)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(65, Short.MAX_VALUE))
-        );
+        getContentPane().add(pnlPasajero, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
+
+        pnlRuta.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pnlRuta.add(cbRutas, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 46, 155, -1));
 
         rbgPasRutaHor.add(rbRuta);
-        rbRuta.setText("ruta");
+        rbRuta.setText("RUTA");
+        pnlRuta.add(rbRuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
 
-        javax.swing.GroupLayout pnlRutaLayout = new javax.swing.GroupLayout(pnlRuta);
-        pnlRuta.setLayout(pnlRutaLayout);
-        pnlRutaLayout.setHorizontalGroup(
-            pnlRutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlRutaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlRutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlRutaLayout.createSequentialGroup()
-                        .addComponent(rbRuta)
-                        .addGap(0, 100, Short.MAX_VALUE))
-                    .addComponent(cbRutas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        pnlRutaLayout.setVerticalGroup(
-            pnlRutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlRutaLayout.createSequentialGroup()
-                .addComponent(rbRuta)
-                .addGap(18, 18, 18)
-                .addComponent(cbRutas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
-        );
+        getContentPane().add(pnlRuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, -1, 80));
+
+        pnlHorario.setPreferredSize(new java.awt.Dimension(198, 79));
+        pnlHorario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         rbgPasRutaHor.add(rbHorario);
-        rbHorario.setText("horario");
+        rbHorario.setText("HORARIO");
+        pnlHorario.add(rbHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
 
-        javax.swing.GroupLayout pnlHorarioLayout = new javax.swing.GroupLayout(pnlHorario);
-        pnlHorario.setLayout(pnlHorarioLayout);
-        pnlHorarioLayout.setHorizontalGroup(
-            pnlHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlHorarioLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbHorarios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(pnlHorarioLayout.createSequentialGroup()
-                        .addComponent(rbHorario)
-                        .addGap(0, 112, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        pnlHorarioLayout.setVerticalGroup(
-            pnlHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlHorarioLayout.createSequentialGroup()
-                .addComponent(rbHorario)
-                .addGap(18, 18, 18)
-                .addComponent(cbHorarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        pnlHorario.add(cbHorarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 46, 185, -1));
 
-        jlPasajesT.setText("Pasajes de hoy!");
+        getContentPane().add(pnlHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 70, -1, 100));
+
+        jlPasajesT.setText("Pasajes por fecha");
+        getContentPane().add(jlPasajesT, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 210, -1, -1));
 
         btnActualizar.setText("Actualizar");
+        getContentPane().add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 420, -1, -1));
+        getContentPane().add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 210, -1, -1));
 
-        btnVerHistorial.setText("Ver Historial de hoy");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(pnlPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
-                        .addComponent(pnlRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(95, 95, 95))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(jlPasajesT)
-                        .addGap(56, 56, 56)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(pnlHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblTituloHistPasajes)
-                .addGap(298, 298, 298))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(spnHistPasajes)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(263, 263, 263)
-                .addComponent(btnActualizar)
-                .addGap(106, 106, 106)
-                .addComponent(btnVerHistorial)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(lblTituloHistPasajes)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pnlHorario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlPasajero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(pnlRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(25, 25, 25)
-                                .addComponent(jlPasajesT))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(spnHistPasajes, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnActualizar)
-                    .addComponent(btnVerHistorial))
-                .addContainerGap(73, Short.MAX_VALUE))
-        );
+        btnVerHistorial.setText("Imprimir historial de hoy");
+        getContentPane().add(btnVerHistorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 420, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
