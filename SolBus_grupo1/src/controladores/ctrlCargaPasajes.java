@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import entidades.*;
 import vistas.*;
 import accesoDatos.*;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -32,6 +34,16 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileOutputStream;
 
 //HAY QUE AGREGAR VALIDACIÓN DE PASAJES SEGUN CAPCIDAD DE COLECTIVO Y ASIENTOS DISPONIBLES
 public class ctrlCargaPasajes implements ActionListener, ItemListener {
@@ -82,7 +94,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
         }
         calcularPrecio();
-        }
+    }
 
     @Override
 
@@ -167,10 +179,80 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                 if (bandera && horita != null && asiento != 0) {
                     pasajero = new Pasajero(nombre, apellido, dni, null, null);
                     pasajeroData.guardarPasajero(pasajero);
+                    String precioSinSimbolo = pasajeVista.lblPrecioCalculado.getText().replaceAll("[^\\d.]", "");
+
+                    Double precioLimpio = Double.parseDouble(precioSinSimbolo);
+
                     pasaje = new Pasaje(pasajero, colectivo, (Ruta) pasajeVista.cbRuta.getSelectedItem(),
-                            fechaDtch, horita, asiento, Double.valueOf(pasajeVista.lblPrecioCalculado.getText()));
+                            fechaDtch, horita, asiento, precioLimpio);
                     colectivoData.actualizarAsientos(colectivo, -1);
                     pasajeData.venderPasaje(pasaje);
+                    //usuario no registrado PDF
+
+                    Document documento = new Document();
+
+                    try {
+                        String ruta = System.getProperty("user.home");
+                        PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/Recibo-" + apellido + ".pdf"));
+                        documento.open();
+
+                        // Encabezado del recibo
+                        Paragraph encabezado = new Paragraph("Recibo de Pasaje", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.BLACK));
+                        encabezado.setAlignment(Element.ALIGN_CENTER);
+                        documento.add(encabezado);
+
+                        documento.add(Chunk.NEWLINE);
+
+                        // Detalles del pasaje
+                        PdfPTable tablita = new PdfPTable(2);
+                        tablita.setWidthPercentage(100);
+
+                        PdfPCell cellTitulo = new PdfPCell(new Phrase("Detalles del Pasaje", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.WHITE)));
+                        cellTitulo.setBackgroundColor(new BaseColor(203, 43, 50)); // Color de fondo #CB2B32
+                        cellTitulo.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        cellTitulo.setColspan(2);
+                        tablita.addCell(cellTitulo);
+
+                        // Estilo de celda para título y contenido
+                        com.itextpdf.text.Font fontTitulo = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.BLACK);
+                        com.itextpdf.text.Font fontContenido = FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK);
+
+                        // Detalles específicos del pasaje
+                        tablita.addCell(new Phrase("Id Pasaje:", fontTitulo));
+                        tablita.addCell(new Phrase(String.valueOf(pasaje.getIdPasaje()), fontContenido));
+
+                        tablita.addCell(new Phrase("Nombre y Apellido Pasajero:", fontTitulo));
+                        tablita.addCell(new Phrase(pasajero.getNombre() + " " + pasajero.getApellido(), fontContenido));
+
+                        tablita.addCell(new Phrase("DNI Pasajero:", fontTitulo));
+                        tablita.addCell(new Phrase(pasajero.getDni(), fontContenido));
+
+                        tablita.addCell(new Phrase("N° de Butaca:", fontTitulo));
+                        tablita.addCell(new Phrase(String.valueOf(pasaje.getAsiento()), fontContenido));
+
+                        tablita.addCell(new Phrase("Origen y Destino:", fontTitulo));
+                        tablita.addCell(new Phrase(pasaje.getRuta().getOrigen() + " - " + pasaje.getRuta().getDestino(), fontContenido));
+
+                        tablita.addCell(new Phrase("Precio:", fontTitulo));
+                        tablita.addCell(new Phrase(String.valueOf(pasaje.getPrecio()), fontContenido));
+
+                        tablita.addCell(new Phrase("Fecha y Hora:", fontTitulo));
+                        tablita.addCell(new Phrase(pasaje.getFechaViaje().toString() + " " + pasaje.getHoraViaje().toString(), fontContenido));
+
+                        documento.add(tablita);
+
+                        documento.add(Chunk.NEWLINE);
+
+                        // Pie de página
+                        Paragraph piePagina = new Paragraph("¡Gracias por viajar con nosotros!", FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK));
+                        piePagina.setAlignment(Element.ALIGN_CENTER);
+                        documento.add(piePagina);
+
+                        documento.close();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
                     cargarTblAsientos();
                     limpiarCampos();
                 } else {
@@ -194,10 +276,81 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                 }
                 pasajero = pasajeroData.buscarPasajeroPorDni(dni);
                 if (bandera && horita != null && asiento != 0 && pasajero != null) {
+                    String precioSinSimbolo = pasajeVista.lblPrecioCalculado.getText().replaceAll("[^\\d.]", "");
+
+                    Double precioLimpio = Double.parseDouble(precioSinSimbolo);
+
                     pasaje = new Pasaje(pasajero, colectivo, (Ruta) pasajeVista.cbRuta.getSelectedItem(),
-                            fechaDtch, horita, asiento, Double.valueOf(pasajeVista.lblPrecioCalculado.getText()));
+                            fechaDtch, horita, asiento, precioLimpio);
+
                     colectivoData.actualizarAsientos(colectivo, -1);
                     pasajeData.venderPasaje(pasaje);
+                    //usuario  registrado PDF
+
+                    Document documento = new Document();
+
+                    try {
+                        String ruta = System.getProperty("user.home");
+                        PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/Recibo-" + pasajero.getApellido() + ".pdf"));
+                        documento.open();
+
+                        // Encabezado del recibo
+                        Paragraph encabezado = new Paragraph("Recibo de Pasaje", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.BLACK));
+                        encabezado.setAlignment(Element.ALIGN_CENTER);
+                        documento.add(encabezado);
+
+                        documento.add(Chunk.NEWLINE);
+
+                        // Detalles del pasaje
+                        PdfPTable tablita = new PdfPTable(2);
+                        tablita.setWidthPercentage(100);
+
+                        PdfPCell cellTitulo = new PdfPCell(new Phrase("Detalles del Pasaje", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.WHITE)));
+                        cellTitulo.setBackgroundColor(new BaseColor(203, 43, 50)); // Color de fondo #CB2B32
+                        cellTitulo.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        cellTitulo.setColspan(2);
+                        tablita.addCell(cellTitulo);
+
+                        // Estilo de celda para título y contenido
+                        com.itextpdf.text.Font fontTitulo = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.BLACK);
+                        com.itextpdf.text.Font fontContenido = FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK);
+
+                        // Detalles específicos del pasaje
+                        tablita.addCell(new Phrase("Id Pasaje:", fontTitulo));
+                        tablita.addCell(new Phrase(String.valueOf(pasaje.getIdPasaje()), fontContenido));
+
+                        tablita.addCell(new Phrase("Nombre y Apellido Pasajero:", fontTitulo));
+                        tablita.addCell(new Phrase(pasajero.getNombre() + " " + pasajero.getApellido(), fontContenido));
+
+                        tablita.addCell(new Phrase("DNI Pasajero:", fontTitulo));
+                        tablita.addCell(new Phrase(pasajero.getDni(), fontContenido));
+
+                        tablita.addCell(new Phrase("N° de Butaca:", fontTitulo));
+                        tablita.addCell(new Phrase(String.valueOf(pasaje.getAsiento()), fontContenido));
+
+                        tablita.addCell(new Phrase("Origen y Destino:", fontTitulo));
+                        tablita.addCell(new Phrase(pasaje.getRuta().getOrigen() + " - " + pasaje.getRuta().getDestino(), fontContenido));
+
+                        tablita.addCell(new Phrase("Precio:", fontTitulo));
+                        tablita.addCell(new Phrase(String.valueOf(pasaje.getPrecio()), fontContenido));
+
+                        tablita.addCell(new Phrase("Fecha y Hora:", fontTitulo));
+                        tablita.addCell(new Phrase(pasaje.getFechaViaje().toString() + " " + pasaje.getHoraViaje().toString(), fontContenido));
+
+                        documento.add(tablita);
+
+                        documento.add(Chunk.NEWLINE);
+
+                        // Pie de página
+                        Paragraph piePagina = new Paragraph("¡Gracias por viajar con nosotros!", FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK));
+                        piePagina.setAlignment(Element.ALIGN_CENTER);
+                        documento.add(piePagina);
+
+                        documento.close();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
                     JOptionPane.showMessageDialog(null, "Pasaje vendido a " + pasajero.toString());
                     cargarTblAsientos();
                     limpiarCampos();
@@ -326,7 +479,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
                 }
                 cargarTblAsientos();
-                
+
                 if (horarios.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "No hay horarios activos para esta ruta. Agregue horarios");
                 }
@@ -335,12 +488,13 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                     || ie.getSource() == pasajeVista.cbColectivos) {
 
                 cargarTblAsientos();
-                
+
             }
 
         }
 
     }
+
     /*
      **************************
      *****CALCULARPRECIO()*****
@@ -348,18 +502,17 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
      */
     public void calcularPrecio() {
 
-        precio=0;
-         if (pasajeVista.cbRuta != null) {
+        precio = 0;
+        if (pasajeVista.cbRuta != null) {
             r = (Ruta) pasajeVista.cbRuta.getSelectedItem();
-            precio = (r.getDuracion().getHour()*60)+(r.getDuracion().getMinute());
+            precio = (r.getDuracion().getHour() * 60) + (r.getDuracion().getMinute());
 
         }
         precio = precio * multiplicador;
         if (pasajeVista.rbRegistrado.isSelected()) {
             precio = precio - (precio * 0.15);
             pasajeVista.lblPromo.setText("Tiene un 15% de descuento");
-        }
-        else{
+        } else {
             pasajeVista.lblPromo.setText("");
         }
 

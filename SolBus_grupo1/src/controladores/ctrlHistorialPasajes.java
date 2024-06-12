@@ -1,6 +1,7 @@
 package controladores;
 
 import accesoDatos.*;
+import com.itextpdf.text.BaseColor;
 import entidades.*;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,6 +17,17 @@ import javax.swing.BorderFactory;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import vistas.*;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileOutputStream;
+import java.time.format.DateTimeFormatter;
 
 public class ctrlHistorialPasajes implements ActionListener {
 
@@ -46,15 +58,87 @@ public class ctrlHistorialPasajes implements ActionListener {
         pasajeVista.rbHorario.addActionListener(this);
         pasajeVista.rbPasajero.addActionListener(this);
         pasajeVista.rbRuta.addActionListener(this);
+        pasajeVista.btnVerHistorial.addActionListener(this);
         
     }
 
-
-
     public void actionPerformed(ActionEvent e) {
 
-        
-        
+        if (e.getSource() == pasajeVista.btnVerHistorial) {
+            LocalDate hoy = LocalDate.now();
+            Pasajero pasajero;
+            ArrayList<Pasaje> listaPasajes = (ArrayList<Pasaje>) pasajeData.listarPasajesVendidosPorFecha(hoy);
+
+            Document documento = new Document();
+
+            try {
+
+                // Convertir la fecha a formato String con guiones
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                String fechaHoy = formatter.format(hoy);
+
+                // Ruta del directorio de usuario
+                String ruta = System.getProperty("user.home");
+
+                // Crear el documento PDF
+                PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/Historial-" + fechaHoy + ".pdf"));
+                documento.open();
+
+                // Agregar encabezado con el nombre de la empresa
+                Paragraph encabezado = new Paragraph("Sol Bus", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 24, new BaseColor(203, 43, 50))); // Color #CB2B32
+                encabezado.setAlignment(Element.ALIGN_CENTER);
+                documento.add(encabezado);
+
+                // Agregar título del historial
+                Paragraph titulo = new Paragraph("Historial de Pasajes", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.DARK_GRAY));
+                titulo.setAlignment(Element.ALIGN_CENTER);
+                documento.add(titulo);
+
+                // Agregar fecha de hoy
+                Paragraph fechaActual = new Paragraph("Fecha: " + fechaHoy, FontFactory.getFont(FontFactory.HELVETICA, 12, new BaseColor(203, 43, 50))); // Color #CB2B32
+                fechaActual.setAlignment(Element.ALIGN_CENTER);
+                documento.add(fechaActual);
+
+                // Agregar espacio en blanco
+                documento.add(new Paragraph("\n"));
+
+                // Crear tabla para el historial de pasajes
+                PdfPTable tablita = new PdfPTable(3);
+                tablita.setWidthPercentage(100);
+
+                // Encabezados de la tabla
+                PdfPCell cellIdPasaje = new PdfPCell(new Phrase("Id Pasaje", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.WHITE)));
+                cellIdPasaje.setBackgroundColor(new BaseColor(203, 43, 50)); // Color #CB2B32
+                cellIdPasaje.setHorizontalAlignment(Element.ALIGN_CENTER);
+                tablita.addCell(cellIdPasaje);
+
+                PdfPCell cellNombreApellido = new PdfPCell(new Phrase("Nombre y Apellido Pasajero", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.WHITE)));
+                cellNombreApellido.setBackgroundColor(new BaseColor(203, 43, 50)); // Color #CB2B32
+                cellNombreApellido.setHorizontalAlignment(Element.ALIGN_CENTER);
+                tablita.addCell(cellNombreApellido);
+
+                PdfPCell cellDni = new PdfPCell(new Phrase("DNI Pasajero", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.WHITE)));
+                cellDni.setBackgroundColor(new BaseColor(203, 43, 50)); // Color #CB2B32
+                cellDni.setHorizontalAlignment(Element.ALIGN_CENTER);
+                tablita.addCell(cellDni);
+                for (Pasaje listaPasaje : listaPasajes) {
+                    pasajero = pasajeroData.buscarPasajeroPorId(listaPasaje.getPasajero().getIdPasajero());
+                    tablita.addCell(listaPasaje.getIdPasaje() + "");
+                    tablita.addCell(pasajero.getNombre() + " " + pasajero.getApellido());
+                    tablita.addCell(pasajero.getDni());
+                }
+                documento.add(tablita);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            } finally {
+                if (documento != null && documento.isOpen()) {
+                    documento.close();
+                }
+            }
+
+        }
+
     }
 
     private void armarCabecera() {

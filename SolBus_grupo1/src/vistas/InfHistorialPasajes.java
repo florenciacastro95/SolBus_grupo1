@@ -47,6 +47,7 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
         jlPasajesT = new javax.swing.JLabel();
         btnActualizar = new javax.swing.JButton();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        btnVerHistorial = new javax.swing.JButton();
 
         tblHistPasajes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -146,6 +147,8 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
 
         btnActualizar.setText("Actualizar");
 
+        btnVerHistorial.setText("Ver Historial de hoy");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -175,8 +178,10 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
                 .addComponent(spnHistPasajes)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(318, 318, 318)
+                .addGap(263, 263, 263)
                 .addComponent(btnActualizar)
+                .addGap(106, 106, 106)
+                .addComponent(btnVerHistorial)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -200,7 +205,9 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(spnHistPasajes, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(btnActualizar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnActualizar)
+                    .addComponent(btnVerHistorial))
                 .addContainerGap(73, Short.MAX_VALUE))
         );
 
@@ -210,6 +217,7 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
+    public javax.swing.JButton btnVerHistorial;
     public javax.swing.JComboBox<Horario> cbHorarios;
     public javax.swing.JComboBox<Ruta> cbRutas;
     private com.toedter.calendar.JDateChooser jDateChooser1;
