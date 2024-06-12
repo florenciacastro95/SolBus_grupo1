@@ -173,7 +173,7 @@ public class PasajeroData {
 
     public void actualizarPasajero(Pasajero pasajero) {
 
-        String sql = "UPDATE pasajero SET nombre=?, apellido=?, `dni`=?, `correo`=?, `telefono`=?,"
+        String sql = "UPDATE pasajero SET nombre=?, apellido=?, `dni`=?, `correo`=?, `telefono`=?"
                 + " WHERE id_Pasajero= ?";
 
         try {

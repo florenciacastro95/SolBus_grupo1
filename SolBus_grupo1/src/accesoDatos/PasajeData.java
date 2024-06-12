@@ -276,6 +276,36 @@ public class PasajeData {
 
     
 //Listar pasajes por pasajero
+     public List<Pasaje> listarPasajesVendidos() {
+
+        String sql = "SELECT * FROM pasaje";
+        ArrayList<Pasaje> pasajes = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            //id_Pasaje, id_Pasajero, id_Colectivo, id_Ruta, fechaViaje, horaViaje, asiento, precio
+            while (rs.next()) {
+                Pasaje pasaje = new Pasaje();
+                pasaje.setIdPasaje(rs.getInt("id_Pasaje"));
+                pasaje.setPasajero(pd.buscarPasajeroPorId(rs.getInt("id_Pasajero")));
+                pasaje.setColectivo(cd.buscarColectivoPorId(rs.getInt("id_Colectivo")));
+                pasaje.setRuta(rd.buscarRutaPorID(rs.getInt("id_Ruta")));
+                pasaje.setFechaViaje(rs.getDate("fechaViaje").toLocalDate());
+                pasaje.setHoraViaje(rs.getTime("horaViaje").toLocalTime());
+                pasaje.setAsiento(rs.getInt("asiento"));
+                pasaje.setPrecio(rs.getDouble("precio"));
+                pasajes.add(pasaje);
+
+            }
+            ps.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en el metodo obtenerPasajesPorPasajero, no se pudo acceder a los pasajes ." + e);
+        }
+
+        return pasajes;
+    }
     public List<Pasaje> listarPasajesPorPasajero(int idPasajero) {
 
         String sql = "SELECT * FROM pasaje WHERE id_Pasajero =?";
@@ -547,6 +577,90 @@ public class PasajeData {
             System.out.println(e);
         }
         return false;
+    }
+    
+    public List<Pasaje> listarPasajesPorPasajeroYDNI(String nombreApellido, String dni) {
+        String sql = "SELECT * FROM pasaje WHERE id_Pasajero IN (SELECT id_Pasajero FROM pasajero WHERE nombre LIKE ? OR apellido LIKE ?) AND id_Pasajero IN (SELECT id_Pasajero FROM pasajero WHERE dni LIKE ?)";
+        ArrayList<Pasaje> pasajes = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setString(1, "%" + nombreApellido + "%");
+            ps.setString(2, "%" + nombreApellido + "%");
+            ps.setString(3, "%" + dni + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Pasaje pasaje = new Pasaje();
+                pasaje.setIdPasaje(rs.getInt("id_Pasaje"));
+                pasaje.setPasajero(pd.buscarPasajeroPorId(rs.getInt("id_Pasajero")));
+                pasaje.setColectivo(cd.buscarColectivoPorId(rs.getInt("id_Colectivo")));
+                pasaje.setRuta(rd.buscarRutaPorID(rs.getInt("id_Ruta")));
+                pasaje.setFechaViaje(rs.getDate("fechaViaje").toLocalDate());
+                pasaje.setHoraViaje(rs.getTime("horaViaje").toLocalTime());
+                pasaje.setAsiento(rs.getInt("asiento"));
+                pasaje.setPrecio(rs.getDouble("precio"));
+                pasajes.add(pasaje);
+            }
+            ps.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en el método listarPasajesPorPasajeroYDNI: " + e);
+        }
+        return pasajes;
+    }
+
+    public List<Pasaje> listarPasajesPorNombrePasajero(String nombreApellido) {
+        String sql = "SELECT * FROM pasaje WHERE id_Pasajero IN (SELECT id_Pasajero FROM pasajero WHERE nombre LIKE ? OR apellido LIKE ?)";
+        ArrayList<Pasaje> pasajes = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setString(1, "%" + nombreApellido + "%");
+            ps.setString(2, "%" + nombreApellido + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Pasaje pasaje = new Pasaje();
+                pasaje.setIdPasaje(rs.getInt("id_Pasaje"));
+                pasaje.setPasajero(pd.buscarPasajeroPorId(rs.getInt("id_Pasajero")));
+                pasaje.setColectivo(cd.buscarColectivoPorId(rs.getInt("id_Colectivo")));
+                pasaje.setRuta(rd.buscarRutaPorID(rs.getInt("id_Ruta")));
+                pasaje.setFechaViaje(rs.getDate("fechaViaje").toLocalDate());
+                pasaje.setHoraViaje(rs.getTime("horaViaje").toLocalTime());
+                pasaje.setAsiento(rs.getInt("asiento"));
+                pasaje.setPrecio(rs.getDouble("precio"));
+                pasajes.add(pasaje);
+            }
+            ps.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en el método listarPasajesPorNombrePasajero: " + e);
+        }
+        return pasajes;
+    }
+
+    public List<Pasaje> listarPasajesPorDNI(String dni) {
+        String sql = "SELECT * FROM pasaje WHERE id_Pasajero IN (SELECT id_Pasajero FROM pasajero WHERE dni LIKE ?)";
+        ArrayList<Pasaje> pasajes = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setString(1, "%" + dni + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Pasaje pasaje = new Pasaje();
+                pasaje.setIdPasaje(rs.getInt("id_Pasaje"));
+                pasaje.setPasajero(pd.buscarPasajeroPorId(rs.getInt("id_Pasajero")));
+                pasaje.setColectivo(cd.buscarColectivoPorId(rs.getInt("id_Colectivo")));
+                pasaje.setRuta(rd.buscarRutaPorID(rs.getInt("id_Ruta")));
+                pasaje.setFechaViaje(rs.getDate("fechaViaje").toLocalDate());
+                pasaje.setHoraViaje(rs.getTime("horaViaje").toLocalTime());
+                pasaje.setAsiento(rs.getInt("asiento"));
+                pasaje.setPrecio(rs.getDouble("precio"));
+                pasajes.add(pasaje);
+            }
+            ps.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en el método listarPasajesPorDNI: " + e);
+        }
+        return pasajes;
     }
     
 }
