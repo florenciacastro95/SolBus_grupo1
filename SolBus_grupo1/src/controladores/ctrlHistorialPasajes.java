@@ -107,6 +107,7 @@ public class ctrlHistorialPasajes implements ActionListener, ItemListener {
         pasajeVista.rbFecha.addActionListener(this);
         pasajeVista.rbVerTodo.addActionListener(this);
         pasajeVista.btnEnviarMail.addActionListener(this);
+        pasajeVista.btnMolestar.addActionListener(this);
         desactivarComponentesPorTipo();
         sugerirEnviarMail();
         pasajeVista.dateChooser.addPropertyChangeListener("date", new PropertyChangeListener() {
@@ -194,11 +195,15 @@ public class ctrlHistorialPasajes implements ActionListener, ItemListener {
                 }
             }
         }
+
+        if (e.getSource() == pasajeVista.btnMolestar) {
+  molestarAJuanjo();
+        }
     }
 
     @Override
     public void itemStateChanged(ItemEvent ie) {
-
+      
     }
 
     private void sugerirEnviarMail() {
@@ -253,23 +258,18 @@ public class ctrlHistorialPasajes implements ActionListener, ItemListener {
             mCorreo.addRecipient(Message.RecipientType.TO, new InternetAddress(emailTo)); // Email del destinatario
             mCorreo.setSubject(subject);
 
-            // Crear el cuerpo del mensaje
             MimeBodyPart messageBodyPart = new MimeBodyPart();
             messageBodyPart.setContent(content, "text/html; charset=UTF-8");
 
-            // Crear el contenido multipart
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(messageBodyPart);
 
-            // Adjuntar el PDF
             String rutaPdf = generarComprobante(p);
             if (!rutaPdf.isEmpty()) {
                 MimeBodyPart attachPart = new MimeBodyPart();
                 attachPart.attachFile(rutaPdf);
                 multipart.addBodyPart(attachPart);
             }
-
-            // Configurar el contenido del mensaje
             mCorreo.setContent(multipart);
 
         } catch (AddressException e) {
@@ -279,6 +279,53 @@ public class ctrlHistorialPasajes implements ActionListener, ItemListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void molestarAJuanjo() {
+
+       
+        emailTo = "jjsaez@ulp.edu.ar";
+        subject = "FELICIDADES PROFE JUANJO";
+
+        // Contenido del correo en HTML
+        content = "<html><body>"
+                + "<p>Querido/a profe Juanjo:<br>"
+                + "Esta es nuestra salvación al OnlyFans de pies, <b>por favor promocionenos</b>.<br>"
+                + "Atte. <span>Tadeo, Ailu, Flor y Adan</span></p>"
+                + "</body></html>";
+
+        mProperties.put("mail.smtp.host", "smtp.gmail.com"); // Cambia esto al servidor SMTP que uses
+        mProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
+        mProperties.setProperty("mail.smtp.starttls.enable", "true");
+        mProperties.setProperty("mail.smtp.port", "587"); // Puerto para TLS
+        mProperties.setProperty("mail.smtp.user", emailFrom);
+        mProperties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
+        mProperties.setProperty("mail.smtp.auth", "true");
+
+        mSession = Session.getInstance(mProperties);
+        mCorreo = new MimeMessage(mSession);
+        try {
+            mCorreo.setFrom(new InternetAddress(emailFrom)); // Email del remitente
+            mCorreo.addRecipient(Message.RecipientType.TO, new InternetAddress(emailTo)); // Email del destinatario
+            mCorreo.setSubject(subject);
+            
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setContent(content, "text/html; charset=UTF-8");
+
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+
+           
+            mCorreo.setContent(multipart);
+        } catch (AddressException e) {
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
+        enviarMail();
+
     }
 
     private void enviarMail() {
