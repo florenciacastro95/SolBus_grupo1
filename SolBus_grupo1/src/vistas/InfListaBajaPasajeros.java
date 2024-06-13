@@ -54,6 +54,8 @@ public class InfListaBajaPasajeros extends javax.swing.JInternalFrame {
         jtDni = new javax.swing.JTextField();
         jtNombre = new javax.swing.JTextField();
 
+        setClosable(true);
+
         lblTituloRegistroPasajero.setText("REGISTRO DE PASAJEROS");
 
         lblTelefono.setText("TELEFONO");

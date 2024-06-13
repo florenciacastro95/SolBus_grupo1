@@ -41,6 +41,10 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
         lblSugerencia = new javax.swing.JLabel();
         lblGanador1 = new javax.swing.JLabel();
         btnEnviarMail = new javax.swing.JButton();
+        btnMolestar = new javax.swing.JButton();
+
+        setClosable(true);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tblHistPasajes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -54,6 +58,8 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
             }
         ));
         spnHistPasajes.setViewportView(tblHistPasajes);
+
+        getContentPane().add(spnHistPasajes, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 192, 700, 176));
 
         rbgPasRutaHor.add(rbPasajero);
         rbPasajero.setText("PASAJERO");
@@ -95,6 +101,8 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
                     .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
+        getContentPane().add(pnlPasajero, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, -1, -1));
+
         rbgPasRutaHor.add(rbRuta);
         rbRuta.setText("RUTA");
 
@@ -121,101 +129,40 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
+        getContentPane().add(pnlRuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, -1, -1));
+        getContentPane().add(dateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 110, 153, -1));
+
         btnVerHistorial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/logos/logos32/005-transaction-history.png"))); // NOI18N
         btnVerHistorial.setText(" IMPRIMIR HISTORIAL ");
+        getContentPane().add(btnVerHistorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 450, -1, 50));
 
         lblTituloGestion.setText("LISTADO DE PASAJES");
+        getContentPane().add(lblTituloGestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 0, -1, -1));
 
         lblTituloFiltrar.setText("Filtrar pasajes");
+        getContentPane().add(lblTituloFiltrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, -1, -1));
 
         rbgPasRutaHor.add(rbFecha);
         rbFecha.setText("PASAJES POR FECHA");
+        getContentPane().add(rbFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 60, -1, 42));
 
         rbgPasRutaHor.add(rbVerTodo);
         rbVerTodo.setText("VER TODO");
+        getContentPane().add(rbVerTodo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 386, -1, -1));
 
         lblSugerencia.setText("El décimo pasaje es gratis*");
+        getContentPane().add(lblSugerencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 150, -1, -1));
 
         lblGanador1.setText("Soy invicible :D");
         lblGanador1.setVisible(false);
+        getContentPane().add(lblGanador1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 380, 209, 60));
 
         btnEnviarMail.setText("Enviarle un mail");
+        getContentPane().add(btnEnviarMail, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 440, 160, 40));
+        btnEnviarMail.setVisible(false);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(360, 360, 360)
-                        .addComponent(lblTituloGestion))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(320, 320, 320)
-                        .addComponent(lblTituloFiltrar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addComponent(pnlPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(pnlRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rbFecha)
-                            .addComponent(dateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(150, 150, 150)
-                                .addComponent(lblSugerencia))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(spnHistPasajes, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(300, 300, 300)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(rbVerTodo)
-                                .addGap(69, 69, 69)
-                                .addComponent(lblGanador1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnVerHistorial)
-                                .addGap(107, 107, 107)
-                                .addComponent(btnEnviarMail)))))
-                .addContainerGap(66, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(lblTituloGestion)
-                .addGap(24, 24, 24)
-                .addComponent(lblTituloFiltrar)
-                .addGap(4, 4, 4)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(rbFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8)
-                        .addComponent(dateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(11, 11, 11)
-                        .addComponent(lblSugerencia))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pnlPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(pnlRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(16, 16, 16)
-                .addComponent(spnHistPasajes, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(rbVerTodo))
-                    .addComponent(lblGanador1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnVerHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(btnEnviarMail))))
-        );
-
+        btnMolestar.setText("Molestar a Juanjo");
+        getContentPane().add(btnMolestar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 440, 160, 40));
         btnEnviarMail.setVisible(false);
 
         pack();
@@ -224,6 +171,7 @@ public class InfHistorialPasajes extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnEnviarMail;
+    public javax.swing.JButton btnMolestar;
     public javax.swing.JButton btnVerHistorial;
     public javax.swing.JComboBox<Ruta> cbRutas2;
     public com.toedter.calendar.JDateChooser dateChooser;

@@ -34,6 +34,8 @@ public class infGestionColectivo extends javax.swing.JInternalFrame {
         tblColes = new javax.swing.JTable();
         lblTitulo = new javax.swing.JLabel();
 
+        setClosable(true);
+
         btnActualizarColes.setText("Actualizar");
 
         btnAgregarCole.setText("Agregar colectivo");

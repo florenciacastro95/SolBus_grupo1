@@ -216,7 +216,9 @@ public class ctrlHistorialPasajes implements ActionListener, ItemListener {
         }
         if (elegido != null) {
             pasajeVista.btnEnviarMail.setVisible(true);
-            pasajeVista.lblGanador1.setText(elegido.toString() + "\n ha ganado un pasaje gratis");
+            pasajeVista.lblGanador1.setText("<html><body>"
+                    + "<p>El pasajero/a " + elegido.getNombre() + "<br>"
+                    + "ha ganado <b>un pasaje gratis</b>.<br></p>");
 
             pasajeVista.lblGanador1.setVisible(true);
 
@@ -225,59 +227,59 @@ public class ctrlHistorialPasajes implements ActionListener, ItemListener {
     }
 
     private void prepararMail(Pasajero p) {
-    emailTo = p.getCorreo();
-    subject = "FELICIDADES " + p.toString().toUpperCase() + " HAS GANADO UN PASAJE GRATIS";
+        emailTo = p.getCorreo();
+        subject = "FELICIDADES " + p.toString().toUpperCase() + " HAS GANADO UN PASAJE GRATIS";
 
-    // Contenido del correo en HTML
-    content = "<html><body>"
-            + "<p>Querido/a " + p.toString() + ":<br>"
-            + "Gracias por elegirnos, tu <b>décimo pasaje es gratis</b>.<br>"
-            + "Atte. <span style='color:#CB2B32;'>SolBus</span></p>"
-            + "</body></html>";
+        // Contenido del correo en HTML
+        content = "<html><body>"
+                + "<p>Querido/a " + p.toString() + ":<br>"
+                + "Gracias por elegirnos, tu <b>décimo pasaje es gratis</b>.<br>"
+                + "Atte. <span style='color:#CB2B32;'>SolBus</span></p>"
+                + "</body></html>";
 
-    mProperties.put("mail.smtp.host", "smtp.gmail.com"); // Cambia esto al servidor SMTP que uses
-    mProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        mProperties.put("mail.smtp.host", "smtp.gmail.com"); // Cambia esto al servidor SMTP que uses
+        mProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
 
-    mProperties.setProperty("mail.smtp.starttls.enable", "true");
-    mProperties.setProperty("mail.smtp.port", "587"); // Puerto para TLS
-    mProperties.setProperty("mail.smtp.user", emailFrom);
-    mProperties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
-    mProperties.setProperty("mail.smtp.auth", "true");
+        mProperties.setProperty("mail.smtp.starttls.enable", "true");
+        mProperties.setProperty("mail.smtp.port", "587"); // Puerto para TLS
+        mProperties.setProperty("mail.smtp.user", emailFrom);
+        mProperties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
+        mProperties.setProperty("mail.smtp.auth", "true");
 
-    mSession = Session.getInstance(mProperties);
-    mCorreo = new MimeMessage(mSession);
-    try {
-        mCorreo.setFrom(new InternetAddress(emailFrom)); // Email del remitente
-        mCorreo.addRecipient(Message.RecipientType.TO, new InternetAddress(emailTo)); // Email del destinatario
-        mCorreo.setSubject(subject);
+        mSession = Session.getInstance(mProperties);
+        mCorreo = new MimeMessage(mSession);
+        try {
+            mCorreo.setFrom(new InternetAddress(emailFrom)); // Email del remitente
+            mCorreo.addRecipient(Message.RecipientType.TO, new InternetAddress(emailTo)); // Email del destinatario
+            mCorreo.setSubject(subject);
 
-        // Crear el cuerpo del mensaje
-        MimeBodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setContent(content, "text/html; charset=UTF-8");
+            // Crear el cuerpo del mensaje
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setContent(content, "text/html; charset=UTF-8");
 
-        // Crear el contenido multipart
-        Multipart multipart = new MimeMultipart();
-        multipart.addBodyPart(messageBodyPart);
+            // Crear el contenido multipart
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
 
-        // Adjuntar el PDF
-        String rutaPdf = generarComprobante(p);
-        if (!rutaPdf.isEmpty()) {
-            MimeBodyPart attachPart = new MimeBodyPart();
-            attachPart.attachFile(rutaPdf);
-            multipart.addBodyPart(attachPart);
+            // Adjuntar el PDF
+            String rutaPdf = generarComprobante(p);
+            if (!rutaPdf.isEmpty()) {
+                MimeBodyPart attachPart = new MimeBodyPart();
+                attachPart.attachFile(rutaPdf);
+                multipart.addBodyPart(attachPart);
+            }
+
+            // Configurar el contenido del mensaje
+            mCorreo.setContent(multipart);
+
+        } catch (AddressException e) {
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        // Configurar el contenido del mensaje
-        mCorreo.setContent(multipart);
-
-    } catch (AddressException e) {
-        e.printStackTrace();
-    } catch (MessagingException e) {
-        e.printStackTrace();
-    } catch (IOException e) {
-        e.printStackTrace();
     }
-}
 
     private void enviarMail() {
 
@@ -296,6 +298,7 @@ public class ctrlHistorialPasajes implements ActionListener, ItemListener {
         }
 
     }
+
     public static String generarComprobante(Pasajero p) {
         Document documento = new Document();
         String ruta = "";
@@ -642,6 +645,8 @@ private void actualizarPasaje() {
         pasajeVista.btnVerHistorial.setForeground(Color.white);
         pasajeVista.btnEnviarMail.setBackground(new Color(202, 40, 43));
         pasajeVista.btnEnviarMail.setForeground(Color.white);
+        pasajeVista.btnMolestar.setBackground(new Color(202, 40, 43));
+        pasajeVista.btnMolestar.setForeground(Color.white);
         // Combobox
         pasajeVista.cbRutas2.setBackground(new Color(240, 240, 240));
 
@@ -697,6 +702,8 @@ private void actualizarPasaje() {
             pasajeVista.txtApellido.setFont(montserratFont);
             pasajeVista.txtDNI.setFont(montserratFont);
             pasajeVista.btnVerHistorial.setFont(montserratFont);
+            pasajeVista.btnEnviarMail.setFont(montserratFont);
+            pasajeVista.btnMolestar.setFont(montserratFont);
             dateTextField.setFont(montserratFont);//FUNCIONA DALE LPM
 
         } catch (FontFormatException | IOException e) {
@@ -741,4 +748,3 @@ private void actualizarPasaje() {
         }
     }
 }
-

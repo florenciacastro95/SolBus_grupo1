@@ -108,6 +108,8 @@ public class InfGestionPasajes extends javax.swing.JInternalFrame {
         lblPrecioCalculado = new javax.swing.JLabel();
         lblPromo = new javax.swing.JLabel();
 
+        setClosable(true);
+
         lblTitulo.setFont(new java.awt.Font("Gill Sans MT", 1, 24)); // NOI18N
         lblTitulo.setText("GESTION DE VENTA DE PASAJES");
 

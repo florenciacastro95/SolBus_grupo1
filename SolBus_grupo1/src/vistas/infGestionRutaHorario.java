@@ -66,6 +66,8 @@ public class infGestionRutaHorario extends javax.swing.JInternalFrame {
         btnBajaHor = new javax.swing.JButton();
         btnActHor = new javax.swing.JButton();
 
+        setClosable(true);
+
         pnlRuta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel1.setText("Origen");
