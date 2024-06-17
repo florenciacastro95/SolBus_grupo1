@@ -268,6 +268,10 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                 bandera = false;
                 JOptionPane.showMessageDialog(null, "El DNI solo debe contener 7 u 8 dígitos. No se admiten letras");
             }
+            if (pasajeroData.buscarPasajeroPorDni(pasajeVista.txtDni.getText()) != null) {
+                bandera = false;
+                JOptionPane.showMessageDialog(null, "Ese pasajero ya existe, no se puede agregar como usuario no registrado");
+            }
             if (bandera && horita != null && asiento != 0 && !pasajeData.estaElPasaje(asiento, r, colectivo, fechaDtch, horita)) {
                 pasajero = new Pasajero(nombre, apellido, dni, null, null);
                 pasajeroData.guardarPasajero(pasajero);
@@ -644,13 +648,23 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
     private void cargarTblAsientos() {
         DefaultTableModel model = (DefaultTableModel) pasajeVista.tblAsientos.getModel();
         model.setRowCount(0);
-
         int numAsiento = 1;
-        for (int fila = 0; fila < 8; fila++) {
+        int colectivoSeleccionado = ((Colectivo) pasajeVista.cbColectivos.getSelectedItem()).getCapacidad();
+        int numFila = colectivoSeleccionado / 4;
+        for (int fila = 0; fila < numFila; fila++) {
+
             model.addRow(new Object[]{
                 numAsiento++, numAsiento++, numAsiento++, numAsiento++
             });
         }
+        if (colectivoSeleccionado % 4 == 1) {
+            model.addRow(new Object[]{numAsiento++});
+        } else if (colectivoSeleccionado % 4 == 2) {
+            model.addRow(new Object[]{numAsiento++, numAsiento++});
+        } else if (colectivoSeleccionado % 4 == 3) {
+            model.addRow(new Object[]{numAsiento++, numAsiento++, numAsiento++});
+        }
+
         try {
             LocalDate fechaDtch;
             if (pasajeVista.dateChooser.getDate() != null) {
