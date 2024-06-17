@@ -113,344 +113,15 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
     public void actionPerformed(ActionEvent e) {
         //mirar la capacidad de el colectivo
 
-        /*
-         ***********************
-         *****VENDER PASAJE*****
-         ***********************
-         */
         if (e.getSource() == pasajeVista.btnVenderPasaje) {
-            Pasaje pasaje;
-            Pasajero pasajero;
-            LocalTime horita = null;
-            boolean bandera = true;
-            LocalDate fechaDtch;
-            int asiento = 0;
-            String dni = "";
-            if (pasajeVista.cbHorario.getSelectedItem() != null) {
-                horita = ((Horario) pasajeVista.cbHorario.getSelectedItem()).getHoraSalida();
-            } else {
-                bandera = false;
-                JOptionPane.showMessageDialog(null, "No se puede vender un pasaje sin horario");
-            }
-            if (pasajeVista.dateChooser.getDate() != null) {
-                fechaDtch = pasajeVista.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            } else {
-                fechaDtch = LocalDate.now();
-            }
-            int selectedRow = pasajeVista.tblAsientos.getSelectedRow();
-            int selectedColumn = pasajeVista.tblAsientos.getSelectedColumn();
 
-            if (selectedRow != -1 && selectedColumn != -1) {
-                Object value = pasajeVista.tblAsientos.getValueAt(selectedRow, selectedColumn);
-                if (value instanceof Integer) {
-                    asiento = (Integer) value;
-                    System.out.println("Asiento seleccionado: " + asiento);
-                } else {
-                    bandera = false;
-                    JOptionPane.showMessageDialog(null, "Seleccione un asiento válido.");
-                }
-            } else {
-                bandera = false;
-                JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún asiento.");
-            }
-            Colectivo colectivo = (Colectivo) pasajeVista.cbColectivos.getSelectedItem();
-
-            if (pasajeVista.rbNoRegistrado.isSelected()) {
-
-                String nombre = "", apellido = "";
-
-                if (validarString(pasajeVista.txtApellido.getText())) {
-                    apellido = pasajeVista.txtApellido.getText();
-                } else {
-                    bandera = false;
-                    JOptionPane.showMessageDialog(null, "Apellido inválido");
-                }
-                if (validarString(pasajeVista.txtNombre.getText())) {
-                    nombre = pasajeVista.txtNombre.getText();
-                } else {
-                    bandera = false;
-                    JOptionPane.showMessageDialog(null, "Nombre inválido");
-                }
-                if (validarEnteros(pasajeVista.txtDni.getText()) && validarDniTam(pasajeVista.txtDni.getText().length())) {
-                    dni = pasajeVista.txtDni.getText();
-                } else if (validarEnteros(pasajeVista.txtDni.getText()) && !validarDniTam(pasajeVista.txtDni.getText().length())) {
-                    bandera = false;
-                    JOptionPane.showMessageDialog(null, "El DNI debe contener 7 u 8 dígitos");
-                } else if (!validarEnteros(pasajeVista.txtDni.getText())) {
-                    bandera = false;
-                    JOptionPane.showMessageDialog(null, "El DNI solo debe contener números");
-                } else {
-                    bandera = false;
-                    JOptionPane.showMessageDialog(null, "El DNI solo debe contener 7 u 8 dígitos. No se admiten letras");
-                }
-                if (bandera && horita != null && asiento != 0 && !pasajeData.estaElPasaje(asiento, r, colectivo, fechaDtch, horita)) {
-                    pasajero = new Pasajero(nombre, apellido, dni, null, null);
-                    pasajeroData.guardarPasajero(pasajero);
-                    String precioSinSimbolo = pasajeVista.lblPrecioCalculado.getText().replaceAll("[^\\d.]", "");
-
-                    Double precioLimpio = Double.parseDouble(precioSinSimbolo);
-
-                    pasaje = new Pasaje(pasajero, colectivo, (Ruta) pasajeVista.cbRuta.getSelectedItem(),
-                            fechaDtch, horita, asiento, precioLimpio);
-                    colectivoData.actualizarAsientos(colectivo, -1);
-                    pasajeData.venderPasaje(pasaje);
-                    // Non-registered user PDF
-
-                    Document documento = null;
-
-                    try {
-                        documento = new Document();
-                        String ruta = System.getProperty("user.home") + "/Desktop/DocumentosSolBus/Recibos/Fecha_" + pasaje.getFechaViaje().toString();
-                        Path path = Paths.get(ruta);
-
-                        if (!Files.exists(path)) {
-                            Files.createDirectories(path);
-                        }
-
-                        PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Recibo-" + apellido + ".pdf"));
-                        documento.open();
-
-                        Paragraph encabezado1 = new Paragraph("Sol Bus", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 24, new BaseColor(203, 43, 50))); // Color #CB2B32
-                        encabezado1.setAlignment(Element.ALIGN_CENTER);
-                        documento.add(encabezado1);
-                        Paragraph encabezado = new Paragraph("Recibo de Pasaje", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.BLACK));
-                        encabezado.setAlignment(Element.ALIGN_CENTER);
-                        documento.add(encabezado);
-
-                        documento.add(Chunk.NEWLINE);
-
-                        PdfPTable tablita = new PdfPTable(2);
-                        tablita.setWidthPercentage(70);
-
-                        PdfPCell cellTitulo = new PdfPCell(new Phrase("Detalles del Pasaje", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.WHITE)));
-                        cellTitulo.setBackgroundColor(new BaseColor(203, 43, 50)); // Color de fondo #CB2B32
-                        cellTitulo.setHorizontalAlignment(Element.ALIGN_CENTER);
-                        cellTitulo.setColspan(2);
-                        tablita.addCell(cellTitulo);
-
-                        com.itextpdf.text.Font fontTitulo = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.BLACK);
-                        com.itextpdf.text.Font fontContenido = FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK);
-
-                        tablita.addCell(new Phrase("Id Pasaje:", fontTitulo));
-                        tablita.addCell(new Phrase(String.valueOf(pasaje.getIdPasaje()), fontContenido));
-
-                        tablita.addCell(new Phrase("Nombre y Apellido Pasajero:", fontTitulo));
-                        tablita.addCell(new Phrase(pasajero.getNombre() + " " + pasajero.getApellido(), fontContenido));
-
-                        tablita.addCell(new Phrase("DNI Pasajero:", fontTitulo));
-                        tablita.addCell(new Phrase(pasajero.getDni(), fontContenido));
-
-                        tablita.addCell(new Phrase("N° de Butaca:", fontTitulo));
-                        tablita.addCell(new Phrase(String.valueOf(pasaje.getAsiento()), fontContenido));
-
-                        tablita.addCell(new Phrase("Origen y Destino:", fontTitulo));
-                        tablita.addCell(new Phrase(pasaje.getRuta().getOrigen() + " - " + pasaje.getRuta().getDestino(), fontContenido));
-
-                        tablita.addCell(new Phrase("Precio:", fontTitulo));
-                        tablita.addCell(new Phrase(String.valueOf(pasaje.getPrecio()), fontContenido));
-
-                        tablita.addCell(new Phrase("Fecha y Hora:", fontTitulo));
-                        tablita.addCell(new Phrase(pasaje.getFechaViaje().toString() + " " + pasaje.getHoraViaje().toString(), fontContenido));
-
-                        documento.add(tablita);
-
-                        documento.add(Chunk.NEWLINE);
-
-                        Paragraph piePagina = new Paragraph("¡Gracias por viajar con nosotros!", FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK));
-                        piePagina.setAlignment(Element.ALIGN_CENTER);
-                        documento.add(piePagina);
-
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    } finally {
-                        if (documento != null && documento.isOpen()) {
-                            JOptionPane.showMessageDialog(null, "Imprimiento recibo en el escritorio...");
-                            documento.close();
-                        }
-                    }
-
-                    JOptionPane.showMessageDialog(null, "Pasaje vendido a " + pasajero.toString());
-                    cargarTblAsientos();
-                    limpiarCampos();
-                } else {
-                    JOptionPane.showMessageDialog(null, "No se pudo vender pasaje");
-                }
-
-            } else if (pasajeVista.rbRegistrado.isSelected()) {
-
-                if (validarEnteros(pasajeVista.txtDniRegistrado.getText()) && validarDniTam(pasajeVista.txtDniRegistrado.getText().length())) {
-                    dni = pasajeVista.txtDniRegistrado.getText();
-                } else if (validarEnteros(pasajeVista.txtDni.getText()) && !validarDniTam(pasajeVista.txtDniRegistrado.getText().length())) {
-                    bandera = false;
-                    JOptionPane.showMessageDialog(null, "El DNI debe contener 7 u 8 dígitos");
-                } else if (!validarEnteros(pasajeVista.txtDniRegistrado.getText())) {
-                    bandera = false;
-                    JOptionPane.showMessageDialog(null, "El DNI solo debe contener números");
-                } else {
-                    bandera = false;
-                    JOptionPane.showMessageDialog(null, "El DNI solo debe contener 7 u 8 dígitos. No se admiten letras");
-                }
-                pasajero = pasajeroData.buscarPasajeroPorDni(dni);
-                if (bandera && horita != null && asiento != 0 && pasajero != null && !pasajeData.estaElPasaje(asiento, r, colectivo, fechaDtch, horita)) {
-                    String precioSinSimbolo = pasajeVista.lblPrecioCalculado.getText().replaceAll("[^\\d.]", "");
-
-                    Double precioLimpio = Double.parseDouble(precioSinSimbolo);
-
-                    pasaje = new Pasaje(pasajero, colectivo, (Ruta) pasajeVista.cbRuta.getSelectedItem(),
-                            fechaDtch, horita, asiento, precioLimpio);
-
-                    colectivoData.actualizarAsientos(colectivo, -1);
-                    pasajeData.venderPasaje(pasaje);
-
-                    // Registered user PDF
-                    Document documento = new Document();
-
-                    try {
-                        String ruta = System.getProperty("user.home") + "/Desktop/DocumentosSolBus/Recibos/Fecha_" + pasaje.getFechaViaje().toString();
-                        Path path = Paths.get(ruta);
-
-                        if (!Files.exists(path)) {
-                            Files.createDirectories(path);
-                        }
-
-                        PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Recibo-" + pasajero.getApellido() + pasaje.getIdPasaje() + ".pdf"));
-                        documento.open();
-
-                        Paragraph encabezado1 = new Paragraph("Sol Bus", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 24, new BaseColor(203, 43, 50))); // Color #CB2B32
-                        encabezado1.setAlignment(Element.ALIGN_CENTER);
-                        documento.add(encabezado1);
-                        Paragraph encabezado = new Paragraph("Recibo de Pasaje", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.BLACK));
-                        encabezado.setAlignment(Element.ALIGN_CENTER);
-                        documento.add(encabezado);
-
-                        documento.add(Chunk.NEWLINE);
-
-                        PdfPTable tablita = new PdfPTable(2);
-                        tablita.setWidthPercentage(70);
-
-                        PdfPCell cellTitulo = new PdfPCell(new Phrase("Detalles del Pasaje", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.WHITE)));
-                        cellTitulo.setBackgroundColor(new BaseColor(203, 43, 50)); // Color de fondo #CB2B32
-                        cellTitulo.setHorizontalAlignment(Element.ALIGN_CENTER);
-                        cellTitulo.setColspan(2);
-                        tablita.addCell(cellTitulo);
-
-                        com.itextpdf.text.Font fontTitulo = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.BLACK);
-                        com.itextpdf.text.Font fontContenido = FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK);
-
-                        tablita.addCell(new Phrase("Id Pasaje:", fontTitulo));
-                        tablita.addCell(new Phrase(String.valueOf(pasaje.getIdPasaje()), fontContenido));
-
-                        tablita.addCell(new Phrase("Nombre y Apellido Pasajero:", fontTitulo));
-                        tablita.addCell(new Phrase(pasajero.getNombre() + " " + pasajero.getApellido(), fontContenido));
-
-                        tablita.addCell(new Phrase("DNI Pasajero:", fontTitulo));
-                        tablita.addCell(new Phrase(pasajero.getDni(), fontContenido));
-
-                        tablita.addCell(new Phrase("N° de Butaca:", fontTitulo));
-                        tablita.addCell(new Phrase(String.valueOf(pasaje.getAsiento()), fontContenido));
-
-                        tablita.addCell(new Phrase("Origen y Destino:", fontTitulo));
-                        tablita.addCell(new Phrase(pasaje.getRuta().getOrigen() + " - " + pasaje.getRuta().getDestino(), fontContenido));
-
-                        tablita.addCell(new Phrase("Precio:", fontTitulo));
-                        tablita.addCell(new Phrase(String.valueOf(pasaje.getPrecio()), fontContenido));
-
-                        tablita.addCell(new Phrase("Fecha y Hora:", fontTitulo));
-                        tablita.addCell(new Phrase(pasaje.getFechaViaje().toString() + " " + pasaje.getHoraViaje().toString(), fontContenido));
-
-                        documento.add(tablita);
-
-                        documento.add(Chunk.NEWLINE);
-
-                        Paragraph piePagina = new Paragraph("¡Gracias por viajar con nosotros!", FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK));
-                        piePagina.setAlignment(Element.ALIGN_CENTER);
-                        documento.add(piePagina);
-
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    } finally {
-                        if (documento != null && documento.isOpen()) {
-                            JOptionPane.showMessageDialog(null, "Imprimiendo recibo en el escritorio...");
-                            documento.close();
-                        }
-                    }
-
-                    JOptionPane.showMessageDialog(null, "Pasaje vendido a " + pasajero.toString());
-                    cargarTblAsientos();
-                    limpiarCampos();
-                } else {
-                    JOptionPane.showMessageDialog(null, "No se pudo vender pasaje");
-                }
-            }
+            venderPasaje();
         }
 
-
-        /*
-         ***********************
-         *****ANULAR PASAJE*****
-         ***********************
-         */
         if (e.getSource()
                 == pasajeVista.btnAnularPasaje) {
 
-            int asiento = 0;
-            LocalDate fechita = null;
-            LocalTime horita = null;
-            int selectedRow = pasajeVista.tblAsientos.getSelectedRow();
-            int selectedColumn = pasajeVista.tblAsientos.getSelectedColumn();
-            Colectivo colectivo = (Colectivo) pasajeVista.cbColectivos.getSelectedItem();
-            Ruta ruta = (Ruta) pasajeVista.cbRuta.getSelectedItem();
-
-            if (pasajeVista.cbHorario.getSelectedItem() != null) {
-                horita = ((Horario) pasajeVista.cbHorario.getSelectedItem()).getHoraSalida();
-            }
-
-            if (pasajeVista.dateChooser.getDate() != null) {
-                fechita = pasajeVista.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            } else {
-                fechita = LocalDate.now();
-            }
-
-            if (selectedRow != -1 && selectedColumn != -1) {
-                Object value = pasajeVista.tblAsientos.getValueAt(selectedRow, selectedColumn);
-                if (pasajeData.estaElPasaje((Integer) value, ruta, colectivo, fechita, horita)) {
-                    if (value instanceof Integer) {
-
-                        asiento = (Integer) value;
-                        System.out.println("Asiento seleccionado: " + asiento);
-
-                        Pasaje pasaje = pasajeData.buscarPasajePorViaje(ruta, colectivo, fechita, horita, asiento);
-                        Pasajero pasajero = pasajeroData.buscarPasajeroPorId(pasaje.getPasajero().getIdPasajero());
-
-                        System.out.println(pasajero.getIdPasajero());
-                        ///*
-                        if (pasaje != null) {
-
-                            int response = JOptionPane.showConfirmDialog(
-                                    null,
-                                    "¿Está seguro que desea eliminar el pasaje del pasajero " + pasajero.toString() + "?",
-                                    "Confirmar eliminación",
-                                    JOptionPane.YES_NO_OPTION
-                            );
-
-                            if (response == JOptionPane.YES_OPTION) {
-
-                                pasajeData.eliminarPasajePorViaje(asiento, ruta, colectivo, fechita, horita);
-                                colectivoData.actualizarAsientos(colectivo, 1);
-                                cargarTblAsientos();
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(null, "No se pudo encontrar el pasajero para el asiento seleccionado.");
-                        }//*/
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No se puede anular un pasaje con asiento libre");
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Seleccione un asiento válido.");
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún asiento.");
-            }
+            anularPasaje();
 
             cargarTblAsientos();
         }
@@ -524,6 +195,345 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
         }
 
+    }
+
+    /*
+         ***********************
+         *****VENDER PASAJE*****
+         ***********************
+     */
+    public void venderPasaje() {
+
+        Pasaje pasaje;
+        Pasajero pasajero;
+        LocalTime horita = null;
+        boolean bandera = true;
+        LocalDate fechaDtch;
+        int asiento = 0;
+        String dni = "";
+        if (pasajeVista.cbHorario.getSelectedItem() != null) {
+            horita = ((Horario) pasajeVista.cbHorario.getSelectedItem()).getHoraSalida();
+        } else {
+            bandera = false;
+            JOptionPane.showMessageDialog(null, "No se puede vender un pasaje sin horario");
+        }
+        if (pasajeVista.dateChooser.getDate() != null) {
+            fechaDtch = pasajeVista.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        } else {
+            fechaDtch = LocalDate.now();
+        }
+        int selectedRow = pasajeVista.tblAsientos.getSelectedRow();
+        int selectedColumn = pasajeVista.tblAsientos.getSelectedColumn();
+
+        if (selectedRow != -1 && selectedColumn != -1) {
+            Object value = pasajeVista.tblAsientos.getValueAt(selectedRow, selectedColumn);
+            if (value instanceof Integer) {
+                asiento = (Integer) value;
+                System.out.println("Asiento seleccionado: " + asiento);
+            } else {
+                bandera = false;
+                JOptionPane.showMessageDialog(null, "Seleccione un asiento válido.");
+            }
+        } else {
+            bandera = false;
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún asiento.");
+        }
+        Colectivo colectivo = (Colectivo) pasajeVista.cbColectivos.getSelectedItem();
+
+        if (pasajeVista.rbNoRegistrado.isSelected()) {
+
+            String nombre = "", apellido = "";
+
+            if (validarString(pasajeVista.txtApellido.getText())) {
+                apellido = pasajeVista.txtApellido.getText();
+            } else {
+                bandera = false;
+                JOptionPane.showMessageDialog(null, "Apellido inválido");
+            }
+            if (validarString(pasajeVista.txtNombre.getText())) {
+                nombre = pasajeVista.txtNombre.getText();
+            } else {
+                bandera = false;
+                JOptionPane.showMessageDialog(null, "Nombre inválido");
+            }
+            if (validarEnteros(pasajeVista.txtDni.getText()) && validarDniTam(pasajeVista.txtDni.getText().length())) {
+                dni = pasajeVista.txtDni.getText();
+            } else if (validarEnteros(pasajeVista.txtDni.getText()) && !validarDniTam(pasajeVista.txtDni.getText().length())) {
+                bandera = false;
+                JOptionPane.showMessageDialog(null, "El DNI debe contener 7 u 8 dígitos");
+            } else if (!validarEnteros(pasajeVista.txtDni.getText())) {
+                bandera = false;
+                JOptionPane.showMessageDialog(null, "El DNI solo debe contener números");
+            } else {
+                bandera = false;
+                JOptionPane.showMessageDialog(null, "El DNI solo debe contener 7 u 8 dígitos. No se admiten letras");
+            }
+            if (bandera && horita != null && asiento != 0 && !pasajeData.estaElPasaje(asiento, r, colectivo, fechaDtch, horita)) {
+                pasajero = new Pasajero(nombre, apellido, dni, null, null);
+                pasajeroData.guardarPasajero(pasajero);
+                String precioSinSimbolo = pasajeVista.lblPrecioCalculado.getText().replaceAll("[^\\d.]", "");
+
+                Double precioLimpio = Double.parseDouble(precioSinSimbolo);
+
+                pasaje = new Pasaje(pasajero, colectivo, (Ruta) pasajeVista.cbRuta.getSelectedItem(),
+                        fechaDtch, horita, asiento, precioLimpio);
+                //colectivoData.actualizarAsientos(colectivo, -1);
+                pasajeData.venderPasaje(pasaje);
+                //USUARIO NO REGISTRADO PDF
+
+                Document documento = null;
+
+                try {
+                    documento = new Document();
+                    String ruta = System.getProperty("user.home") + "/Desktop/DocumentosSolBus/Recibos/Fecha_" + pasaje.getFechaViaje().toString();
+                    Path path = Paths.get(ruta);
+
+                    if (!Files.exists(path)) {
+                        Files.createDirectories(path);
+                    }
+
+                    PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Recibo-" + apellido + ".pdf"));
+                    documento.open();
+
+                    Paragraph encabezado1 = new Paragraph("Sol Bus", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 24, new BaseColor(203, 43, 50))); // Color #CB2B32
+                    encabezado1.setAlignment(Element.ALIGN_CENTER);
+                    documento.add(encabezado1);
+                    Paragraph encabezado = new Paragraph("Recibo de Pasaje", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.BLACK));
+                    encabezado.setAlignment(Element.ALIGN_CENTER);
+                    documento.add(encabezado);
+
+                    documento.add(Chunk.NEWLINE);
+
+                    PdfPTable tablita = new PdfPTable(2);
+                    tablita.setWidthPercentage(70);
+
+                    PdfPCell cellTitulo = new PdfPCell(new Phrase("Detalles del Pasaje", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.WHITE)));
+                    cellTitulo.setBackgroundColor(new BaseColor(203, 43, 50)); // Color de fondo #CB2B32
+                    cellTitulo.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    cellTitulo.setColspan(2);
+                    tablita.addCell(cellTitulo);
+
+                    com.itextpdf.text.Font fontTitulo = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.BLACK);
+                    com.itextpdf.text.Font fontContenido = FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK);
+
+                    tablita.addCell(new Phrase("Id Pasaje:", fontTitulo));
+                    tablita.addCell(new Phrase(String.valueOf(pasaje.getIdPasaje()), fontContenido));
+
+                    tablita.addCell(new Phrase("Nombre y Apellido Pasajero:", fontTitulo));
+                    tablita.addCell(new Phrase(pasajero.getNombre() + " " + pasajero.getApellido(), fontContenido));
+
+                    tablita.addCell(new Phrase("DNI Pasajero:", fontTitulo));
+                    tablita.addCell(new Phrase(pasajero.getDni(), fontContenido));
+
+                    tablita.addCell(new Phrase("N° de Butaca:", fontTitulo));
+                    tablita.addCell(new Phrase(String.valueOf(pasaje.getAsiento()), fontContenido));
+
+                    tablita.addCell(new Phrase("Origen y Destino:", fontTitulo));
+                    tablita.addCell(new Phrase(pasaje.getRuta().getOrigen() + " - " + pasaje.getRuta().getDestino(), fontContenido));
+
+                    tablita.addCell(new Phrase("Precio:", fontTitulo));
+                    tablita.addCell(new Phrase(String.valueOf(pasaje.getPrecio()), fontContenido));
+
+                    tablita.addCell(new Phrase("Fecha y Hora:", fontTitulo));
+                    tablita.addCell(new Phrase(pasaje.getFechaViaje().toString() + " " + pasaje.getHoraViaje().toString(), fontContenido));
+
+                    documento.add(tablita);
+
+                    documento.add(Chunk.NEWLINE);
+
+                    Paragraph piePagina = new Paragraph("¡Gracias por viajar con nosotros!", FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK));
+                    piePagina.setAlignment(Element.ALIGN_CENTER);
+                    documento.add(piePagina);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    if (documento != null && documento.isOpen()) {
+                        JOptionPane.showMessageDialog(null, "Imprimiento recibo en el escritorio...");
+                        documento.close();
+                    }
+                }
+
+                JOptionPane.showMessageDialog(null, "Pasaje vendido a " + pasajero.toString());
+                cargarTblAsientos();
+                limpiarCampos();
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo vender pasaje");
+            }
+
+        } else if (pasajeVista.rbRegistrado.isSelected()) {
+
+            if (validarEnteros(pasajeVista.txtDniRegistrado.getText()) && validarDniTam(pasajeVista.txtDniRegistrado.getText().length())) {
+                dni = pasajeVista.txtDniRegistrado.getText();
+            } else if (validarEnteros(pasajeVista.txtDni.getText()) && !validarDniTam(pasajeVista.txtDniRegistrado.getText().length())) {
+                bandera = false;
+                JOptionPane.showMessageDialog(null, "El DNI debe contener 7 u 8 dígitos");
+            } else if (!validarEnteros(pasajeVista.txtDniRegistrado.getText())) {
+                bandera = false;
+                JOptionPane.showMessageDialog(null, "El DNI solo debe contener números");
+            } else {
+                bandera = false;
+                JOptionPane.showMessageDialog(null, "El DNI solo debe contener 7 u 8 dígitos. No se admiten letras");
+            }
+            pasajero = pasajeroData.buscarPasajeroPorDni(dni);
+            if (bandera && horita != null && asiento != 0 && pasajero != null && !pasajeData.estaElPasaje(asiento, r, colectivo, fechaDtch, horita)) {
+                String precioSinSimbolo = pasajeVista.lblPrecioCalculado.getText().replaceAll("[^\\d.]", "");
+
+                Double precioLimpio = Double.parseDouble(precioSinSimbolo);
+
+                pasaje = new Pasaje(pasajero, colectivo, (Ruta) pasajeVista.cbRuta.getSelectedItem(),
+                        fechaDtch, horita, asiento, precioLimpio);
+
+                //colectivoData.actualizarAsientos(colectivo, -1);
+                pasajeData.venderPasaje(pasaje);
+                //USUARIO REGISTRADO PDF
+
+                Document documento = new Document();
+
+                try {
+                    String ruta = System.getProperty("user.home") + "/Desktop/DocumentosSolBus/Recibos/Fecha_" + pasaje.getFechaViaje().toString();
+                    Path path = Paths.get(ruta);
+
+                    if (!Files.exists(path)) {
+                        Files.createDirectories(path);
+                    }
+
+                    PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Recibo-" + pasajero.getApellido() + pasaje.getIdPasaje() + ".pdf"));
+                    documento.open();
+
+                    Paragraph encabezado1 = new Paragraph("Sol Bus", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 24, new BaseColor(203, 43, 50))); // Color #CB2B32
+                    encabezado1.setAlignment(Element.ALIGN_CENTER);
+                    documento.add(encabezado1);
+                    Paragraph encabezado = new Paragraph("Recibo de Pasaje", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.BLACK));
+                    encabezado.setAlignment(Element.ALIGN_CENTER);
+                    documento.add(encabezado);
+
+                    documento.add(Chunk.NEWLINE);
+
+                    PdfPTable tablita = new PdfPTable(2);
+                    tablita.setWidthPercentage(70);
+
+                    PdfPCell cellTitulo = new PdfPCell(new Phrase("Detalles del Pasaje", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.WHITE)));
+                    cellTitulo.setBackgroundColor(new BaseColor(203, 43, 50)); // Color de fondo #CB2B32
+                    cellTitulo.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    cellTitulo.setColspan(2);
+                    tablita.addCell(cellTitulo);
+
+                    com.itextpdf.text.Font fontTitulo = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.BLACK);
+                    com.itextpdf.text.Font fontContenido = FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK);
+
+                    tablita.addCell(new Phrase("Id Pasaje:", fontTitulo));
+                    tablita.addCell(new Phrase(String.valueOf(pasaje.getIdPasaje()), fontContenido));
+
+                    tablita.addCell(new Phrase("Nombre y Apellido Pasajero:", fontTitulo));
+                    tablita.addCell(new Phrase(pasajero.getNombre() + " " + pasajero.getApellido(), fontContenido));
+
+                    tablita.addCell(new Phrase("DNI Pasajero:", fontTitulo));
+                    tablita.addCell(new Phrase(pasajero.getDni(), fontContenido));
+
+                    tablita.addCell(new Phrase("N° de Butaca:", fontTitulo));
+                    tablita.addCell(new Phrase(String.valueOf(pasaje.getAsiento()), fontContenido));
+
+                    tablita.addCell(new Phrase("Origen y Destino:", fontTitulo));
+                    tablita.addCell(new Phrase(pasaje.getRuta().getOrigen() + " - " + pasaje.getRuta().getDestino(), fontContenido));
+
+                    tablita.addCell(new Phrase("Precio:", fontTitulo));
+                    tablita.addCell(new Phrase(String.valueOf(pasaje.getPrecio()), fontContenido));
+
+                    tablita.addCell(new Phrase("Fecha y Hora:", fontTitulo));
+                    tablita.addCell(new Phrase(pasaje.getFechaViaje().toString() + " " + pasaje.getHoraViaje().toString(), fontContenido));
+
+                    documento.add(tablita);
+
+                    documento.add(Chunk.NEWLINE);
+
+                    Paragraph piePagina = new Paragraph("¡Gracias por viajar con nosotros!", FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK));
+                    piePagina.setAlignment(Element.ALIGN_CENTER);
+                    documento.add(piePagina);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    if (documento != null && documento.isOpen()) {
+                        JOptionPane.showMessageDialog(null, "Imprimiendo recibo en el escritorio...");
+                        documento.close();
+                    }
+                }
+
+                JOptionPane.showMessageDialog(null, "Pasaje vendido a " + pasajero.toString());
+                cargarTblAsientos();
+                limpiarCampos();
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo vender pasaje");
+            }
+        }
+
+    }
+
+    /*
+         ***********************
+         *****ANULAR PASAJE*****
+         ***********************
+     */
+    public void anularPasaje() {
+        int asiento = 0;
+        LocalDate fechita = null;
+        LocalTime horita = null;
+        int selectedRow = pasajeVista.tblAsientos.getSelectedRow();
+        int selectedColumn = pasajeVista.tblAsientos.getSelectedColumn();
+        Colectivo colectivo = (Colectivo) pasajeVista.cbColectivos.getSelectedItem();
+        Ruta ruta = (Ruta) pasajeVista.cbRuta.getSelectedItem();
+
+        if (pasajeVista.cbHorario.getSelectedItem() != null) {
+            horita = ((Horario) pasajeVista.cbHorario.getSelectedItem()).getHoraSalida();
+        }
+
+        if (pasajeVista.dateChooser.getDate() != null) {
+            fechita = pasajeVista.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        } else {
+            fechita = LocalDate.now();
+        }
+
+        if (selectedRow != -1 && selectedColumn != -1) {
+            Object value = pasajeVista.tblAsientos.getValueAt(selectedRow, selectedColumn);
+            if (pasajeData.estaElPasaje((Integer) value, ruta, colectivo, fechita, horita)) {
+                if (value instanceof Integer) {
+
+                    asiento = (Integer) value;
+                    System.out.println("Asiento seleccionado: " + asiento);
+
+                    Pasaje pasaje = pasajeData.buscarPasajePorViaje(ruta, colectivo, fechita, horita, asiento);
+                    Pasajero pasajero = pasajeroData.buscarPasajeroPorId(pasaje.getPasajero().getIdPasajero());
+
+                    System.out.println(pasajero.getIdPasajero());
+                    ///*
+                    if (pasaje != null) {
+
+                        int response = JOptionPane.showConfirmDialog(
+                                null,
+                                "¿Está seguro que desea eliminar el pasaje del pasajero " + pasajero.toString() + "?",
+                                "Confirmar eliminación",
+                                JOptionPane.YES_NO_OPTION
+                        );
+
+                        if (response == JOptionPane.YES_OPTION) {
+
+                            pasajeData.eliminarPasajePorViaje(asiento, ruta, colectivo, fechita, horita);
+                            //colectivoData.actualizarAsientos(colectivo, 1);
+                            cargarTblAsientos();
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se pudo encontrar el pasajero para el asiento seleccionado.");
+                    }//*/
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se puede anular un pasaje con asiento libre");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Seleccione un asiento válido.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún asiento.");
+        }
     }
 
     /*
@@ -735,7 +745,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         // el render de la tabla
         ArrayList<Integer> asientosOcupados = null;
         pasajeVista.tblAsientos.setDefaultRenderer(Object.class,
-                 new PoneteBonitaTablita(asientosOcupados));
+                new PoneteBonitaTablita(asientosOcupados));
 
         // CENTREMOS EL TITULO
         pasajeVista.lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);

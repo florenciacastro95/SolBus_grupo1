@@ -52,7 +52,7 @@ public class PasajeData {
             if (rs.next()) {
 
                 pasaje.setIdPasaje(rs.getInt(1));
-                cd.actualizarAsientos(cd.buscarColectivoPorId(pasaje.getColectivo().getIdColectivo()), -1);
+                //cd.actualizarAsientos(cd.buscarColectivoPorId(pasaje.getColectivo().getIdColectivo()), -1);
                 System.out.println("Se guardó el pasaje");
 
             }
@@ -78,7 +78,7 @@ public class PasajeData {
 
             if (validation == 1) {
                 JOptionPane.showMessageDialog(null, "PASAJE ELIMINADO");
-                cd.actualizarAsientos(cd.buscarColectivoPorId(buscarPasajePorId(id).getColectivo().getIdColectivo()), 1);
+                //cd.actualizarAsientos(cd.buscarColectivoPorId(buscarPasajePorId(id).getColectivo().getIdColectivo()), 1);
             } else {
                 JOptionPane.showMessageDialog(null, "PASAJE NO EXISTENTE");
             }
@@ -135,7 +135,7 @@ public class PasajeData {
             ps.setInt(5, asiento);
             int validation = ps.executeUpdate();
             if (validation == 1) {
-                cd.actualizarAsientos(idC, 1);
+                //cd.actualizarAsientos(idC, 1);
                 JOptionPane.showMessageDialog(null, "PASAJE ELIMINADO");
 
             } else {
@@ -572,8 +572,37 @@ public class PasajeData {
         return false;
     }
 
+    //sobrecarga de prueba para cargar tabla
+    public int pasajeColectivo(Colectivo colectivo, LocalDate fecha, LocalTime hora, Ruta ruta) {
+        String sql = "SELECT COUNT(*) FROM `pasaje` WHERE `id_Colectivo` = ? AND `fechaViaje` = ? AND `id_Ruta` = ? "
+                + "AND horaViaje = ?;";
+
+        
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, colectivo.getIdColectivo());
+            ps.setDate(2, Date.valueOf(fecha));
+            ps.setInt(3, ruta.getIdRuta());
+            ps.setTime(4, Time.valueOf(hora));
+            ResultSet rs = ps.executeQuery();
+            ps.close();
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            } else {
+                return 0;
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en el metodo pasajeRuta (boolean)." + e);
+            System.out.println(e);
+        }
+        return 0;
+    }
+
     public List<Pasaje> listarPasajesPorPasajeroYDNI(String nombreApellido, String dni) {
-        String sql = "SELECT * FROM pasaje WHERE id_Pasajero IN (SELECT id_Pasajero FROM pasajero WHERE nombre LIKE ? OR apellido LIKE ?) AND id_Pasajero IN (SELECT id_Pasajero FROM pasajero WHERE dni LIKE ?)";
+        String sql = "SELECT * FROM pasaje WHERE id_Pasajero IN "
+                + "(SELECT id_Pasajero FROM pasajero WHERE nombre LIKE ? OR apellido LIKE ?)"
+                + " AND id_Pasajero IN (SELECT id_Pasajero FROM pasajero WHERE dni LIKE ?)";
         ArrayList<Pasaje> pasajes = new ArrayList<>();
 
         try {
@@ -602,7 +631,8 @@ public class PasajeData {
     }
 
     public List<Pasaje> listarPasajesPorNombrePasajero(String nombreApellido) {
-        String sql = "SELECT * FROM pasaje WHERE id_Pasajero IN (SELECT id_Pasajero FROM pasajero WHERE nombre LIKE ? OR apellido LIKE ?)";
+        String sql = "SELECT * FROM pasaje WHERE id_Pasajero IN "
+                + "(SELECT id_Pasajero FROM pasajero WHERE nombre LIKE ? OR apellido LIKE ?)";
         ArrayList<Pasaje> pasajes = new ArrayList<>();
 
         try {

@@ -128,6 +128,7 @@ public class ColectivoData {
         }
 
     }
+    /*
 //ASIENTO PUEDE SER ENTERO POSITIVO SI SE ANULA VENTA O ENTERO NEGATIVO SI SE VENDE
     public void actualizarAsientos(Colectivo colectivo, int asiento) {
 
@@ -151,7 +152,7 @@ public class ColectivoData {
         }
 
     }
-    
+    */
     public List<Colectivo> listarColectivos() {
 
         String sql = "SELECT id_Colectivo, matricula, estado, marca, modelo, capacidad FROM colectivo WHERE estado = 1";
