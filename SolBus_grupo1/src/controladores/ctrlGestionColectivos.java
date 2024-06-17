@@ -224,7 +224,7 @@ public class ctrlGestionColectivos implements ActionListener {
     }
 
     public void cargarTablaColes() {
-        ArrayList<Colectivo> comodin = (ArrayList<Colectivo>) colectivoData.listarColectivos();
+        ArrayList<Colectivo> comodin = (ArrayList<Colectivo>) colectivoData.listarColectivosInc();
 
         for (Colectivo col : comodin) {
 

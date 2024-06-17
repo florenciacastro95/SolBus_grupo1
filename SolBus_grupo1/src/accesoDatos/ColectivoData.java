@@ -182,7 +182,35 @@ public class ColectivoData {
 
         return colectivos;
     }
-    
+     public List<Colectivo> listarColectivosInc() {
+
+        String sql = "SELECT id_Colectivo, matricula, estado, marca, modelo, capacidad FROM colectivo";
+        ArrayList<Colectivo> colectivos = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Colectivo colectivo = new Colectivo();
+                colectivo = new Colectivo();
+                colectivo.setIdColectivo(rs.getInt("id_Colectivo"));
+                colectivo.setMatricula(rs.getString("matricula"));
+                colectivo.setEstado(rs.getBoolean("estado"));
+                colectivo.setMarca(rs.getString("marca"));
+                colectivo.setModelo(rs.getString("modelo"));
+                colectivo.setCapacidad(rs.getInt("capacidad"));
+
+                colectivos.add(colectivo);
+            }
+            ps.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error SQL en COLECTIVO DATA metodo listar coles" + e);
+        }
+
+        return colectivos;
+    }
     //elimina colectivos y verifica que este no esté actualmente inactivo
     public void eliminarColectivo(Colectivo colectivo){
         String sql = "UPDATE colectivo SET estado = false WHERE id_Colectivo=? AND estado=true";

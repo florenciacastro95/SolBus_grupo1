@@ -657,12 +657,18 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
                 numAsiento++, numAsiento++, numAsiento++, numAsiento++
             });
         }
-        if (colectivoSeleccionado % 4 == 1) {
-            model.addRow(new Object[]{numAsiento++});
-        } else if (colectivoSeleccionado % 4 == 2) {
-            model.addRow(new Object[]{numAsiento++, numAsiento++});
-        } else if (colectivoSeleccionado % 4 == 3) {
-            model.addRow(new Object[]{numAsiento++, numAsiento++, numAsiento++});
+        switch (colectivoSeleccionado % 4) {
+            case 1:
+                model.addRow(new Object[]{numAsiento++});
+                break;
+            case 2:
+                model.addRow(new Object[]{numAsiento++, numAsiento++});
+                break;
+            case 3:
+                model.addRow(new Object[]{numAsiento++, numAsiento++, numAsiento++});
+                break;
+            default:
+                break;
         }
 
         try {
