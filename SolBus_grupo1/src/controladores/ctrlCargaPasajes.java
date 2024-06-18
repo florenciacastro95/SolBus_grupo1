@@ -202,7 +202,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
          *****VENDER PASAJE*****
          ***********************
      */
-    public void venderPasaje() {
+    private void venderPasaje() {
 
         Pasaje pasaje;
         Pasajero pasajero;
@@ -271,6 +271,9 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             if (pasajeroData.buscarPasajeroPorDni(pasajeVista.txtDni.getText()) != null) {
                 bandera = false;
                 JOptionPane.showMessageDialog(null, "Ese pasajero ya existe, no se puede agregar como usuario no registrado");
+            }
+            if(sePuedeVenderEnEsteCole()){
+                JOptionPane.showMessageDialog(null, "Primero debe vender todos los pasajes de colectivos anteriores a este");
             }
             if (bandera && horita != null && asiento != 0 && !pasajeData.estaElPasaje(asiento, r, colectivo, fechaDtch, horita)) {
                 pasajero = new Pasajero(nombre, apellido, dni, null, null);
@@ -378,6 +381,10 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
             } else {
                 bandera = false;
                 JOptionPane.showMessageDialog(null, "El DNI solo debe contener 7 u 8 dígitos. No se admiten letras");
+            }
+            if(!sePuedeVenderEnEsteCole()){
+                JOptionPane.showMessageDialog(null, "Primero debe vender todos los pasajes de colectivos anteriores a este");
+                 bandera = false;
             }
             pasajero = pasajeroData.buscarPasajeroPorDni(dni);
             if (bandera && horita != null && asiento != 0 && pasajero != null && !pasajeData.estaElPasaje(asiento, r, colectivo, fechaDtch, horita)) {
@@ -540,12 +547,39 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
         }
     }
 
+    private boolean sePuedeVenderEnEsteCole() {
+
+        //Colectivo)pasajeVista.cbColectivos.getItemAt(0)) {
+        boolean bandera = true;
+        LocalDate fechita;
+        if(pasajeVista.dateChooser.getDate()!=null){
+        fechita=pasajeVista.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+        else{
+            fechita=LocalDate.now();
+        }
+        if (pasajeVista.cbColectivos.getSelectedIndex() > 0) {
+            
+            for (int i = pasajeVista.cbColectivos.getSelectedIndex()-1; i >= 0; i--) {
+                
+                Colectivo c = pasajeVista.cbColectivos.getItemAt(i);
+                int obtenerPasajes=pasajeData.pasajeColectivo(c,
+                    fechita,((Horario)pasajeVista.cbHorario.getSelectedItem()).getHoraSalida(), (Ruta)pasajeVista.cbRuta.getSelectedItem());
+                
+                if(pasajeVista.cbColectivos.getItemAt(i).getCapacidad()>obtenerPasajes){
+                    return false;
+                }
+            }
+        }
+        return bandera;
+    }
+
     /*
      **************************
      *****CALCULARPRECIO()*****
      **************************
      */
-    public void calcularPrecio() {
+    private void calcularPrecio() {
 
         precio = 0;
         if (pasajeVista.cbRuta != null) {
@@ -570,7 +604,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
      *****VALIDACIONES*****
      **********************
      */
-    public boolean validarEnteros(String s) {
+    private boolean validarEnteros(String s) {
 
         String regExp = "^-?\\d+$";
 
@@ -582,18 +616,18 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
 
     //cambié expresión regular para que acepte todos las tildes por si metemos
     //nombres en otros idiomas latinos como apellido Müller o nombre François
-    public boolean validarString(String s) {
+    private boolean validarString(String s) {
         String regExp = "^[\\p{L}\\p{M} .'-]+$";
 
         return s.matches(regExp);
         //estoy perdiendo salud mental con este paquete de control
     }
 
-    public boolean validarDniTam(int tam) {
+    private boolean validarDniTam(int tam) {
         return tam == 8 || tam == 7;
     }
 
-    public void limpiarCampos() {
+    private void limpiarCampos() {
         pasajeVista.txtApellido.setText("");
         pasajeVista.txtDni.setText("");
         pasajeVista.txtNombre.setText("");
@@ -704,7 +738,7 @@ public class ctrlCargaPasajes implements ActionListener, ItemListener {
     //    #0c2521
     //    #D48931
     //    #6F1C00
-    public final void poneteBonito() {
+    private final void poneteBonito() {
 
         pasajeVista.setSize(new Dimension(570, 620));
 

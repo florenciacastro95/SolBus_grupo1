@@ -208,6 +208,7 @@ public class ctrlGestionColectivos implements ActionListener {
 
     }
 
+   
     private void armarCabeceraColes() {
         ArrayList<Object> filaCabecera = new ArrayList<>();
         filaCabecera.add("N° de Colectivo");
@@ -223,7 +224,7 @@ public class ctrlGestionColectivos implements ActionListener {
         colectivoVista.tblColes.setModel(model);
     }
 
-    public void cargarTablaColes() {
+    private void cargarTablaColes() {
         ArrayList<Colectivo> comodin = (ArrayList<Colectivo>) colectivoData.listarColectivosInc();
 
         for (Colectivo col : comodin) {
@@ -234,23 +235,23 @@ public class ctrlGestionColectivos implements ActionListener {
 
     }
 
-    public void limpiarTablaColes() {
+    private void limpiarTablaColes() {
         model.setRowCount(0);
     }
 
-    public boolean validarString(String s) {
+    private boolean validarString(String s) {
         String regExp = "^[a-zA-Z0-9 ]+$";
 
         return s.matches(regExp);
         //reciclar código está buenísmo =)
     }
 
-    public boolean validarInt(String s) {
+    private boolean validarInt(String s) {
         String regExp = "^\\d+$";
         return s.matches(regExp);
     }
 
-    public boolean validarMatricula(String s) {
+    private boolean validarMatricula(String s) {
         String regExp = "^[a-zA-Z0-9]{6,}$";
         return s.matches(regExp);
     }
@@ -264,7 +265,7 @@ public class ctrlGestionColectivos implements ActionListener {
         }
     }
 
-    public final void poneteBonito() {
+    private final void poneteBonito() {
         colectivoVista.setSize(new Dimension(450, 520));
         colectivoVista.setBorder(BorderFactory.createLineBorder(new Color(202, 40, 43), 3));
         colectivoVista.getContentPane().setBackground(new Color(240, 240, 240)); // Gris claro
